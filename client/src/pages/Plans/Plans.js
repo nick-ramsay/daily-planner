@@ -21,7 +21,7 @@ const Home = () => {
 
     const savePlan = (event) => {
         if (newPlan !== "") {
-            API.createPlan(newPlan, new Date()).then(
+            API.createPlan(newPlan, "Open", new Date()).then(
                 (res) => {
                     renderPlans();
                     document.getElementById('planInput').value = "";
@@ -64,11 +64,20 @@ const Home = () => {
                         {Plans.length === 0 ? "No Plans" : Plans.length + (Plans.length > 1 ? " plans" : " plan")}
                     </p>
                     {Plans.map((plan, i) =>
-                        <div className="col-md-12 mt-2 mb-2 plan-card" key={i}>
+                        <div className="container mt-2 mb-2 plan-card" key={i}>
                             <div className="pt-1">
-                                <div className="mt-1 mb-1"><h4>{plan.plan_name}</h4></div>
-                                <div style={{ color: "#2EA7C8" }} className="mb-2">{moment(plan.created_date).format("DD MMMM YYYY h:mm A")}</div>
-                                <div className="btn btn-sm btn-custom-red mb-1 mt-1" data-plan_id={plan._id} onClick={deletePlan}>Delete</div>
+                                <div className="mt-1 mb-1 text-center"><h4>{moment(plan.created_date).format("dddd,  DD MMMM YYYY")}</h4></div>
+                                <div className="text-center"><span className="badge badge-success mt-2 mb-3" style={{ fontSize: 16 }}>{plan.plan_status}</span></div>
+                                <button className="btn btn-sm btn-custom mb-2" type="button" data-toggle="collapse" data-target={"#taskSection" + plan._id} aria-expanded="false" aria-controls={"taskSection" + plan._id}>
+                                    Tasks
+                                </button>
+                                <div className="collapse" id={"taskSection" + plan._id}>
+                                    
+                                    <div className="mt-2 mb-2">
+                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                    </div>
+                                    <div className="btn btn-sm btn-custom-red mb-1 mt-1" data-plan_id={plan._id} onClick={deletePlan}>Delete Task</div>
+                                </div>
                             </div>
                         </div>
                     )}
