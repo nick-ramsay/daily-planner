@@ -1,28 +1,28 @@
 const db = require("../models");
 
 module.exports = {
-    createMessage: function (req, res) {
-        console.log("Called Create Message controller");
+    createPlan: function (req, res) {
+        console.log("Called Create Plan controller");
         console.log(req.body);
-        db.Messages
+        db.Plans
             .create(req.body)
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
     },
-    findAllMessages: function (req, res) {
-        console.log("Called Find All Messages Controller");
-        db.Messages
+    findAllPlans: function (req, res) {
+        console.log("Called Find All Plans Controller");
+        db.Plans
             .find({})
             .sort({ created_date: -1 })
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
     },
-    deleteOneMessage: function (req, res) {
+    deleteOnePlan: function (req, res) {
         console.log(req.body);
-        db.Messages
-            .deleteOne({ _id: req.body.messageID })
+        db.Plans
+            .deleteOne({ _id: req.body.planID })
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));

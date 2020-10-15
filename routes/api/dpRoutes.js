@@ -2,15 +2,15 @@ const router = require("express").Router();
 const dpControllers = require("../../controllers/dpControllers");
 
 router
-  .route("/create-message")
-  .post(dpControllers.createMessage);
+  .route("/create-plan")
+  .post(dpControllers.createPlan);
 
 router
-  .route("/find-all-messages")
-  .post(dpControllers.findAllMessages);
+  .route("/find-all-plans")
+  .post(dpControllers.findAllPlans);
 
 router
-  .route("/delete-one-message")
-  .post(dpControllers.deleteOneMessage);
+  .route("/delete-one-plan")
+  .post(dpControllers.deleteOnePlan);
 
 module.exports = router;

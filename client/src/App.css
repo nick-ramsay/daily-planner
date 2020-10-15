@@ -1,10 +1,8 @@
 body {
   font-family: 'Lato', serif;
-  background-color:#282c34;
-  color: white;
+  background-color: whitesmoke;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  text-align: center;
   align-items: center;
   justify-content: center;
 }
@@ -72,16 +70,18 @@ body {
 }
 
 .btn-custom-red {
+  color: white;
+  background-color: #e83e8c;
+  border-color: #e83e8c;
+}
+
+.btn-custom-red:hover {
   color: #e83e8c;
   background-color: inherit;
   border-color: #e83e8c;
 }
 
-.btn-custom-red:hover {
-  color: #343a40;
-  background-color: #e83e8c;
-  border-color: #e83e8c;
-}
+
 
 .btn-custom-red:focus {
   color: #343a40;

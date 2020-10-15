@@ -1,4 +1,4 @@
 module.exports = {
-    Messages: require("./Messages")
+    Plans: require("./Plans")
   };
   
