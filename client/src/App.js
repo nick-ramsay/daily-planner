@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
 
 import Plans from "../src/pages/Plans/Plans";
+import Error from "../src/pages/Error/Error";
 
 function App() {
   return (
@@ -10,9 +11,10 @@ function App() {
       <div>
         <Switch>
           <Route exact path="/" component={Plans} />
+          <Route component={Error} />
         </Switch>
       </div>
-    </Router>
+    </Router >
   );
 }
 
