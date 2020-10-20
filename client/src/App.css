@@ -1,6 +1,6 @@
 body {
   font-family: 'Lato', serif;
-  background-color: whitesmoke;
+  background-color: antiquewhite;
   min-height: 100vh;
   text-align: center;
   align-items: center;
@@ -14,7 +14,7 @@ body {
 
 .form-control:focus {
   border-color:  transparent;
-  box-shadow: 0 0 0 0.2rem rgba(232,62,140,.8);
+  box-shadow: 0 0 0 0.2rem rgb(0, 128, 0);
 }
 
 .App {
@@ -56,16 +56,18 @@ body {
 }
 
 .btn-custom {
-  background-color: #61dafb;
-  color: #282c34;
+  background-color: #008000;
+  color: #ffffff;
 }
 
 .btn-custom:hover {
-  background-color: #2EA7C8;
+  background-color: #1A9A1A;
+  color: #ffffff;
 }       
 
 .btn-custom:focus {
-  background-color: #2EA7C8;
+  background-color: #1A9A1A;
+  color: #ffffff;
   box-shadow: none;
 }
 
