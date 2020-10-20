@@ -68,11 +68,14 @@ const Home = () => {
                             <div className="pt-1">
                                 <div className="mt-1 mb-1 text-center"><h4>{moment(plan.created_date).format("dddd,  DD MMMM YYYY")}</h4></div>
                                 <div className="text-center"><span className="badge badge-success mt-2 mb-3" style={{ fontSize: 16 }}>{plan.plan_status}</span></div>
+                                <div>
+                                    <a className="btn btn-sm btn-primary mt-1 mb-1" href={'./plan/'+ plan._id}>Open</a>
+                                </div>
                                 <button className="btn btn-sm btn-custom mb-2" type="button" data-toggle="collapse" data-target={"#taskSection" + plan._id} aria-expanded="false" aria-controls={"taskSection" + plan._id}>
                                     Tasks
                                 </button>
                                 <div className="collapse" id={"taskSection" + plan._id}>
-                                    
+
                                     <div className="mt-2 mb-2">
                                         Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
                                     </div>

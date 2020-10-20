@@ -19,6 +19,15 @@ module.exports = {
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
     },
+    findPlan: function (req, res) {
+        console.log("Called Find One Plans Controller");
+        console.log(req.body);
+        db.Plans
+            .findOne({ _id: req.body.planID })
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
+    },
     deleteOnePlan: function (req, res) {
         console.log(req.body);
         db.Plans

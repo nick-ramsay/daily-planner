@@ -14,17 +14,28 @@ import "./style.css";
 
 
 const PlanDetails = () => {
+    var PlanID = useParams().id;
 
-    var [planID, setPlanID] = useState(useParams().id);
+    var [Plan, setPlan] = useState({});
+
+    const renderPlan = () => {
+        let selectedPlan = PlanID;
+        API.findPlan(selectedPlan).then(
+            (res) => {
+                setPlan(Plan => res.data);
+            }
+        );
+    }
 
     useEffect(() => {
-     
+        renderPlan();
     }, [])
 
     return (
         <div>
             <h1>Plan Details</h1>
-            <p>The selected plan is: {planID}</p>
+            <h2><strong>"{Plan.plan_name}"</strong></h2>
+            <p>The selected plan is: {PlanID}</p>
         </div>
     )
 }

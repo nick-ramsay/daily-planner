@@ -10,6 +10,10 @@ router
   .post(dpControllers.findAllPlans);
 
 router
+  .route("/find-plan")
+  .post(dpControllers.findPlan);
+
+router
   .route("/delete-one-plan")
   .post(dpControllers.deleteOnePlan);
 

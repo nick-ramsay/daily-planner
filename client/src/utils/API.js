@@ -9,6 +9,10 @@ export default {
     findAllPlans: function () {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/find-all-plans", data: {} });
     },
+    findPlan: function (planID) {
+        console.log(planID);
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-plan", data: { planID }});
+    },
     deleteOnePlan: function (planID) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/delete-one-plan", data: { planID } });
     }
