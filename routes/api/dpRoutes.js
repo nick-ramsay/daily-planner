@@ -17,4 +17,8 @@ router
   .route("/delete-one-plan")
   .post(dpControllers.deleteOnePlan);
 
+router
+  .route("/update-plan-tasks")
+  .post(dpControllers.updatePlanTasks);
+
 module.exports = router;

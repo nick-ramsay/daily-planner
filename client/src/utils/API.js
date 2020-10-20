@@ -15,5 +15,8 @@ export default {
     },
     deleteOnePlan: function (planID) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/delete-one-plan", data: { planID } });
+    },
+    updatePlanTasks: function(planID, tasks) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/update-plan-tasks", data: { planID, tasks }})
     }
 };

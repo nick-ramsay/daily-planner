@@ -35,5 +35,13 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
+    },
+    updatePlanTasks: function (req, res) {
+        console.log(req.body);
+        db.Plans
+            .update({ _id: req.body.planID }, {$set: {tasks: req.body.tasks}})
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
     }
 };

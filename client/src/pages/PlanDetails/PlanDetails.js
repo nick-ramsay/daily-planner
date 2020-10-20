@@ -13,6 +13,7 @@ const PlanDetails = () => {
     var PlanID = useParams().id;
 
     var [Plan, setPlan] = useState({});
+    var [newTask, setNewTask] = useInput();
 
     const renderPlan = () => {
         let selectedPlan = PlanID;
@@ -21,6 +22,25 @@ const PlanDetails = () => {
                 setPlan(Plan => res.data);
             }
         );
+    }
+
+    const saveTask = () => {
+        if (newTask !== "") {
+            let PlanData = Plan;
+            let newTaskData = {
+                description: newTask
+            }
+            PlanData.tasks.push(newTaskData);
+
+            console.log(Plan);
+
+            API.updatePlanTasks(PlanID, PlanData.tasks).then(
+                (res) => {
+                    console.log(res);
+                    renderPlan();
+                }
+            )
+        }
     }
 
     const deletePlan = (event) => {
@@ -45,7 +65,24 @@ const PlanDetails = () => {
                     <div className="col-md-12 bg-white">
                         <h2><strong>{'"' + Plan.plan_name + '"'}</strong></h2>
                         <p>The selected plan is: {PlanID}</p>
-                        <div className="btn btn-sm btn-custom-red mb-1 mt-1" data-plan_id={PlanID} onClick={deletePlan}>Delete Task</div>
+                        <form className="mt-3">
+                            <div className="form-row text-center">
+                                <div className="col">
+                                    <input type="text" placeholder="Enter your task here" className="form-control" id="taskInput" name="taskInput" onChange={setNewTask} aria-describedby="taskHelp" />
+                                </div>
+                            </div>
+                            <div className="form-row text-center">
+                                <div className="col mt-3">
+                                    <div type="button" className="btn btn-custom" tabIndex="0" onClick={saveTask}>Save Task</div>
+                                </div>
+                            </div>
+                        </form>
+                        {/*<div className="btn btn-sm btn-custom-red mb-1 mt-1" data-plan_id={PlanID} onClick={deletePlan}>Delete Task</div>*/}
+                        <div>
+                            <p>{Plan.tasks != undefined ? Plan.tasks.map((task, i) =>
+                                <p>{task.description}</p>
+                            ) : ""}</p>
+                        </div>
                     </div>
                 </div>
             </div>
