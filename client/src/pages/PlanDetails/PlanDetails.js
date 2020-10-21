@@ -95,10 +95,16 @@ const PlanDetails = () => {
                         <div>
                             <p>{Plan.tasks != undefined ? Plan.tasks.map((task, i) =>
                                 <div className="card mb-1 mt-1 p-2">
-                                    <h5>{"#" + (i + 1) + ": " + task.description}</h5>
-                                    <span>{moment(task.created_date).format("DD MMMM YYYY, h:mm A")}</span>
-                                    <div>
-                                        {task.status === "Closed" ? <h3><span className="badge badge-success">{task.status}</span></h3> : <h5><span className="badge badge-warning">{task.status}</span></h5>}
+                                    <h5><strong>{"#" + (i + 1) + ": " + task.description}</strong></h5>
+                                    <div className="row">
+                                        <div className="col-md-6 text-left">
+                                            <h6><span>Created: {moment(task.created_date).format("DD MMMM YYYY, h:mm A")}</span></h6>
+                                        </div>
+                                        <div className="col-md-6 text-left">
+                                            <div>
+                                                {task.status === "Closed" ? <h6>Status: <span className="badge badge-success">{task.status}</span></h6> : <h6>Status: <span className="badge badge-warning">{task.status}</span></h6>}
+                                            </div>
+                                        </div>
                                     </div>
                                     <div>
                                         <button className="btn btn-sm btn-custom" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
