@@ -62,9 +62,9 @@ const PlanDetails = () => {
             <Navbar />
             <div className="container pt-4">
                 <div className="pb-2 my-5 mb-4 px-5">
-                    <div className="col-md-12 bg-white">
+                    <div className="col-md-12 bg-white p-2">
                         <h2><strong>{'"' + Plan.plan_name + '"'}</strong></h2>
-                        <p>The selected plan is: {PlanID}</p>
+                        <h4>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h4>
                         <form className="mt-3">
                             <div className="form-row text-center">
                                 <div className="col">
@@ -80,7 +80,9 @@ const PlanDetails = () => {
                         {/*<div className="btn btn-sm btn-custom-red mb-1 mt-1" data-plan_id={PlanID} onClick={deletePlan}>Delete Task</div>*/}
                         <div>
                             <p>{Plan.tasks != undefined ? Plan.tasks.map((task, i) =>
-                                <p>{task.description}</p>
+                                <div className="card mb-1 mt-1 p-2 text-left">
+                                    <span>{(i+1) + ". " + task.description}</span>
+                                </div>
                             ) : ""}</p>
                         </div>
                     </div>
