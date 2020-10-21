@@ -28,7 +28,10 @@ const PlanDetails = () => {
         if (newTask !== "") {
             let PlanData = Plan;
             let newTaskData = {
-                description: newTask
+                description: newTask,
+                created_date: new Date(),
+                status: "Open",
+                order: Plan.tasks.length
             }
             PlanData.tasks.push(newTaskData);
 
