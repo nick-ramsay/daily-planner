@@ -95,7 +95,7 @@ const PlanDetails = () => {
                         <div>
                             <p>{Plan.tasks != undefined ? Plan.tasks.map((task, i) =>
                                 <div className="card mb-1 mt-1 p-2">
-                                    <h5><strong>{"#" + (i + 1) + ": " + task.description}</strong></h5>
+                                    <h5 className="text-left"><strong>{"#" + (i + 1) + ": " + task.description}</strong></h5>
                                     <div className="row">
                                         <div className="col-md-6 text-left">
                                             <h6><span>Created: {moment(task.created_date).format("DD MMMM YYYY, h:mm A")}</span></h6>
