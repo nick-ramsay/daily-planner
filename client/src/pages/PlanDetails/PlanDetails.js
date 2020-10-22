@@ -39,6 +39,14 @@ const PlanDetails = () => {
             }
             PlanData.tasks.push(newTaskData);
 
+            API.checkExistingTasks(PlanID, newTaskDescription).then(
+                (res) => {
+                    console.log("Called checkExistingTasks API");
+                    console.log(res);
+                    renderPlan();
+                }
+            );
+
             API.updatePlanTasks(PlanID, PlanData.tasks).then(
                 (res) => {
                     console.log(res);
@@ -48,9 +56,29 @@ const PlanDetails = () => {
         }
     }
 
-    const updateTask = () => {
+    const updateTask = (event) => {
+        let taskArrayPosition = event.currentTarget.dataset.task_array_position;
+        let taskDescription = document.getElementById("taskDescription" + taskArrayPosition).innerHTML;
+        let newHoursLogged = document.getElementById("taskHoursLogged" + taskArrayPosition).value;
+        let newStatus = document.getElementById("taskStatus" + taskArrayPosition).value;
 
+
+        API.checkExistingTasks(PlanID, newTaskDescription).then(
+            (res) => {
+                console.log("Called checkExistingTasks API");
+                console.log(res);
+                renderPlan();
+            }
+        );
+
+        API.updateTask(PlanID, taskDescription, taskArrayPosition, newHoursLogged, newStatus).then(
+            (res) => {
+                console.log(res);
+                renderPlan();
+            }
+        )
     }
+
 
     useEffect(() => {
         renderPlan();
@@ -97,7 +125,7 @@ const PlanDetails = () => {
                                 <div className="card mb-1 mt-1 p-2">
                                     <div className="row">
                                         <div className="col-md-12 text-left">
-                                            <h5><strong>{"#" + (i + 1) + ": " + task.description}</strong></h5>
+                                            <h5><strong>{"#" + (i + 1) + ": "}<span id={"taskDescription" + i}>{task.description}</span></strong></h5>
                                         </div>
                                     </div>
                                     <div className="row">
@@ -123,7 +151,7 @@ const PlanDetails = () => {
                                             <div className="form-row">
                                                 <div className="form-group col-md-6">
                                                     <label for="inputState">Status</label>
-                                                    <select id="inputState" className="form-control" defaultValue={task.status} onChange={setTaskStatus}>
+                                                    <select id={"taskStatus" + i} className="form-control" defaultValue={task.status} onChange={setTaskStatus}>
                                                         <option>Closed</option>
                                                         <option>Open</option>
                                                         <option>In Progress</option>
@@ -131,10 +159,10 @@ const PlanDetails = () => {
                                                 </div>
                                                 <div className="form-group col-md-6">
                                                     <label for="taskHoursLogged">Hours Logged</label>
-                                                    <input type="number" className="form-control" id="taskHoursLogged" step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
+                                                    <input type="number" className="form-control" id={"taskHoursLogged" + i} step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
                                                 </div>
                                             </div>
-                                            <button type="button" className="btn btn-sm btn-custom" onClick={updateTask}>Update</button>
+                                            <button type="button" className="btn btn-sm btn-custom" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask}>Update</button>
                                         </form>
                                     </div>
                                 </div>

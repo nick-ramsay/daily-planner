@@ -5,7 +5,6 @@ export const useInput = (initialValue) => {
 
     function handleChange(e) {
         setValue(e.target.value);
-        console.log(value);
     }
 
     return [value, handleChange];

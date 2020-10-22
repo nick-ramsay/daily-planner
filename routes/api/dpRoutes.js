@@ -21,4 +21,12 @@ router
   .route("/update-plan-tasks")
   .post(dpControllers.updatePlanTasks);
 
+router
+  .route("/update-task")
+  .post(dpControllers.updateTask);
+
+router
+  .route("/check-existing-tasks")
+  .post(dpControllers.checkExistingTasks);
+
 module.exports = router;

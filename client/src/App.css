@@ -101,6 +101,7 @@ body {
 .btn-custom-purple {
   background-color: inherit;
   border-radius: 100%;
+  border-width: 2px;
   color: #582c83;
   border-color: #582c83;
 }
