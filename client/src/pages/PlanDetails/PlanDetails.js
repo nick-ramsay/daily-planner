@@ -107,8 +107,8 @@ const PlanDetails = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <button className="btn btn-sm btn-custom" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
-                                            Task Details
+                                        <button className="btn btn-sm btn-custom-purple" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
+                                            Update Task
                                         </button>
                                     </div>
                                     <div className="collapse" id={"taskDetails" + i}>

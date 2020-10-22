@@ -83,12 +83,29 @@ body {
   border-color: #e83e8c;
 }
 
-
-
 .btn-custom-red:focus {
   color: #343a40;
   background-color: #e83e8c;
   border-color: #e83e8c;
+  box-shadow: none;
+}
+
+.btn-custom-purple {
+  background-color: inherit;
+  color: #582c83;
+  border-color: #582c83;
+}
+
+.btn-custom-purple:hover {
+  color: #ffffff;
+  background-color: #582c83;
+  border-color: #582c83;
+}
+
+.btn-custom-purple:focus {
+  color: #ffffff;
+  background-color: #582c83;
+  border-color: #582c83;
   box-shadow: none;
 }
 
