@@ -7,6 +7,14 @@ body {
   justify-content: center;
 }
 
+.card {
+  border-radius: 0;
+}
+
+.badge {
+  border-radius: 0;
+}
+
 .form-control {
   border-color: transparent;
   border-radius: 0;
@@ -92,6 +100,7 @@ body {
 
 .btn-custom-purple {
   background-color: inherit;
+  border-radius: 100%;
   color: #582c83;
   border-color: #582c83;
 }

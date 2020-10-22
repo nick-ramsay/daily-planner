@@ -95,24 +95,28 @@ const PlanDetails = () => {
                         <div>
                             <p>{Plan.tasks != undefined ? Plan.tasks.map((task, i) =>
                                 <div className="card mb-1 mt-1 p-2">
-                                    <h5 className="text-left"><strong>{"#" + (i + 1) + ": " + task.description}</strong></h5>
+                                    <div className="row">
+                                        <div className="col-md-12 text-left">
+                                            <h5><strong>{"#" + (i + 1) + ": " + task.description}</strong></h5>
+                                        </div>
+                                    </div>
                                     <div className="row">
                                         <div className="col-md-4 text-left">
                                             <h6><span>Created: {moment(task.created_date).format("DD MMMM YYYY, h:mm A")}</span></h6>
                                         </div>
-                                        <div className="col-md-4 text-left">
+                                        <div className="col-md-3 text-left">
                                             <div>
                                                 {task.status === "Closed" ? <h6>Status: <span className="badge badge-success">{task.status}</span></h6> : <h6>Status: <span className="badge badge-warning">{task.status}</span></h6>}
                                             </div>
                                         </div>
-                                        <div className="col-md-4 text-left">
-                                            <h6>Hours Logged: {task.hoursLogged + (task.hoursLogged === 1 ? " hour":" hours")}</h6>
+                                        <div className="col-md-3 text-left">
+                                            <h6>Hours Logged: {task.hoursLogged + (task.hoursLogged === 1 ? " hour" : " hours")}</h6>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <button className="btn btn-sm btn-custom-purple" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
-                                            Update Task
-                                        </button>
+                                        <div className="col-md-2 text-center">
+                                            <button className="btn btn-sm btn-custom-purple" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
+                                                &#9998;
+                                            </button>
+                                        </div>
                                     </div>
                                     <div className="collapse" id={"taskDetails" + i}>
                                         <form>
