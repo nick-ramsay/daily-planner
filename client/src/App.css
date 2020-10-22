@@ -98,7 +98,14 @@ body {
   box-shadow: none;
 }
 
+
 .btn-custom-purple {
+  color: #ffffff;
+  background-color: #582c83;
+  border-color: #582c83;
+}
+
+.btn-custom-purple:hover {
   background-color: inherit;
   border-radius: 100%;
   border-width: 2px;
@@ -106,17 +113,12 @@ body {
   border-color: #582c83;
 }
 
-.btn-custom-purple:hover {
-  color: #ffffff;
-  background-color: #582c83;
-  border-color: #582c83;
-}
-
 .btn-custom-purple:focus {
-  color: #ffffff;
-  background-color: #582c83;
+  background-color: inherit;
+  border-radius: 100%;
+  border-width: 2px;
+  color: #582c83;
   border-color: #582c83;
-  box-shadow: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
