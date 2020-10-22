@@ -107,16 +107,12 @@ body {
 
 .btn-custom-purple:hover {
   background-color: inherit;
-  border-radius: 100%;
-  border-width: 2px;
   color: #582c83;
   border-color: #582c83;
 }
 
 .btn-custom-purple:focus {
   background-color: inherit;
-  border-radius: 100%;
-  border-width: 2px;
   color: #582c83;
   border-color: #582c83;
 }
