@@ -50,6 +50,7 @@ const PlanDetails = () => {
             API.updatePlanTasks(PlanID, PlanData.tasks).then(
                 (res) => {
                     console.log(res);
+                    document.getElementById("taskInput").value = "";
                     renderPlan();
                 }
             )
@@ -115,13 +116,13 @@ const PlanDetails = () => {
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" className="btn btn-custom" onClick={saveTask}>Save changes</button>
+                                        <button type="button" className="btn btn-custom" onClick={saveTask} data-toggle="modal" data-target="#newTaskModal">Save Task</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <p>{Plan.tasks != undefined ? Plan.tasks.map((task, i) =>
+                            <div>{Plan.tasks != undefined ? Plan.tasks.map((task, i) =>
                                 <div className="card mb-1 mt-1 p-2">
                                     <div className="row">
                                         <div className="col-md-12 text-left">
@@ -162,11 +163,11 @@ const PlanDetails = () => {
                                                     <input type="number" className="form-control" id={"taskHoursLogged" + i} step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
                                                 </div>
                                             </div>
-                                            <button type="button" className="btn btn-sm btn-custom" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask}>Update</button>
+                                            <button type="button" className="btn btn-sm btn-custom" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Update</button>
                                         </form>
                                     </div>
                                 </div>
-                            ) : ""}</p>
+                            ) : ""}</div>
                         </div>
                     </div>
                 </div>
