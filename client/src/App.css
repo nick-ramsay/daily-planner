@@ -64,6 +64,19 @@ body {
   background-color: inherit;
 }
 
+.jiraLinks {
+  border: 1px solid #e83e8c;
+  background-color: #e83e8c;
+  color: white;
+  padding: 1px 3px;
+}
+
+.jiraLinks:hover {
+  text-decoration: none;
+  background-color: white;
+  color: #e83e8c;
+}
+
 .btn {
   border-radius: 0;
 }

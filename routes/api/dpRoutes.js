@@ -29,4 +29,8 @@ router
   .route("/check-existing-tasks")
   .post(dpControllers.checkExistingTasks);
 
+router
+  .route("/link-jira")
+  .post(dpControllers.linkJIRA);
+
 module.exports = router;

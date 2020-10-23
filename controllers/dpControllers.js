@@ -51,7 +51,7 @@ module.exports = {
         db.Plans
             .updateOne({ _id: req.body.planID, "tasks.description": req.body.taskDescription },
                 {
-                    $set: { "tasks.$.status": req.body.newStatus, "tasks.$.hoursLogged": req.body.newHoursLogged }
+                    $set: { "tasks.$.": req.body.newStatus, "tasks.$.hoursLogged": req.body.newHoursLogged }
                 }
             )
             // {$position: req.body.taskArrayPosition, hoursLogged: req.body.newHoursLogged, status: req.body.newStatus}}
@@ -67,5 +67,19 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
-    }
+    },
+    linkJIRA: function (req, res) {
+        console.log("Called link JIRA controller!");
+        console.log(req.body);
+
+        db.Plans
+            .updateOne({ _id: req.body.PlanID, "tasks.description": req.body.taskDescription },
+                {
+                    $push: { "tasks.$.jiras": req.body.linkJIRAID}
+                }
+            )
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
+    },
 };

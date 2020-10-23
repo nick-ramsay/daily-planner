@@ -47,7 +47,8 @@ const PlanDetails = () => {
                 created_date: new Date(),
                 status: "Open",
                 order: Plan.tasks.length,
-                hoursLogged: 0
+                hoursLogged: 0,
+                jiras: []
             }
             PlanData.tasks.push(newTaskData);
 
@@ -85,6 +86,20 @@ const PlanDetails = () => {
         );
 
         API.updateTask(PlanID, taskDescription, taskArrayPosition, newHoursLogged, newStatus).then(
+            (res) => {
+                console.log(res);
+                renderPlan();
+            }
+        )
+    }
+
+    const linkJIRA = (event) => {
+        let taskArrayPosition = event.currentTarget.dataset.task_array_position;
+        let taskDescription = document.getElementById("taskDescription" + taskArrayPosition).innerHTML;
+        let linkJIRAID = document.getElementById("linkJIRAInput" + taskArrayPosition).value;
+
+        console.log(linkJIRAID);
+        API.linkJIRA(PlanID, taskDescription, taskArrayPosition, linkJIRAID).then(
             (res) => {
                 console.log(res);
                 renderPlan();
@@ -160,6 +175,15 @@ const PlanDetails = () => {
                                             </button>
                                         </div>
                                     </div>
+                                    <div className="row">
+                                        <div className="col-md-12 text-left">
+                                            {task.jiras != undefined ? task.jiras.map(
+                                                (jira, i) =>
+                                                    <a className="jiraLinks mr-2" href={"https://jira.iscinternal.com/browse/" + jira} target="_blank">{jira}</a>
+                                            ) : ""
+                                            }
+                                        </div>
+                                    </div>
                                     <div className="collapse" id={"taskDetails" + i}>
                                         <form>
                                             <div className="form-row">
@@ -174,6 +198,13 @@ const PlanDetails = () => {
                                                 <div className="form-group col-md-6">
                                                     <label for="taskHoursLogged">Hours Logged</label>
                                                     <input type="number" className="form-control" id={"taskHoursLogged" + i} step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
+                                                </div>
+                                            </div>
+                                            <div className="form-row">
+                                                <div className="form-group col-md-6">
+                                                    <label for="taskHoursLogged">Link JIRA</label>
+                                                    <input type="text" className="form-control" id={"linkJIRAInput" + i} />
+                                                    <button className="btn btn-sm btn-custom-purple mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
                                                 </div>
                                             </div>
                                             <button type="button" className="btn btn-sm btn-custom" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Update</button>
