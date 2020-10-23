@@ -115,6 +115,7 @@ body {
   background-color: inherit;
   color: #582c83;
   border-color: #582c83;
+  box-shadow: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
