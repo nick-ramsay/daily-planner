@@ -14,15 +14,27 @@ const PlanDetails = () => {
 
     var [Plan, setPlan] = useState({});
     var [newTaskDescription, setNewTaskDescription] = useInput();
+    var [totalHoursLogged, setTotalHoursLogged] = useState(0);
 
     var [taskHoursLogged, setTaskHoursLogged] = useInput();
     var [taskStatus, setTaskStatus] = useInput();
+
+    const calculateTotalHoursLogged = (PlanData) => {
+        console.log("Called calcTotalHours");
+        let totalHours = 0;
+        console.log(PlanData.tasks);
+        for (let i = 0; i < PlanData.tasks.length; i++) {
+            totalHours += Number(PlanData.tasks[i].hoursLogged);
+        };
+        setTotalHoursLogged(totalHoursLogged => totalHours);
+    }
 
     const renderPlan = () => {
         let selectedPlan = PlanID;
         API.findPlan(selectedPlan).then(
             (res) => {
                 setPlan(Plan => res.data);
+                calculateTotalHoursLogged(res.data);
             }
         );
     }
@@ -93,6 +105,7 @@ const PlanDetails = () => {
                     <div className="col-md-12 bg-white p-2">
                         <h2><strong>{'"' + Plan.plan_name + '"'}</strong></h2>
                         <h4>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h4>
+                        <h5><strong>{totalHoursLogged} hours logged</strong></h5>
                         <button type="button" className="btn btn-custom" data-toggle="modal" data-target="#newTaskModal">
                             New Task
                         </button>
