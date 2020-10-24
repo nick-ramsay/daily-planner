@@ -65,16 +65,21 @@ body {
 }
 
 .jiraLinks {
-  border: 1px solid #e83e8c;
-  background-color: #e83e8c;
+  border: 1px solid #000080;
+  border-radius: 25px;
+  background-color: #000080;
   color: white;
-  padding: 1px 3px;
+  padding: 1px 7px;
 }
 
 .jiraLinks:hover {
   text-decoration: none;
   background-color: white;
-  color: #e83e8c;
+  color: #000080;
+}
+
+.progress-bar {
+  background-color: #000080;
 }
 
 .btn {
@@ -117,22 +122,22 @@ body {
 }
 
 
-.btn-custom-purple {
+.btn-custom-blue {
   color: #ffffff;
-  background-color: #582c83;
-  border-color: #582c83;
+  background-color: #000080;
+  border-color: #000080;
 }
 
-.btn-custom-purple:hover {
+.btn-custom-blue:hover {
   background-color: inherit;
-  color: #582c83;
-  border-color: #582c83;
+  color: #000080;
+  border-color: #000080;
 }
 
-.btn-custom-purple:focus {
+.btn-custom-blue:focus {
   background-color: inherit;
-  color: #582c83;
-  border-color: #582c83;
+  color: #000080;
+  border-color: #000080;
   box-shadow: none;
 }
 
@@ -166,18 +171,19 @@ body {
 
 ::-webkit-scrollbar {
   width: 10px;
+  
 }
 
 ::-webkit-scrollbar-track {
-  background: inherit; 
+  background: inherit;
 }
  
 
 ::-webkit-scrollbar-thumb {
-  background: #e83e8c; 
+  background: #6c757d; 
 }
 
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #CF2573; 
+  background: #5a6268; 
 }

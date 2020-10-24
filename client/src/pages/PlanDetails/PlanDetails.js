@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
+import { BrowserRouter as Router, useParams } from "react-router-dom";
 import { useInput } from '../../sharedFunctions/sharedFunctions';
 import API from "../../utils/API";
 import moment from 'moment';
-import GithubLogo from '../../images/github_logos/GitHub_Logo_White.png';
 import "./style.css";
 
 import Navbar from "../../component/Navbar/Navbar";
@@ -101,12 +100,11 @@ const PlanDetails = () => {
         console.log(linkJIRAID);
         API.linkJIRA(PlanID, taskDescription, taskArrayPosition, linkJIRAID).then(
             (res) => {
-                console.log(res);
                 renderPlan();
+                document.getElementById("linkJIRAInput" + taskArrayPosition).value = "";
             }
         )
     }
-
 
     useEffect(() => {
         renderPlan();
@@ -121,7 +119,11 @@ const PlanDetails = () => {
                         <h2><strong>{'"' + Plan.plan_name + '"'}</strong></h2>
                         <h4>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h4>
                         <h5><strong>{totalHoursLogged} hours logged</strong></h5>
-                        <button type="button" className="btn btn-custom" data-toggle="modal" data-target="#newTaskModal">
+                        <div class="progress mt-2 mb-2">
+                            <div class="progress-bar bg-custom" role="progressbar" style={{width: (totalHoursLogged/8*100) +"%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <p>You {(8-totalHoursLogged > 0) ? "have":"are"} {(Math.abs(8-totalHoursLogged).toFixed(2))} {(8-totalHoursLogged === 1) ? "hour":"hours"} {(8-totalHoursLogged >= 0) ? "remaining.":"overtime."} {(8-totalHoursLogged < 0) ? "Overachiever!": (8-totalHoursLogged === 0) ? "Congrats! You're done!":""} </p>
+                        <button type="button" className="btn btn-sm btn-custom" data-toggle="modal" data-target="#newTaskModal">
                             New Task
                         </button>
                         <div className="modal fade" id="newTaskModal" tabindex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
@@ -150,11 +152,20 @@ const PlanDetails = () => {
                             </div>
                         </div>
                         <div>
-                            <div>{Plan.tasks != undefined ? Plan.tasks.map((task, i) =>
+                            <div>{Plan.tasks !== undefined ? Plan.tasks.map((task, i) =>
                                 <div className="card mb-1 mt-1 p-2">
                                     <div className="row">
                                         <div className="col-md-12 text-left">
                                             <h5><strong>{"#" + (i + 1) + ": "}<span id={"taskDescription" + i}>{task.description}</span></strong></h5>
+                                        </div>
+                                    </div>
+                                    <div className="row mb-2">
+                                        <div className="col-md-12 text-left">
+                                            {task.jiras !== undefined ? task.jiras.map(
+                                                (jira, i) =>
+                                                    <a className="jiraLinks mr-2" href={"https://jira.iscinternal.com/browse/" + jira} target="_blank" rel="noopener noreferrer">{jira}</a>
+                                            ) : ""
+                                            }
                                         </div>
                                     </div>
                                     <div className="row">
@@ -163,29 +174,45 @@ const PlanDetails = () => {
                                         </div>
                                         <div className="col-md-3 text-left">
                                             <div>
-                                                {task.status === "Closed" ? <h6>Status: <span className="badge badge-success">{task.status}</span></h6> : <h6>Status: <span className="badge badge-warning">{task.status}</span></h6>}
+                                                {(() => {
+                                                    switch (task.status) {
+                                                        case "Closed":
+                                                            return (
+                                                                <h6>Status: <span className="badge badge-success">{task.status}</span></h6>
+                                                            )
+                                                        case "Open":
+                                                            return (
+                                                                <h6>Status: <span className="badge badge-primary">{task.status}</span></h6>
+                                                            )
+                                                        case "In Progress":
+                                                            return (
+                                                                <h6>Status: <span className="badge badge-warning">{task.status}</span></h6>
+                                                            )
+                                                        default:
+                                                            return (
+                                                                <h6>Status: <span className="badge badge-dark">{task.status}</span></h6>
+                                                            )
+                                                    }
+                                                }
+                                                )()}
                                             </div>
                                         </div>
                                         <div className="col-md-3 text-left">
                                             <h6>Hours Logged: {task.hoursLogged + (task.hoursLogged === 1 ? " hour" : " hours")}</h6>
                                         </div>
                                         <div className="col-md-2 text-center">
-                                            <button className="btn btn-sm btn-custom-purple" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
-                                                &#9998;
+                                            <button className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
+                                                Edit
                                             </button>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-12 text-left">
-                                            {task.jiras != undefined ? task.jiras.map(
-                                                (jira, i) =>
-                                                    <a className="jiraLinks mr-2" href={"https://jira.iscinternal.com/browse/" + jira} target="_blank">{jira}</a>
-                                            ) : ""
-                                            }
                                         </div>
                                     </div>
                                     <div className="collapse" id={"taskDetails" + i}>
                                         <form>
+                                            <div className="form-row text-center mt-3 mb-0">
+                                                <div className="col-md-12">
+                                                    <button type="button" className="btn btn-sm btn-custom" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Update</button>
+                                                </div>
+                                            </div>
                                             <div className="form-row">
                                                 <div className="form-group col-md-6">
                                                     <label for="inputState">Status</label>
@@ -204,10 +231,9 @@ const PlanDetails = () => {
                                                 <div className="form-group col-md-6">
                                                     <label for="taskHoursLogged">Link JIRA</label>
                                                     <input type="text" className="form-control" id={"linkJIRAInput" + i} />
-                                                    <button className="btn btn-sm btn-custom-purple mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
+                                                    <button className="btn btn-sm btn-custom-blue mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
                                                 </div>
                                             </div>
-                                            <button type="button" className="btn btn-sm btn-custom" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Update</button>
                                         </form>
                                     </div>
                                 </div>

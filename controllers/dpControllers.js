@@ -51,7 +51,7 @@ module.exports = {
         db.Plans
             .updateOne({ _id: req.body.planID, "tasks.description": req.body.taskDescription },
                 {
-                    $set: { "tasks.$.": req.body.newStatus, "tasks.$.hoursLogged": req.body.newHoursLogged }
+                    $set: { "tasks.$.status": req.body.newStatus, "tasks.$.hoursLogged": req.body.newHoursLogged }
                 }
             )
             // {$position: req.body.taskArrayPosition, hoursLogged: req.body.newHoursLogged, status: req.body.newStatus}}
