@@ -54,8 +54,8 @@ const Home = () => {
                                 </div>
                             </div>
                         </form>
-                        <p style={{ color: "#e83e8c" }} className="mt-3 mb-1">
-                            {Plans.length === 0 ? "No Plans" : Plans.length + (Plans.length > 1 ? " plans" : " plan")}
+                        <p className="mt-3 mb-1">
+                            <strong>{Plans.length === 0 ? "No Plans" : Plans.length + (Plans.length > 1 ? " plans" : " plan")}</strong>
                         </p>
                         {Plans.map((plan, i) =>
                             <div className="container mt-2 mb-2 plan-card" key={i}>
@@ -63,23 +63,29 @@ const Home = () => {
                                     <div className="mt-1 mb-1 text-center"><h4>{'"' + plan.plan_name + '"'}</h4></div>
                                     <div className="mt-1 mb-1 text-center"><h5>{moment(plan.created_date).format("dddd,  DD MMMM YYYY")}</h5></div>
                                     {(() => {
-                                        switch (plan.plan_status) {
-                                            case "Closed":
-                                                return (
-                                                    <h6>Status: <span className="badge badge-success">{plan.plan_status}</span></h6>
-                                                )
-                                            case "Open":
-                                                return (
-                                                    <h6>Status: <span className="badge badge-primary">{plan.plan_status}</span></h6>
-                                                )
-                                            case "In Progress":
-                                                return (
-                                                    <h6>Status: <span className="badge badge-warning">{plan.plan_status}</span></h6>
-                                                )
-                                            default:
-                                                return (
-                                                    <h6>Status: <span className="badge badge-dark">{plan.status}</span></h6>
-                                                )
+                                        let openTaskCount = 0;
+
+                                        for (let j = 0; j < plan.tasks.length; j++) {
+                                            if (plan.tasks[j].status === "Closed") {
+                                                openTaskCount += 0
+                                            } else {
+                                                openTaskCount += 1
+                                            }
+                                        }
+
+                                        if (openTaskCount > 0) {
+                                            return (
+                                                <h6>Status: <span className="badge badge-danger">{openTaskCount} {openTaskCount > 1 ? "tasks" : "task"} open</span></h6>
+                                            )
+                                        } else if (plan.tasks.length === 0 || plan.tasks === undefined) {
+                                            return (
+                                                <h6>Status: <span className="badge badge-warning">New Plan</span></h6>
+                                            )
+                                        }
+                                        else {
+                                            return (
+                                                <h6>Status: <span className="badge badge-success">Closed</span></h6>
+                                            )
                                         }
                                     }
                                     )()}

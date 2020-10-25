@@ -23,11 +23,9 @@ export default {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/update-task", data: { planID, taskDescription, taskArrayPosition, newHoursLogged, newStatus } })
     },
     checkExistingTasks: function (planID, newTaskDescription) {
-        console.log(planID);
         return axios({ method: "post", url: apiURL + "/api/daily-planner/check-existing-tasks", data: { planID, newTaskDescription } });
     },
     linkJIRA: function (PlanID, taskDescription, taskArrayPosition, linkJIRAID) {
-        console.log(PlanID, taskDescription, taskArrayPosition, linkJIRAID);
         return axios({ method: "post", url: apiURL + "/api/daily-planner/link-jira", data: { PlanID, taskDescription, taskArrayPosition, linkJIRAID } });
     }
 };

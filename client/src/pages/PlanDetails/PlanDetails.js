@@ -13,6 +13,7 @@ const PlanDetails = () => {
 
     var [Plan, setPlan] = useState({});
     var [newTaskDescription, setNewTaskDescription] = useInput();
+    var [totalHoursAllowed, setTotalHoursAllowed] = useState(8);
     var [totalHoursLogged, setTotalHoursLogged] = useState(0);
 
     var [taskHoursLogged, setTaskHoursLogged] = useInput();
@@ -120,9 +121,9 @@ const PlanDetails = () => {
                         <h4>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h4>
                         <h5><strong>{totalHoursLogged} hours logged</strong></h5>
                         <div class="progress mt-2 mb-2">
-                            <div class="progress-bar bg-custom" role="progressbar" style={{width: (totalHoursLogged/8*100) +"%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-custom" role="progressbar" style={{ width: (totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
-                        <p>You {(8-totalHoursLogged > 0) ? "have":"are"} {(Math.abs(8-totalHoursLogged).toFixed(2))} {(8-totalHoursLogged === 1) ? "hour":"hours"} {(8-totalHoursLogged >= 0) ? "remaining.":"overtime."} {(8-totalHoursLogged < 0) ? "Overachiever!": (8-totalHoursLogged === 0) ? "Congrats! You're done!":""} </p>
+                        <p>You {(totalHoursAllowed - totalHoursLogged > 0) ? "have" : "are"} {(Math.abs(totalHoursAllowed - totalHoursLogged).toFixed(2))} {(totalHoursAllowed - totalHoursLogged === 1) ? "hour" : "hours"} {(totalHoursAllowed - totalHoursLogged >= 0) ? "remaining." : "overtime."} {(totalHoursAllowed - totalHoursLogged < 0) ? "Overachiever!" : (8 - totalHoursLogged === 0) ? "Congrats! You're done!" : ""} </p>
                         <button type="button" className="btn btn-sm btn-custom" data-toggle="modal" data-target="#newTaskModal">
                             New Task
                         </button>
