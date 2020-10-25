@@ -62,7 +62,27 @@ const Home = () => {
                                 <div className="pt-1">
                                     <div className="mt-1 mb-1 text-center"><h4>{'"' + plan.plan_name + '"'}</h4></div>
                                     <div className="mt-1 mb-1 text-center"><h5>{moment(plan.created_date).format("dddd,  DD MMMM YYYY")}</h5></div>
-                                    <div className="text-center"><span className="badge badge-primary mt-2 mb-3 p-2" style={{ fontSize: 16 }}>{plan.plan_status}</span></div>
+                                    {(() => {
+                                        switch (plan.plan_status) {
+                                            case "Closed":
+                                                return (
+                                                    <h6>Status: <span className="badge badge-success">{plan.plan_status}</span></h6>
+                                                )
+                                            case "Open":
+                                                return (
+                                                    <h6>Status: <span className="badge badge-primary">{plan.plan_status}</span></h6>
+                                                )
+                                            case "In Progress":
+                                                return (
+                                                    <h6>Status: <span className="badge badge-warning">{plan.plan_status}</span></h6>
+                                                )
+                                            default:
+                                                return (
+                                                    <h6>Status: <span className="badge badge-dark">{plan.status}</span></h6>
+                                                )
+                                        }
+                                    }
+                                    )()}
                                     <div>
                                         <a className="btn btn-sm btn-custom mt-1 mb-1" href={'./plan/' + plan._id}>View Tasks</a>
                                     </div>
