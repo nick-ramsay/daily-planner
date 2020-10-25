@@ -86,6 +86,8 @@ body {
 
 .btn {
   border-radius: 0;
+  -webkit-border-radius: 0;
+  -webkit-appearance: none;
 }
 
 .btn-custom {
