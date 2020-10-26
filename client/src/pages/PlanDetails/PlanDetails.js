@@ -189,6 +189,14 @@ const PlanDetails = () => {
                                                             return (
                                                                 <h6>Status: <span className="badge badge-warning">{task.status}</span></h6>
                                                             )
+                                                        case "Pending Feedback":
+                                                            return (
+                                                                <h6>Status: <span className="badge badge-info">{task.status}</span></h6>
+                                                            )
+                                                            case "Punted":
+                                                                return (
+                                                                    <h6>Status: <span className="badge badge-secondary">{task.status}</span></h6>
+                                                                )
                                                         default:
                                                             return (
                                                                 <h6>Status: <span className="badge badge-dark">{task.status}</span></h6>
@@ -221,6 +229,8 @@ const PlanDetails = () => {
                                                         <option>Closed</option>
                                                         <option>Open</option>
                                                         <option>In Progress</option>
+                                                        <option>Pending Feedback</option>
+                                                        <option>Punted</option>
                                                     </select>
                                                 </div>
                                                 <div className="form-group col-md-6">
