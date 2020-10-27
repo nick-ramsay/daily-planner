@@ -26,6 +26,16 @@ body {
   border-radius: 0;
 }
 
+.deleteIcon {
+  height: 20px;
+  width: 20px;
+  margin: 0 0 4px 1px;
+}
+
+.deleteIcon:hover {
+  cursor: pointer;
+}
+
 .form-control:focus {
   border-color:  transparent;
   box-shadow: 0 0 0 0.2rem rgb(0, 128, 0);

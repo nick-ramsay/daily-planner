@@ -3,6 +3,7 @@ import { BrowserRouter as Router, useParams } from "react-router-dom";
 import { useInput } from '../../sharedFunctions/sharedFunctions';
 import API from "../../utils/API";
 import moment from 'moment';
+import deleteIcon from '../../images/outline_remove_circle_outline_black_48dp.png';
 import "./style.css";
 
 import Navbar from "../../component/Navbar/Navbar";
@@ -164,7 +165,7 @@ const PlanDetails = () => {
                                         <div className="col-md-12 text-left">
                                             {task.jiras !== undefined ? task.jiras.map(
                                                 (jira, i) =>
-                                                    <a className="jiraLinks mr-2" href={"https://jira.iscinternal.com/browse/" + jira} target="_blank" rel="noopener noreferrer">{jira}</a>
+                                                    <span className="mr-3"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} target="_blank" rel="noopener noreferrer">{jira}</a><img className="deleteIcon" src={deleteIcon}></img></span>
                                             ) : ""
                                             }
                                         </div>
@@ -193,10 +194,10 @@ const PlanDetails = () => {
                                                             return (
                                                                 <h6>Status: <span className="badge badge-info">{task.status}</span></h6>
                                                             )
-                                                            case "Punted":
-                                                                return (
-                                                                    <h6>Status: <span className="badge badge-secondary">{task.status}</span></h6>
-                                                                )
+                                                        case "Punted":
+                                                            return (
+                                                                <h6>Status: <span className="badge badge-secondary">{task.status}</span></h6>
+                                                            )
                                                         default:
                                                             return (
                                                                 <h6>Status: <span className="badge badge-dark">{task.status}</span></h6>
@@ -243,6 +244,13 @@ const PlanDetails = () => {
                                                     <label for="taskHoursLogged">Link JIRA</label>
                                                     <input type="text" className="form-control" id={"linkJIRAInput" + i} />
                                                     <button className="btn btn-sm btn-custom-blue mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
+                                                </div>
+                                                <div className="form-group col-md-6 changeTaskOrderBtns">
+                                                    <label for="taskHoursLogged">Change Order</label>
+                                                    <div>
+                                                        <button type="submit" className="btn btn-sm btn-custom m-2" id={"moveTaskDownBtn" + i}>Move Down</button>
+                                                        <button type="submit" className="btn btn-sm btn-custom m-2" id={"moveTaskUpBtn" + i}>Move Up</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
