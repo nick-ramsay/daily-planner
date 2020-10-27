@@ -36,6 +36,11 @@ body {
   cursor: pointer;
 }
 
+.arrowIcon {
+  height: 18px;
+  width: 18px;
+}
+
 .form-control:focus {
   border-color:  transparent;
   box-shadow: 0 0 0 0.2rem rgb(0, 128, 0);
