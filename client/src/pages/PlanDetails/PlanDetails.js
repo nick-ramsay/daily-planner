@@ -3,7 +3,7 @@ import { BrowserRouter as Router, useParams } from "react-router-dom";
 import { useInput } from '../../sharedFunctions/sharedFunctions';
 import API from "../../utils/API";
 import moment from 'moment';
-import deleteIcon from '../../images/outline_remove_circle_outline_black_48dp.png';
+import deleteIcon from '../../images/baseline_disabled_by_default_black_48dp.png';
 import "./style.css";
 
 import Navbar from "../../component/Navbar/Navbar";
