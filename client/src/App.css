@@ -147,16 +147,27 @@ body {
   border-color: #000080;
 }
 
-.btn-custom-blue:hover {
-  background-color: inherit;
-  color: #000080;
-  border-color: #000080;
+.btn-custom-blue:hover{
+  color: #ffffff;
+  background-color: #1A1A9A;
+  border-color: #1A1A9A;
 }
 
 .btn-custom-blue:focus {
-  background-color: inherit;
-  color: #000080;
-  border-color: #000080;
+  color: #ffffff;
+  background-color: #1A1A9A;
+  border-color: #1A1A9A;
+  box-shadow: none;
+}
+
+
+
+.arrow-btn:hover{
+  border-color: black;
+}
+
+.arrow-btn:focus {
+  border-color: black;
   box-shadow: none;
 }
 

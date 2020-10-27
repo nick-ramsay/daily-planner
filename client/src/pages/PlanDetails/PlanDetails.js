@@ -3,8 +3,8 @@ import { BrowserRouter as Router, useParams } from "react-router-dom";
 import { useInput } from '../../sharedFunctions/sharedFunctions';
 import API from "../../utils/API";
 import moment from 'moment';
-import upArrow from '../../images/baseline_keyboard_arrow_up_white_48dp.png';
-import downArrow from '../../images/baseline_keyboard_arrow_down_white_48dp.png';
+import upArrow from '../../images/baseline_keyboard_arrow_up_black_48dp.png';
+import downArrow from '../../images/baseline_keyboard_arrow_down_black_48dp.png';
 import deleteIcon from '../../images/baseline_disabled_by_default_black_48dp.png';
 import "./style.css";
 
@@ -159,7 +159,7 @@ const PlanDetails = () => {
                             <div>{Plan.tasks !== undefined ? Plan.tasks.map((task, i) =>
                                 <div className="card mb-1 mt-1 p-2">
                                     <div className="row">
-                                        <div className="col-md-10">
+                                        <div className="col-md-11">
                                             <div className="row">
                                                 <div className="col-md-12 text-left">
                                                     <h5><strong>{"#" + (i + 1) + ": "}<span id={"taskDescription" + i}>{task.description}</span></strong></h5>
@@ -176,7 +176,7 @@ const PlanDetails = () => {
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-4 text-left">
-                                                    <h6><span>{moment(task.created_date).format("DD MMMM YYYY, h:mm A")}</span></h6>
+                                                    <h6><span>Created: {moment(task.created_date).format("DD MMMM YYYY, h:mm A")}</span></h6>
                                                 </div>
                                                 <div className="col-md-4 text-left">
                                                     <div>
@@ -244,21 +244,28 @@ const PlanDetails = () => {
                                                             <input type="text" className="form-control" id={"linkJIRAInput" + i} />
                                                             <button className="btn btn-sm btn-custom-blue mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
                                                         </div>
+                                                        <div className="form-gorup col-md-6">
+                                                            <div>
+                                                                <button type="submit" className="btn btn-sm m-2 arrow-btn" id={"moveTaskUpBtn" + i}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img> Move Up</button>
+                                                            </div>
+                                                            <div>
+                                                                <button type="submit" className="btn btn-sm m-2 arrow-btn" id={"moveTaskDownBtn" + i}><img className="arrowIcon" alt="downArrowIcon" src={downArrow}></img> Move Down</button>
+                                                            </div>
+
+                                                        </div>
                                                     </div>
+
                                                 </form>
                                             </div>
+                                            
                                         </div>
-                                        <div className="col-md-2 text-center mt-auto mb-auto">
-                                            <div>
-                                                <button type="submit" className="btn btn-sm btn-custom m-2" id={"moveTaskDownBtn" + i}><img className="arrowIcon" alt="downArrowIcon" src={downArrow}></img></button>
-                                                <button type="submit" className="btn btn-sm btn-custom m-2" id={"moveTaskUpBtn" + i}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img></button>
+                                        <div className="col-md-1 mt-auto mb-auto">
+                                                <div>
+                                                    <button className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
+                                                        Edit
+                                                     </button>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <button className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
-                                                    Edit
-                                            </button>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             ) : ""}</div>
