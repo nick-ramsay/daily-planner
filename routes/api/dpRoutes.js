@@ -33,4 +33,8 @@ router
   .route("/link-jira")
   .post(dpControllers.linkJIRA);
 
+router
+  .route("/remove-jira")
+  .post(dpControllers.removeJira);
+
 module.exports = router;

@@ -27,5 +27,8 @@ export default {
     },
     linkJIRA: function (PlanID, taskDescription, taskArrayPosition, linkJIRAID) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/link-jira", data: { PlanID, taskDescription, taskArrayPosition, linkJIRAID } });
+    },
+    removeJIRA: function (PlanID, taskDescription, newJiraArray) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/remove-jira", data: { PlanID, taskDescription, newJiraArray } });
     }
 };

@@ -110,6 +110,30 @@ const PlanDetails = () => {
         )
     }
 
+    const removeJIRA = (event) => {
+        let jiraArrayIndex = event.currentTarget.dataset.jira_array_index;
+        let taskArrayIndex = event.currentTarget.dataset.task_array_index;
+        let taskDescription = document.getElementById("taskDescription" + taskArrayIndex).innerHTML;
+        let jiraArray = Plan.tasks[taskArrayIndex].jiras;
+
+        jiraArray.splice(jiraArrayIndex, 1);
+
+        API.removeJIRA(PlanID, taskDescription, jiraArray).then(
+            (res) => {
+                renderPlan();
+            }
+        )
+    }
+
+    const moveJiraUp = (event) => {
+        let taskArrayIndex = event.currentTarget.dataset.task_array_index;
+        //let jiraArrayIndex = event.currentTarget.dataset.jira_array_index;
+
+        console.log(taskArrayIndex);
+        //console.log(jiraArrayIndex);
+
+    }
+
     useEffect(() => {
         renderPlan();
     }, [])
@@ -123,14 +147,14 @@ const PlanDetails = () => {
                         <h2><strong>{'"' + Plan.plan_name + '"'}</strong></h2>
                         <h4>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h4>
                         <h5><strong>{totalHoursLogged} hours logged</strong></h5>
-                        <div class="progress mt-2 mb-2">
-                            <div class="progress-bar bg-custom" role="progressbar" style={{ width: (totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div className="progress mt-2 mb-2">
+                            <div className="progress-bar bg-custom" role="progressbar" style={{ width: (totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <p>You {(totalHoursAllowed - totalHoursLogged > 0) ? "have" : "are"} {(Math.abs(totalHoursAllowed - totalHoursLogged).toFixed(2))} {(totalHoursAllowed - totalHoursLogged === 1) ? "hour" : "hours"} {(totalHoursAllowed - totalHoursLogged >= 0) ? "remaining." : "overtime."} {(totalHoursAllowed - totalHoursLogged < 0) ? "Overachiever!" : (8 - totalHoursLogged === 0) ? "Congrats! You're done!" : ""} </p>
                         <button type="button" className="btn btn-sm btn-custom" data-toggle="modal" data-target="#newTaskModal">
                             New Task
                         </button>
-                        <div className="modal fade" id="newTaskModal" tabindex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
+                        <div className="modal fade" id="newTaskModal" tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
                             <div className="modal-dialog">
                                 <div className="modal-content">
                                     <div className="modal-header">
@@ -168,8 +192,8 @@ const PlanDetails = () => {
                                             <div className="row mb-2">
                                                 <div className="col-md-12 text-left">
                                                     {task.jiras !== undefined ? task.jiras.map(
-                                                        (jira, i) =>
-                                                            <span className="jiraLinkPill mr-3"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} title={"Go to JIRA " + jira} target="_blank" rel="noopener noreferrer">{jira}</a> <img className="deleteIcon ml-1" alt="deleteIcon" title={"Remove JIRA " + jira} src={deleteIcon}></img></span>
+                                                        (jira, j) =>
+                                                            <span className="jiraLinkPill mr-3"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} title={"Go to JIRA " + jira} target="_blank" rel="noopener noreferrer">{jira}</a> <img className="deleteIcon ml-1" alt="deleteIcon" title={"Remove JIRA " + jira} src={deleteIcon} data-jira_array_index={j} data-task_array_index={i} onClick={removeJIRA}></img></span>
                                                     ) : ""
                                                     }
                                                 </div>
@@ -224,7 +248,7 @@ const PlanDetails = () => {
                                                     </div>
                                                     <div className="form-row">
                                                         <div className="form-group col-md-6">
-                                                            <label for="inputState">Status</label>
+                                                            <label htmlFor="inputState">Status</label>
                                                             <select id={"taskStatus" + i} className="form-control" defaultValue={task.status} onChange={setTaskStatus}>
                                                                 <option>Closed</option>
                                                                 <option>Open</option>
@@ -234,38 +258,41 @@ const PlanDetails = () => {
                                                             </select>
                                                         </div>
                                                         <div className="form-group col-md-6">
-                                                            <label for="taskHoursLogged">Hours Logged</label>
+                                                            <label htmlFor="taskHoursLogged">Hours Logged</label>
                                                             <input type="number" className="form-control" id={"taskHoursLogged" + i} step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
                                                         </div>
                                                     </div>
                                                     <div className="form-row">
                                                         <div className="form-group col-md-6">
-                                                            <label for="taskHoursLogged">Link JIRA</label>
+                                                            <label htmlFor="taskHoursLogged">Link JIRA</label>
                                                             <input type="text" className="form-control" id={"linkJIRAInput" + i} />
                                                             <button className="btn btn-sm btn-custom-blue mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
                                                         </div>
-                                                        <div className="form-gorup col-md-6">
-                                                            <div>
-                                                                <button type="submit" className="btn btn-sm m-2 arrow-btn" id={"moveTaskUpBtn" + i}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img> Move Up</button>
-                                                            </div>
-                                                            <div>
-                                                                <button type="submit" className="btn btn-sm m-2 arrow-btn" id={"moveTaskDownBtn" + i}><img className="arrowIcon" alt="downArrowIcon" src={downArrow}></img> Move Down</button>
-                                                            </div>
-
+                                                        <div className="form-group col-md-6">
+                                                            {i === 0 ? "" :
+                                                                <div>
+                                                                    <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskUpBtn" + i} data-task_array_index={i} onClick={moveJiraUp}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img> Move Up</button>
+                                                                </div>
+                                                            }
+                                                            {i === (Plan.tasks.length - 1) ? "" :
+                                                                <div>
+                                                                    <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskDownBtn" + i} data-task_array_index={i}><img className="arrowIcon" alt="downArrowIcon" src={downArrow}></img> Move Down</button>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
 
                                                 </form>
                                             </div>
-                                            
+
                                         </div>
                                         <div className="col-md-1 mt-auto mb-auto">
-                                                <div>
-                                                    <button className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
-                                                        Edit
+                                            <div>
+                                                <button className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
+                                                    Edit
                                                      </button>
-                                                </div>
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                             ) : ""}</div>

@@ -63,7 +63,7 @@ module.exports = {
         console.log("Called checkExistingTasks Controller");
         console.log(req.body);
         db.Plans
-            .findOne({ _id: req.body.planID, "task.$.description":req.body.taskDescription})
+            .findOne({ _id: req.body.planID, "task.$.description": req.body.taskDescription })
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
@@ -75,11 +75,25 @@ module.exports = {
         db.Plans
             .updateOne({ _id: req.body.PlanID, "tasks.description": req.body.taskDescription },
                 {
-                    $push: { "tasks.$.jiras": req.body.linkJIRAID}
+                    $push: { "tasks.$.jiras": req.body.linkJIRAID }
                 }
             )
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
     },
+    removeJira: function (req, res) {
+        console.log("Called removeJIRA controller!");
+        console.log(req.body);
+
+        db.Plans.
+            updateOne({ _id: req.body.PlanID, "tasks.description": req.body.taskDescription },
+                {
+                    $set: { "tasks.$.jiras": req.body.newJiraArray }
+                }
+            )
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
+    }
 };
