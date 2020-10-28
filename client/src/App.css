@@ -27,8 +27,9 @@ body {
 }
 
 .deleteIcon {
-  height: 20px;
-  width: 20px;
+  height: 22px;
+  width: 22px;
+  border-radius: 100%;
   margin: 0 0 4px 1px;
 }
 
@@ -80,19 +81,23 @@ body {
   background-color: inherit;
 }
 
-.jiraLinks {
-  border: 2px solid gold;
+.jiraLinks, .jiraLinks:hover, .jiraLinks:focus {
+  text-decoration: none;
+  color: black;
+}
+
+.jiraLinkPill {
+  border: 1px solid gold;
+  font-weight: bold;
   border-radius: 25px;
   background-color: gold;
   color: black;
   padding: 1px 7px;
 }
 
-.jiraLinks:hover, .jiraLinks:focus {
+.jiraLinkPill:hover, .jiraLinkPill:focus {
   text-decoration: none;
   color: white;
-  background-color: goldenrod;
-  border-color: goldenrod;
 }
 
 .progress-bar {

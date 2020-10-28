@@ -5,7 +5,7 @@ import API from "../../utils/API";
 import moment from 'moment';
 import upArrow from '../../images/baseline_keyboard_arrow_up_black_48dp.png';
 import downArrow from '../../images/baseline_keyboard_arrow_down_black_48dp.png';
-import deleteIcon from '../../images/baseline_disabled_by_default_black_48dp.png';
+import deleteIcon from '../../images/outline_remove_circle_outline_black_48dp.png';
 import "./style.css";
 
 import Navbar from "../../component/Navbar/Navbar";
@@ -169,7 +169,7 @@ const PlanDetails = () => {
                                                 <div className="col-md-12 text-left">
                                                     {task.jiras !== undefined ? task.jiras.map(
                                                         (jira, i) =>
-                                                            <span className="mr-3"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} target="_blank" rel="noopener noreferrer">{jira}</a><img className="deleteIcon" alt="deleteIcon" src={deleteIcon}></img></span>
+                                                            <span className="jiraLinkPill mr-3"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} title={"Go to JIRA " + jira} target="_blank" rel="noopener noreferrer">{jira}</a> <img className="deleteIcon ml-1" alt="deleteIcon" title={"Remove JIRA " + jira} src={deleteIcon}></img></span>
                                                     ) : ""
                                                     }
                                                 </div>
