@@ -86,8 +86,17 @@ const PlanDetails = () => {
 
     const hideEditBtn = (event) => {
         let taskArrayIndex = event.currentTarget.dataset.task_array_index;
+        
         document.getElementById("editTaskBtn" + taskArrayIndex).classList.add("d-none");
         document.getElementById("saveTaskBtn" + taskArrayIndex).classList.remove("d-none");
+        document.getElementById("moveTaskBtns" + taskArrayIndex).classList.remove("d-none");
+    }
+
+    const showEditBtn = (event) => {
+        let taskArrayIndex = event.currentTarget.dataset.task_array_index;
+        document.getElementById("editTaskBtn" + taskArrayIndex).classList.remove("d-none");
+        document.getElementById("saveTaskBtn" + taskArrayIndex).classList.add("d-none");
+        document.getElementById("moveTaskBtns" + taskArrayIndex).classList.add("d-none");
     }
 
     const updateTask = (event) => {
@@ -116,6 +125,7 @@ const PlanDetails = () => {
 
         document.getElementById("saveTaskBtn" + taskArrayPosition).classList.add("d-none");
         document.getElementById("editTaskBtn" + taskArrayPosition).classList.remove("d-none");
+        document.getElementById("moveTaskBtns" + taskArrayPosition).classList.add("d-none");
 
     }
 
@@ -210,7 +220,7 @@ const PlanDetails = () => {
                             <div>{Plan.tasks !== undefined ? Plan.tasks.map((task, i) =>
                                 <div className="card mb-1 mt-1 p-2">
                                     <div className="row">
-                                        <div className="col-md-10">
+                                        <div className="col-md-11">
                                             <div className="row">
                                                 <div className="col-md-12 text-left">
                                                     <h5><strong>{"#" + (i + 1) + ": "}<span id={"taskDescription" + i}>{task.description}</span></strong></h5>
@@ -316,28 +326,30 @@ const PlanDetails = () => {
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div className="form-row text-right">
+                                                        <div className="col-md-12">
+                                                        <button className="btn btn-sm btn-secondary mr-1" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} data-task_array_index={i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={showEditBtn}>Close</button>
+                                                            <button id={"saveTaskBtn" + i} type="button" className="btn btn-sm btn-custom d-none" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Save</button>
+                                                        </div>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>
-                                        <div className="col-md-1">
+                                        <div className="col-md-1 mt-auto mb-auto">
                                             <div>
+                                                <button id={"editTaskBtn" + i} className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-task_array_index={i} data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={hideEditBtn}>Edit</button>
+                                            </div>
+                                            <div id={"moveTaskBtns" + i} className="d-none" data-task_array_index={i}>
                                                 {i === 0 ? "" :
                                                     <div>
                                                         <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskUpBtn" + i} data-task_array_index={i} onClick={moveJiraUp}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img></button>
                                                     </div>
                                                 }
-
                                                 {i === (Plan.tasks.length - 1) ? "" :
                                                     <div>
                                                         <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskDownBtn" + i} data-task_array_index={i}><img className="arrowIcon" alt="downArrowIcon" src={downArrow}></img></button>
                                                     </div>
                                                 }
-                                            </div>
-                                        </div>
-                                        <div className="col-md-1">
-                                            <div>
-                                            <button id={"saveTaskBtn" + i} type="button" className="btn btn-sm btn-custom d-none" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Save</button>
-                                                <button id={"editTaskBtn" + i} className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-task_array_index={i} data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={hideEditBtn}>Edit</button>
                                             </div>
                                         </div>
                                     </div>
