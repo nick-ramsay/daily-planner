@@ -84,6 +84,12 @@ const PlanDetails = () => {
         }
     }
 
+    const hideEditBtn = (event) => {
+        let taskArrayIndex = event.currentTarget.dataset.task_array_index;
+        document.getElementById("editTaskBtn" + taskArrayIndex).classList.add("d-none");
+        document.getElementById("saveTaskBtn" + taskArrayIndex).classList.remove("d-none");
+    }
+
     const updateTask = (event) => {
         let taskArrayPosition = event.currentTarget.dataset.task_array_position;
         let taskDescription = document.getElementById("taskDescription" + taskArrayPosition).innerHTML;
@@ -107,6 +113,10 @@ const PlanDetails = () => {
                 renderPlan();
             }
         )
+
+        document.getElementById("saveTaskBtn" + taskArrayPosition).classList.add("d-none");
+        document.getElementById("editTaskBtn" + taskArrayPosition).classList.remove("d-none");
+
     }
 
     const linkJIRA = (event) => {
@@ -159,7 +169,7 @@ const PlanDetails = () => {
         <div>
             <Navbar />
             <div className="container bg-white pt-4">
-                <div className="pb-2 my-5 mb-4 px-5">
+                <div className="pb-2 my-5 mb-4">
                     <div className="col-md-12 p-2">
                         <h2><strong>{'"' + Plan.plan_name + '"'}</strong></h2>
                         <h4>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h4>
@@ -200,7 +210,7 @@ const PlanDetails = () => {
                             <div>{Plan.tasks !== undefined ? Plan.tasks.map((task, i) =>
                                 <div className="card mb-1 mt-1 p-2">
                                     <div className="row">
-                                        <div className="col-md-11">
+                                        <div className="col-md-10">
                                             <div className="row">
                                                 <div className="col-md-12 text-left">
                                                     <h5><strong>{"#" + (i + 1) + ": "}<span id={"taskDescription" + i}>{task.description}</span></strong></h5>
@@ -208,13 +218,13 @@ const PlanDetails = () => {
                                             </div>
                                             <div className="row mb-2">
                                                 <div className="col-md-12">
-                                                <BarLoader
-                                                    css={override}
-                                                    width={300}
-                                                    height={25}
-                                                    color={"gold"}
-                                                    loading={jiraLinksLoading}
-                                                />
+                                                    <BarLoader
+                                                        css={override}
+                                                        width={300}
+                                                        height={25}
+                                                        color={"gold"}
+                                                        loading={jiraLinksLoading}
+                                                    />
                                                 </div>
                                                 <div className="col-md-12 text-left">
                                                     {!jiraLinksLoading &&
@@ -269,11 +279,6 @@ const PlanDetails = () => {
                                             </div>
                                             <div className="collapse" id={"taskDetails" + i}>
                                                 <form>
-                                                    <div className="form-row text-center mt-3 mb-0">
-                                                        <div className="col-md-12">
-                                                            <button type="button" className="btn btn-sm btn-custom" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Update</button>
-                                                        </div>
-                                                    </div>
                                                     <div className="form-row">
                                                         <div className="form-group col-md-12 text-left">
                                                             <label htmlFor="taskDescription">Description</label>
@@ -310,29 +315,29 @@ const PlanDetails = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="form-group col-md-6 text-center">
-                                                            {i === 0 ? "" :
-                                                                <div>
-                                                                    <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskUpBtn" + i} data-task_array_index={i} onClick={moveJiraUp}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img> Move Up</button>
-                                                                </div>
-                                                            }
-                                                            {i === (Plan.tasks.length - 1) ? "" :
-                                                                <div>
-                                                                    <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskDownBtn" + i} data-task_array_index={i}><img className="arrowIcon" alt="downArrowIcon" src={downArrow}></img> Move Down</button>
-                                                                </div>
-                                                            }
-                                                        </div>
                                                     </div>
-
                                                 </form>
                                             </div>
-
                                         </div>
-                                        <div className="col-md-1 mt-auto mb-auto">
+                                        <div className="col-md-1">
                                             <div>
-                                                <button className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
-                                                    Edit
-                                                     </button>
+                                                {i === 0 ? "" :
+                                                    <div>
+                                                        <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskUpBtn" + i} data-task_array_index={i} onClick={moveJiraUp}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img></button>
+                                                    </div>
+                                                }
+
+                                                {i === (Plan.tasks.length - 1) ? "" :
+                                                    <div>
+                                                        <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskDownBtn" + i} data-task_array_index={i}><img className="arrowIcon" alt="downArrowIcon" src={downArrow}></img></button>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className="col-md-1">
+                                            <div>
+                                            <button id={"saveTaskBtn" + i} type="button" className="btn btn-sm btn-custom d-none" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Save</button>
+                                                <button id={"editTaskBtn" + i} className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-task_array_index={i} data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={hideEditBtn}>Edit</button>
                                             </div>
                                         </div>
                                     </div>
