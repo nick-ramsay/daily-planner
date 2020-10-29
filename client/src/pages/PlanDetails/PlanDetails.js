@@ -19,6 +19,7 @@ const PlanDetails = () => {
     var [totalHoursAllowed, setTotalHoursAllowed] = useState(8);
     var [totalHoursLogged, setTotalHoursLogged] = useState(0);
 
+    var [taskDescription, setTaskDescription] = useInput();
     var [taskHoursLogged, setTaskHoursLogged] = useInput();
     var [taskStatus, setTaskStatus] = useInput();
 
@@ -78,6 +79,9 @@ const PlanDetails = () => {
         let taskDescription = document.getElementById("taskDescription" + taskArrayPosition).innerHTML;
         let newHoursLogged = document.getElementById("taskHoursLogged" + taskArrayPosition).value;
         let newStatus = document.getElementById("taskStatus" + taskArrayPosition).value;
+        let newTaskDescription = document.getElementById("updatedTaskDescription" + taskArrayPosition).value;
+
+        console.log(newTaskDescription)
 
 
         API.checkExistingTasks(PlanID, newTaskDescription).then(
@@ -88,9 +92,8 @@ const PlanDetails = () => {
             }
         );
 
-        API.updateTask(PlanID, taskDescription, taskArrayPosition, newHoursLogged, newStatus).then(
+        API.updateTask(PlanID, taskDescription, taskArrayPosition, newHoursLogged, newStatus, newTaskDescription).then(
             (res) => {
-                console.log(res);
                 renderPlan();
             }
         )
@@ -247,7 +250,13 @@ const PlanDetails = () => {
                                                         </div>
                                                     </div>
                                                     <div className="form-row">
-                                                        <div className="form-group col-md-6">
+                                                        <div className="form-group col-md-12 text-left">
+                                                            <label htmlFor="taskDescription">Description</label>
+                                                            <input type="text" className="form-control" id={"updatedTaskDescription" + i} defaultValue={task.description} onChange={setTaskDescription} />
+                                                        </div>
+                                                    </div>
+                                                    <div className="form-row">
+                                                        <div className="form-group col-md-6 text-left">
                                                             <label htmlFor="inputState">Status</label>
                                                             <select id={"taskStatus" + i} className="form-control" defaultValue={task.status} onChange={setTaskStatus}>
                                                                 <option>Closed</option>
@@ -257,18 +266,26 @@ const PlanDetails = () => {
                                                                 <option>Punted</option>
                                                             </select>
                                                         </div>
-                                                        <div className="form-group col-md-6">
+                                                        <div className="form-group col-md-6 text-left">
                                                             <label htmlFor="taskHoursLogged">Hours Logged</label>
                                                             <input type="number" className="form-control" id={"taskHoursLogged" + i} step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
                                                         </div>
                                                     </div>
                                                     <div className="form-row">
-                                                        <div className="form-group col-md-6">
-                                                            <label htmlFor="taskHoursLogged">Link JIRA</label>
-                                                            <input type="text" className="form-control" id={"linkJIRAInput" + i} />
-                                                            <button className="btn btn-sm btn-custom-blue mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
+                                                        <div className="form-group col-md-6 text-left">
+                                                            <div className="row">
+                                                                <div className="col-md-12">
+                                                                    <label htmlFor="taskHoursLogged">Link JIRA</label>
+                                                                </div>
+                                                                <div className="col-md-9">
+                                                                    <input type="text" className="form-control" id={"linkJIRAInput" + i} />
+                                                                </div>
+                                                                <div className="col-md-3 text-center">
+                                                                    <button className="btn btn-sm btn-custom-blue mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className="form-group col-md-6">
+                                                        <div className="form-group col-md-6 text-center">
                                                             {i === 0 ? "" :
                                                                 <div>
                                                                     <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskUpBtn" + i} data-task_array_index={i} onClick={moveJiraUp}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img> Move Up</button>
