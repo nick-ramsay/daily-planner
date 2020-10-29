@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import BarLoader from "react-spinners/BarLoader";
+import { css } from "@emotion/core";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import { useInput } from '../../sharedFunctions/sharedFunctions';
 import API from "../../utils/API";
@@ -10,10 +12,17 @@ import "./style.css";
 
 import Navbar from "../../component/Navbar/Navbar";
 
+const override = css`
+  display: block;
+  margin: 0 auto;
+  color: #008000;
+  `;
 
 const PlanDetails = () => {
     var PlanID = useParams().id;
 
+    var [loading, setLoading] = useState(true);
+    var [jiraLinksLoading, setJiraLinksLoading] = useState(false);
     var [Plan, setPlan] = useState({});
     var [newTaskDescription, setNewTaskDescription] = useInput();
     var [totalHoursAllowed, setTotalHoursAllowed] = useState(8);
@@ -37,6 +46,7 @@ const PlanDetails = () => {
         let selectedPlan = PlanID;
         API.findPlan(selectedPlan).then(
             (res) => {
+                setJiraLinksLoading(jiraLinksloading => false);
                 setPlan(Plan => res.data);
                 calculateTotalHoursLogged(res.data);
             }
@@ -100,6 +110,7 @@ const PlanDetails = () => {
     }
 
     const linkJIRA = (event) => {
+        setJiraLinksLoading(jiraLinksLoading => true);
         let taskArrayPosition = event.currentTarget.dataset.task_array_position;
         let taskDescription = document.getElementById("taskDescription" + taskArrayPosition).innerHTML;
         let linkJIRAID = document.getElementById("linkJIRAInput" + taskArrayPosition).value;
@@ -107,6 +118,7 @@ const PlanDetails = () => {
         console.log(linkJIRAID);
         API.linkJIRA(PlanID, taskDescription, taskArrayPosition, linkJIRAID).then(
             (res) => {
+                setJiraLinksLoading(jiraLinksLoading => false);
                 renderPlan();
                 document.getElementById("linkJIRAInput" + taskArrayPosition).value = "";
             }
@@ -114,6 +126,7 @@ const PlanDetails = () => {
     }
 
     const removeJIRA = (event) => {
+        setJiraLinksLoading(jiraLinksLoading => true);
         let jiraArrayIndex = event.currentTarget.dataset.jira_array_index;
         let taskArrayIndex = event.currentTarget.dataset.task_array_index;
         let taskDescription = document.getElementById("taskDescription" + taskArrayIndex).innerHTML;
@@ -123,6 +136,7 @@ const PlanDetails = () => {
 
         API.removeJIRA(PlanID, taskDescription, jiraArray).then(
             (res) => {
+                setJiraLinksLoading(false);
                 renderPlan();
             }
         )
@@ -193,11 +207,22 @@ const PlanDetails = () => {
                                                 </div>
                                             </div>
                                             <div className="row mb-2">
+                                                <div className="col-md-12">
+                                                <BarLoader
+                                                    css={override}
+                                                    width={300}
+                                                    height={25}
+                                                    color={"gold"}
+                                                    loading={jiraLinksLoading}
+                                                />
+                                                </div>
                                                 <div className="col-md-12 text-left">
-                                                    {task.jiras !== undefined ? task.jiras.map(
-                                                        (jira, j) =>
-                                                            <span className="jiraLinkPill mr-3"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} title={"Go to JIRA " + jira} target="_blank" rel="noopener noreferrer">{jira}</a> <img className="deleteIcon ml-1" alt="deleteIcon" title={"Remove JIRA " + jira} src={deleteIcon} data-jira_array_index={j} data-task_array_index={i} onClick={removeJIRA}></img></span>
-                                                    ) : ""
+                                                    {!jiraLinksLoading &&
+                                                        task.jiras !== undefined ? task.jiras.map(
+                                                            (jira, j) =>
+                                                                <span className="jiraLinkPill mr-3"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} title={"Go to JIRA " + jira} target="_blank" rel="noopener noreferrer">{jira}</a> <img className="deleteIcon ml-1" alt="deleteIcon" title={"Remove JIRA " + jira} src={deleteIcon} data-jira_array_index={j} data-task_array_index={i} onClick={removeJIRA}></img></span>
+
+                                                        ) : ""
                                                     }
                                                 </div>
                                             </div>
