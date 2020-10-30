@@ -288,7 +288,7 @@ const PlanDetails = () => {
                                                 </div>
                                             </div>
                                             <div className="collapse" id={"taskDetails" + i}>
-                                                <form>
+                                                <form className="taskUpdateForm p-2">
                                                     <div className="form-row">
                                                         <div className="form-group col-md-12 text-left">
                                                             <label htmlFor="taskDescription">Description</label>
