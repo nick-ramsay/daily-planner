@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import HashLoader from "react-spinners/HashLoader";
 import { css } from "@emotion/core";
 import { useInput } from '../../sharedFunctions/sharedFunctions';

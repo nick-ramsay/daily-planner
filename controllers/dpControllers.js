@@ -54,7 +54,6 @@ module.exports = {
                     $set: { "tasks.$.status": req.body.newStatus, "tasks.$.hoursLogged": req.body.newHoursLogged, "tasks.$.description": req.body.newTaskDescription  }
                 }
             )
-            // {$position: req.body.taskArrayPosition, hoursLogged: req.body.newHoursLogged, status: req.body.newStatus}}
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
@@ -90,6 +89,19 @@ module.exports = {
             updateOne({ _id: req.body.PlanID, "tasks.description": req.body.taskDescription },
                 {
                     $set: { "tasks.$.jiras": req.body.newJiraArray }
+                }
+            )
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
+    },
+    updateTaskOrder: function (req,res) {
+        console.log("Called updateTaskOrder controller...");
+        
+        db.Plans.
+            updateOne({ _id: req.body.PlanID, "tasks.description": req.body.taskDescription },
+                {
+                    $set: { "tasks": req.body.newTaskArray }
                 }
             )
             .then(dbModel => res.json(dbModel))

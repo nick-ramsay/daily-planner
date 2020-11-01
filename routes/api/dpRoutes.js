@@ -37,4 +37,8 @@ router
   .route("/remove-jira")
   .post(dpControllers.removeJira);
 
+router
+  .route("/update-task-order")
+  .post(dpControllers.updateTaskOrder);
+
 module.exports = router;

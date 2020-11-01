@@ -162,12 +162,23 @@ const PlanDetails = () => {
         )
     }
 
-    const moveJiraUp = (event) => {
-        let taskArrayIndex = event.currentTarget.dataset.task_array_index;
-        //let jiraArrayIndex = event.currentTarget.dataset.jira_array_index;
+    const moveJira = (event) => {
+        let planTasks = Plan.tasks;
+        let taskArrayIndex = parseInt(event.currentTarget.dataset.task_array_index);
+        let taskDescription = document.getElementById("taskDescription" + taskArrayIndex).innerHTML;
+        let moveJiraIncrement = parseInt(event.currentTarget.dataset.move_jira_increment);
 
-        console.log(taskArrayIndex);
-        //console.log(jiraArrayIndex);
+        let selectedTask = Plan.tasks[taskArrayIndex];
+        let newTaskIndex = (taskArrayIndex + moveJiraIncrement);
+
+        planTasks.splice(taskArrayIndex, 1);
+        planTasks.splice(newTaskIndex,0,selectedTask);
+
+        API.updateTaskOrder(PlanID, taskDescription, planTasks).then(
+            (res) => {
+                renderPlan();
+            }
+        )
 
     }
 
@@ -342,12 +353,12 @@ const PlanDetails = () => {
                                             <div id={"moveTaskBtns" + i} className="d-none" data-task_array_index={i}>
                                                 {i === 0 ? "" :
                                                     <div>
-                                                        <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskUpBtn" + i} data-task_array_index={i} onClick={moveJiraUp}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img></button>
+                                                        <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskUpBtn" + i} data-task_array_index={i} data-move_jira_increment="-1" onClick={moveJira}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img></button>
                                                     </div>
                                                 }
                                                 {i === (Plan.tasks.length - 1) ? "" :
                                                     <div>
-                                                        <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskDownBtn" + i} data-task_array_index={i}><img className="arrowIcon" alt="downArrowIcon" src={downArrow}></img></button>
+                                                        <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskDownBtn" + i} data-task_array_index={i} data-move_jira_increment="1" onClick={moveJira}><img className="arrowIcon" alt="downArrowIcon" src={downArrow}></img></button>
                                                     </div>
                                                 }
                                             </div>

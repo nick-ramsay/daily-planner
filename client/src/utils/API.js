@@ -30,5 +30,8 @@ export default {
     },
     removeJIRA: function (PlanID, taskDescription, newJiraArray) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/remove-jira", data: { PlanID, taskDescription, newJiraArray } });
+    },
+    updateTaskOrder: function (PlanID, taskDescription, newTaskArray) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/update-task-order", data: { PlanID, taskDescription, newTaskArray } });
     }
 };
