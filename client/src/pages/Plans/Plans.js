@@ -84,19 +84,30 @@ const Home = () => {
                                         <div className="mt-1 mb-1 text-center"><h4>{'"' + plan.plan_name + '"'}</h4></div>
                                         <div className="mt-1 mb-1 text-center"><h5>{moment(plan.created_date).format("dddd,  DD MMMM YYYY")}</h5></div>
                                         {(() => {
-                                            let openTaskCount = 0;
+                                            var openTaskCount = 0;
+                                            var puntedTaskCount = 0;
+                                            var pendingFeedbackTaskCount = 0;
 
                                             for (let j = 0; j < plan.tasks.length; j++) {
                                                 if (plan.tasks[j].status === "Closed") {
                                                     openTaskCount += 0
-                                                } else {
+                                                }
+                                                else if (plan.tasks[j].status === "Punted") {
+                                                    puntedTaskCount += 1
+                                                }
+                                                else if (plan.tasks[j].status === "Pending Feedback") {
+                                                    pendingFeedbackTaskCount += 1
+                                                }
+                                                else {
                                                     openTaskCount += 1
                                                 }
                                             }
 
                                             if (openTaskCount > 0) {
                                                 return (
-                                                    <h6>Status: <span className="badge badge-danger">{openTaskCount} {openTaskCount > 1 ? "tasks" : "task"} open</span></h6>
+                                                    <div>
+                                                        <h6>Status: <span className="badge badge-danger">{openTaskCount} {openTaskCount > 1 ? "tasks" : "task"} open</span></h6>
+                                                    </div>
                                                 )
                                             } else if (plan.tasks.length === 0 || plan.tasks === undefined) {
                                                 return (
@@ -105,7 +116,10 @@ const Home = () => {
                                             }
                                             else {
                                                 return (
-                                                    <h6>Status: <span className="badge badge-success">Closed</span></h6>
+                                                    <div>
+                                                        <h6>Status: <span className="badge badge-success">Closed {}</span></h6>
+                                                        <p style={{fontSize: 14}}>{puntedTaskCount} {puntedTaskCount === 1 ? "task":"tasks"} punted{pendingFeedbackTaskCount > 0 ? ", " +  pendingFeedbackTaskCount + " pending feedback...":""}</p>
+                                                    </div>
                                                 )
                                             }
                                         }
