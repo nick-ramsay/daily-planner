@@ -168,15 +168,14 @@ body {
   box-shadow: none;
 }
 
-
-
-.arrow-btn:hover{
-  border-color: black;
+.arrow-btn, .arrow-btn:focus {
+  border: 1px solid rgba(0,0,0,.125);
+  box-shadow: none;
 }
 
-.arrow-btn:focus {
-  border-color: black;
-  box-shadow: none;
+.arrow-btn:hover{
+  border-color: gold;
+  background-color: gold;
 }
 
 @media (prefers-reduced-motion: no-preference) {
