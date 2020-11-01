@@ -89,14 +89,14 @@ const PlanDetails = () => {
         
         document.getElementById("editTaskBtn" + taskArrayIndex).classList.add("d-none");
         document.getElementById("saveTaskBtn" + taskArrayIndex).classList.remove("d-none");
-        document.getElementById("moveTaskBtns" + taskArrayIndex).classList.remove("d-none");
+        //document.getElementById("moveTaskBtns" + taskArrayIndex).classList.remove("d-none");
     }
 
     const showEditBtn = (event) => {
         let taskArrayIndex = event.currentTarget.dataset.task_array_index;
         document.getElementById("editTaskBtn" + taskArrayIndex).classList.remove("d-none");
         document.getElementById("saveTaskBtn" + taskArrayIndex).classList.add("d-none");
-        document.getElementById("moveTaskBtns" + taskArrayIndex).classList.add("d-none");
+        //document.getElementById("moveTaskBtns" + taskArrayIndex).classList.add("d-none");
     }
 
     const updateTask = (event) => {
@@ -125,7 +125,7 @@ const PlanDetails = () => {
 
         document.getElementById("saveTaskBtn" + taskArrayPosition).classList.add("d-none");
         document.getElementById("editTaskBtn" + taskArrayPosition).classList.remove("d-none");
-        document.getElementById("moveTaskBtns" + taskArrayPosition).classList.add("d-none");
+        //document.getElementById("moveTaskBtns" + taskArrayPosition).classList.add("d-none");
 
     }
 
@@ -303,13 +303,13 @@ const PlanDetails = () => {
                                                     <div className="form-row">
                                                         <div className="form-group col-md-12 text-left">
                                                             <label htmlFor="taskDescription">Description</label>
-                                                            <input type="text" className="form-control" id={"updatedTaskDescription" + i} defaultValue={task.description} onChange={setTaskDescription} />
+                                                            <input type="text" key={task.description + i} className="form-control" id={"updatedTaskDescription" + i} defaultValue={task.description} onChange={setTaskDescription} />
                                                         </div>
                                                     </div>
                                                     <div className="form-row">
                                                         <div className="form-group col-md-6 text-left">
                                                             <label htmlFor="inputState">Status</label>
-                                                            <select id={"taskStatus" + i} className="form-control" defaultValue={task.status} onChange={setTaskStatus}>
+                                                            <select id={"taskStatus" + i} key={task.description + i}  className="form-control" defaultValue={task.status} onChange={setTaskStatus}>
                                                                 <option>Closed</option>
                                                                 <option>Open</option>
                                                                 <option>In Progress</option>
@@ -319,7 +319,7 @@ const PlanDetails = () => {
                                                         </div>
                                                         <div className="form-group col-md-6 text-left">
                                                             <label htmlFor="taskHoursLogged">Hours Logged</label>
-                                                            <input type="number" className="form-control" id={"taskHoursLogged" + i} step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
+                                                            <input type="number" className="form-control" id={"taskHoursLogged" + i} key={task.description + i}  step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
                                                         </div>
                                                     </div>
                                                     <div className="form-row">
@@ -329,7 +329,7 @@ const PlanDetails = () => {
                                                                     <label htmlFor="taskHoursLogged">Link JIRA</label>
                                                                 </div>
                                                                 <div className="col-md-9">
-                                                                    <input type="text" className="form-control" id={"linkJIRAInput" + i} />
+                                                                    <input type="text" key={task.description + i}  className="form-control" id={"linkJIRAInput" + i} />
                                                                 </div>
                                                                 <div className="col-md-3 text-center">
                                                                     <button className="btn btn-sm btn-custom-blue mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
@@ -350,7 +350,7 @@ const PlanDetails = () => {
                                             <div>
                                                 <button id={"editTaskBtn" + i} className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-task_array_index={i} data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={hideEditBtn}>Edit</button>
                                             </div>
-                                            <div id={"moveTaskBtns" + i} className="d-none" data-task_array_index={i}>
+                                            <div id={"moveTaskBtns" + i} data-task_array_index={i}>
                                                 {i === 0 ? "" :
                                                     <div>
                                                         <button type="button" className="btn btn-sm m-2 arrow-btn" id={"moveTaskUpBtn" + i} data-task_array_index={i} data-move_jira_increment="-1" onClick={moveJira}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img></button>
