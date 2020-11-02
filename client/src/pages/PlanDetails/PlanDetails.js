@@ -186,7 +186,20 @@ const PlanDetails = () => {
                 }
             }
         )
+    }
 
+    const importPuntedTasks = (event) => {
+        let currentTaskDescriptions = [];
+
+        for (let i = 0; i < Plan.tasks.length; i++) {
+            currentTaskDescriptions.push(Plan.tasks[i].description);
+        }
+
+        API.importPuntedTasks(currentTaskDescriptions).then(
+            (res) => {
+                console.log(res)
+            }
+        )
     }
 
     useEffect(() => {
@@ -219,9 +232,11 @@ const PlanDetails = () => {
                                 <div className="progress-bar bg-custom" role="progressbar" style={{ width: (totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                             <p>You {(totalHoursAllowed - totalHoursLogged > 0) ? "have" : "are"} {(Math.abs(totalHoursAllowed - totalHoursLogged).toFixed(2))} {(totalHoursAllowed - totalHoursLogged === 1) ? "hour" : "hours"} {(totalHoursAllowed - totalHoursLogged >= 0) ? "remaining." : "overtime."} {(totalHoursAllowed - totalHoursLogged < 0) ? "Overachiever!" : (8 - totalHoursLogged === 0) ? "Congrats! You're done!" : ""} </p>
-                            <button type="button" className="btn btn-sm btn-custom" data-toggle="modal" data-target="#newTaskModal">
-                                New Task
+                            <div>
+                                <button type="button" className="btn btn-sm btn-custom m-1" data-toggle="modal" data-target="#newTaskModal">
+                                    New Task
                         </button>
+                            </div>
                             <div className="modal fade" id="newTaskModal" tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
                                 <div className="modal-dialog">
                                     <div className="modal-content">
@@ -236,6 +251,13 @@ const PlanDetails = () => {
                                                 <div className="form-row text-center">
                                                     <div className="col">
                                                         <input type="text" placeholder="Enter your task description here" className="form-control" id="taskInput" name="taskInput" onChange={setNewTaskDescription} aria-describedby="taskHelp" />
+                                                    </div>
+                                                </div>
+                                                <div className="form-row text-center">
+                                                    <div className="col">
+                                                        <button type="button" className="btn btn-sm btn-custom m-1" onClick={importPuntedTasks}>
+                                                            Import Punted Tasks
+                        </button>
                                                     </div>
                                                 </div>
                                             </form>

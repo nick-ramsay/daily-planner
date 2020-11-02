@@ -41,4 +41,8 @@ router
   .route("/update-task-order")
   .post(dpControllers.updateTaskOrder);
 
+router
+  .route("/import-punted-tasks")
+  .post(dpControllers.importPuntedTasks);
+
 module.exports = router;

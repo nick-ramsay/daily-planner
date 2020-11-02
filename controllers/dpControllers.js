@@ -107,5 +107,10 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
+    },
+    importPuntedTasks: function(req,res) {
+        let currentTaskDescriptions = req.body.currentTaskDescriptions;
+
+        console.log(currentTaskDescriptions);
     }
 };
