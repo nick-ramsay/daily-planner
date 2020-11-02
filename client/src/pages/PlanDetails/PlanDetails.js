@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import BarLoader from "react-spinners/BarLoader";
+import HashLoader from "react-spinners/HashLoader";
 import { css } from "@emotion/core";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import { useInput } from '../../sharedFunctions/sharedFunctions';
@@ -46,6 +47,7 @@ const PlanDetails = () => {
         let selectedPlan = PlanID;
         API.findPlan(selectedPlan).then(
             (res) => {
+                setLoading(loading => false);
                 setJiraLinksLoading(jiraLinksloading => false);
                 setPlan(Plan => res.data);
                 calculateTotalHoursLogged(res.data);
@@ -194,191 +196,207 @@ const PlanDetails = () => {
     return (
         <div>
             <Navbar />
-            <div className="container bg-white pt-4">
-                <div className="pb-2 my-5 mb-4">
-                    <h2><strong>{'"' + Plan.plan_name + '"'}</strong></h2>
-                    <h4>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h4>
-                    <h5><strong>{totalHoursLogged} hours logged</strong></h5>
-                    <div className="progress mt-2 mb-2">
-                        <div className="progress-bar bg-custom" role="progressbar" style={{ width: (totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            {loading === true &&
+                <div className="container pt-4">
+                    <div className="pb-2 my-5 mb-4">
+                        <HashLoader
+                            css={override}
+                            size={100}
+                            color={"#008000"}
+                            loading={loading}
+                        />
                     </div>
-                    <p>You {(totalHoursAllowed - totalHoursLogged > 0) ? "have" : "are"} {(Math.abs(totalHoursAllowed - totalHoursLogged).toFixed(2))} {(totalHoursAllowed - totalHoursLogged === 1) ? "hour" : "hours"} {(totalHoursAllowed - totalHoursLogged >= 0) ? "remaining." : "overtime."} {(totalHoursAllowed - totalHoursLogged < 0) ? "Overachiever!" : (8 - totalHoursLogged === 0) ? "Congrats! You're done!" : ""} </p>
-                    <button type="button" className="btn btn-sm btn-custom" data-toggle="modal" data-target="#newTaskModal">
-                        New Task
-                        </button>
-                    <div className="modal fade" id="newTaskModal" tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
-                        <div className="modal-dialog">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id="newTaskModalLabel">Enter a New Task</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div className="modal-body">
-                                    <form className="mt-3">
-                                        <div className="form-row text-center">
-                                            <div className="col">
-                                                <input type="text" placeholder="Enter your task description here" className="form-control" id="taskInput" name="taskInput" onChange={setNewTaskDescription} aria-describedby="taskHelp" />
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" className="btn btn-custom" onClick={saveTask} data-toggle="modal" data-target="#newTaskModal">Save Task</button>
-                                </div>
+                </div>
+            }
+            {!loading === true &&
+                <div className="container bg-white pt-4">
+                    <div className="pb-2 my-5 mb-4">
+                        <div>
+                            <h2><strong>{'"' + Plan.plan_name + '"'}</strong></h2>
+                            <h4>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h4>
+                            <h5><strong>{totalHoursLogged} hours logged</strong></h5>
+                            <div className="progress mt-2 mb-2">
+                                <div className="progress-bar bg-custom" role="progressbar" style={{ width: (totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div>{Plan.tasks !== undefined ? Plan.tasks.map((task, i) =>
-                            <div className="card mb-1 mt-1 p-2">
-                                <div className="row">
-                                    <div className="col-md-10">
-                                        <div className="row">
-                                            <div className="col-md-12 text-left">
-                                                <h5><strong>{"#" + (i + 1) + ": "}<span id={"taskDescription" + i}>{task.description}</span></strong></h5>
-                                            </div>
+                            <p>You {(totalHoursAllowed - totalHoursLogged > 0) ? "have" : "are"} {(Math.abs(totalHoursAllowed - totalHoursLogged).toFixed(2))} {(totalHoursAllowed - totalHoursLogged === 1) ? "hour" : "hours"} {(totalHoursAllowed - totalHoursLogged >= 0) ? "remaining." : "overtime."} {(totalHoursAllowed - totalHoursLogged < 0) ? "Overachiever!" : (8 - totalHoursLogged === 0) ? "Congrats! You're done!" : ""} </p>
+                            <button type="button" className="btn btn-sm btn-custom" data-toggle="modal" data-target="#newTaskModal">
+                                New Task
+                        </button>
+                            <div className="modal fade" id="newTaskModal" tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title" id="newTaskModalLabel">Enter a New Task</h5>
+                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
-                                        <div className="row mb-2">
-                                            <div className="col-md-12">
-                                                <BarLoader
-                                                    css={override}
-                                                    width={300}
-                                                    height={25}
-                                                    color={"gold"}
-                                                    loading={jiraLinksLoading}
-                                                />
-                                            </div>
-                                            <div className="col-md-12 text-left">
-                                                {!jiraLinksLoading &&
-                                                    task.jiras !== undefined ? task.jiras.map(
-                                                        (jira, j) =>
-                                                            <span className="jiraLinkPill mr-3"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} title={"Go to JIRA " + jira} target="_blank" rel="noopener noreferrer">{jira}</a> <img className="deleteIcon ml-1" alt="deleteIcon" title={"Remove JIRA " + jira} src={deleteIcon} data-jira_array_index={j} data-task_array_index={i} onClick={removeJIRA}></img></span>
-
-                                                    ) : ""
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-4 text-left">
-                                                <h6><span>Created: {moment(task.created_date).format("DD MMMM YYYY, h:mm A")}</span></h6>
-                                            </div>
-                                            <div className="col-md-4 text-left">
-                                                <div>
-                                                    {(() => {
-                                                        switch (task.status) {
-                                                            case "Closed":
-                                                                return (
-                                                                    <h6>Status: <span className="badge badge-success">{task.status}</span></h6>
-                                                                )
-                                                            case "Open":
-                                                                return (
-                                                                    <h6>Status: <span className="badge badge-primary">{task.status}</span></h6>
-                                                                )
-                                                            case "In Progress":
-                                                                return (
-                                                                    <h6>Status: <span className="badge badge-warning">{task.status}</span></h6>
-                                                                )
-                                                            case "Pending Feedback":
-                                                                return (
-                                                                    <h6>Status: <span className="badge badge-info">{task.status}</span></h6>
-                                                                )
-                                                            case "Punted":
-                                                                return (
-                                                                    <h6>Status: <span className="badge badge-secondary">{task.status}</span></h6>
-                                                                )
-                                                            default:
-                                                                return (
-                                                                    <h6>Status: <span className="badge badge-dark">{task.status}</span></h6>
-                                                                )
-                                                        }
-                                                    }
-                                                    )()}
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4 text-left">
-                                                <h6>Hours Logged: {task.hoursLogged + (task.hoursLogged === 1 ? " hour" : " hours")}</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-2">
-                                        <div className="row">
-                                            <div className="col-md-12 text-center">
-                                                {i === 0 ? "" :
-                                                    <button type="button" className="btn btn-sm m-1 arrow-btn" id={"moveTaskUpBtn" + i} data-task_array_index={i} data-move_jira_increment="-1" onClick={moveJira}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img></button>
-                                                }
-                                                {i === (Plan.tasks.length - 1) ? "" :
-                                                    <button type="button" className="btn btn-sm m-1 arrow-btn" id={"moveTaskDownBtn" + i} data-task_array_index={i} data-move_jira_increment="1" onClick={moveJira}><img className="arrowIcon" alt="downArrowIcon" src={downArrow}></img></button>
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-12 text-center">
-                                                <button id={"editTaskBtn" + i} className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-task_array_index={i} data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={hideEditBtn}>Edit</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <div className="collapse" id={"taskDetails" + i}>
-                                            <form className="taskUpdateForm p-2">
-                                                <div className="form-row">
-                                                    <div className="form-group col-md-12 text-left">
-                                                        <label htmlFor="taskDescription">Description</label>
-                                                        <input type="text" key={task.description + i} className="form-control" id={"updatedTaskDescription" + i} defaultValue={task.description} onChange={setTaskDescription} />
-                                                    </div>
-                                                </div>
-                                                <div className="form-row">
-                                                    <div className="form-group col-md-6 text-left">
-                                                        <label htmlFor="inputState">Status</label>
-                                                        <select id={"taskStatus" + i} key={task.description + i} className="form-control" defaultValue={task.status} onChange={setTaskStatus}>
-                                                            <option>Closed</option>
-                                                            <option>Open</option>
-                                                            <option>In Progress</option>
-                                                            <option>Pending Feedback</option>
-                                                            <option>Punted</option>
-                                                        </select>
-                                                    </div>
-                                                    <div className="form-group col-md-6 text-left">
-                                                        <label htmlFor="taskHoursLogged">Hours Logged</label>
-                                                        <input type="number" className="form-control" id={"taskHoursLogged" + i} key={task.description + i} step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
-                                                    </div>
-                                                </div>
-                                                <div className="form-row">
-                                                    <div className="form-group col-md-6 text-left">
-                                                        <div className="row">
-                                                            <div className="col-md-12">
-                                                                <label htmlFor="taskHoursLogged">Link JIRA</label>
-                                                            </div>
-                                                            <div className="col-md-9">
-                                                                <input type="text" key={task.description + i} className="form-control" id={"linkJIRAInput" + i} />
-                                                            </div>
-                                                            <div className="col-md-3 text-center">
-                                                                <button className="btn btn-sm btn-custom-blue mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="form-row text-right">
-                                                    <div className="col-md-12">
-                                                        <button className="btn btn-sm btn-secondary mr-1" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} data-task_array_index={i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={showEditBtn}>Close</button>
-                                                        <button id={"saveTaskBtn" + i} type="button" className="btn btn-sm btn-custom d-none" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Save</button>
+                                        <div className="modal-body">
+                                            <form className="mt-3">
+                                                <div className="form-row text-center">
+                                                    <div className="col">
+                                                        <input type="text" placeholder="Enter your task description here" className="form-control" id="taskInput" name="taskInput" onChange={setNewTaskDescription} aria-describedby="taskHelp" />
                                                     </div>
                                                 </div>
                                             </form>
                                         </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" className="btn btn-custom" onClick={saveTask} data-toggle="modal" data-target="#newTaskModal">Save Task</button>
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
-                        ) : ""}</div>
+                            <div>
+                                <div>{Plan.tasks !== undefined ? Plan.tasks.map((task, i) =>
+                                    <div className="card mb-1 mt-1 p-2">
+                                        <div className="row">
+                                            <div className="col-md-10">
+                                                <div className="row">
+                                                    <div className="col-md-12 text-left">
+                                                        <h5><strong>{"#" + (i + 1) + ": "}<span id={"taskDescription" + i}>{task.description}</span></strong></h5>
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-2">
+                                                    <div className="col-md-12">
+                                                        <BarLoader
+                                                            css={override}
+                                                            width={300}
+                                                            height={10}
+                                                            color={"#008000"}
+                                                            loading={jiraLinksLoading}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-12 text-left">
+                                                        {!jiraLinksLoading &&
+                                                            task.jiras !== undefined ? task.jiras.map(
+                                                                (jira, j) =>
+                                                                    <span className="jiraLinkPill mr-3"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} title={"Go to JIRA " + jira} target="_blank" rel="noopener noreferrer">{jira}</a> <img className="deleteIcon ml-1" alt="deleteIcon" title={"Remove JIRA " + jira} src={deleteIcon} data-jira_array_index={j} data-task_array_index={i} onClick={removeJIRA}></img></span>
+
+                                                            ) : ""
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-md-4 text-left">
+                                                        <h6><span>Created: {moment(task.created_date).format("DD MMMM YYYY, h:mm A")}</span></h6>
+                                                    </div>
+                                                    <div className="col-md-4 text-left">
+                                                        <div>
+                                                            {(() => {
+                                                                switch (task.status) {
+                                                                    case "Closed":
+                                                                        return (
+                                                                            <h6>Status: <span className="badge badge-success">{task.status}</span></h6>
+                                                                        )
+                                                                    case "Open":
+                                                                        return (
+                                                                            <h6>Status: <span className="badge badge-primary">{task.status}</span></h6>
+                                                                        )
+                                                                    case "In Progress":
+                                                                        return (
+                                                                            <h6>Status: <span className="badge badge-warning">{task.status}</span></h6>
+                                                                        )
+                                                                    case "Pending Feedback":
+                                                                        return (
+                                                                            <h6>Status: <span className="badge badge-info">{task.status}</span></h6>
+                                                                        )
+                                                                    case "Punted":
+                                                                        return (
+                                                                            <h6>Status: <span className="badge badge-secondary">{task.status}</span></h6>
+                                                                        )
+                                                                    default:
+                                                                        return (
+                                                                            <h6>Status: <span className="badge badge-dark">{task.status}</span></h6>
+                                                                        )
+                                                                }
+                                                            }
+                                                            )()}
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-4 text-left">
+                                                        <h6>Hours Logged: {task.hoursLogged + (task.hoursLogged === 1 ? " hour" : " hours")}</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-2">
+                                                <div className="row">
+                                                    <div className="col-md-12 text-center">
+                                                        {i === 0 ? "" :
+                                                            <button type="button" className="btn btn-sm m-1 arrow-btn" id={"moveTaskUpBtn" + i} data-task_array_index={i} data-move_jira_increment="-1" onClick={moveJira}><img className="arrowIcon" alt="upArrowIcon" src={upArrow}></img></button>
+                                                        }
+                                                        {i === (Plan.tasks.length - 1) ? "" :
+                                                            <button type="button" className="btn btn-sm m-1 arrow-btn" id={"moveTaskDownBtn" + i} data-task_array_index={i} data-move_jira_increment="1" onClick={moveJira}><img className="arrowIcon" alt="downArrowIcon" src={downArrow}></img></button>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-md-12 text-center">
+                                                        <button id={"editTaskBtn" + i} className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-task_array_index={i} data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={hideEditBtn}>Edit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="collapse" id={"taskDetails" + i}>
+                                                    <form className="taskUpdateForm p-2">
+                                                        <div className="form-row">
+                                                            <div className="form-group col-md-12 text-left">
+                                                                <label htmlFor="taskDescription">Description</label>
+                                                                <input type="text" key={task.description + i} className="form-control" id={"updatedTaskDescription" + i} defaultValue={task.description} onChange={setTaskDescription} />
+                                                            </div>
+                                                        </div>
+                                                        <div className="form-row">
+                                                            <div className="form-group col-md-6 text-left">
+                                                                <label htmlFor="inputState">Status</label>
+                                                                <select id={"taskStatus" + i} key={task.description + i} className="form-control" defaultValue={task.status} onChange={setTaskStatus}>
+                                                                    <option>Closed</option>
+                                                                    <option>Open</option>
+                                                                    <option>In Progress</option>
+                                                                    <option>Pending Feedback</option>
+                                                                    <option>Punted</option>
+                                                                </select>
+                                                            </div>
+                                                            <div className="form-group col-md-6 text-left">
+                                                                <label htmlFor="taskHoursLogged">Hours Logged</label>
+                                                                <input type="number" className="form-control" id={"taskHoursLogged" + i} key={task.description + i} step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
+                                                            </div>
+                                                        </div>
+                                                        <div className="form-row">
+                                                            <div className="form-group col-md-6 text-left">
+                                                                <div className="row">
+                                                                    <div className="col-md-12">
+                                                                        <label htmlFor="taskHoursLogged">Link JIRA</label>
+                                                                    </div>
+                                                                    <div className="col-md-9">
+                                                                        <input type="text" key={task.description + i} className="form-control" id={"linkJIRAInput" + i} />
+                                                                    </div>
+                                                                    <div className="col-md-3 text-center">
+                                                                        <button className="btn btn-sm btn-custom-blue mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="form-row text-right">
+                                                            <div className="col-md-12">
+                                                                <button className="btn btn-sm btn-secondary mr-1" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} data-task_array_index={i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={showEditBtn}>Close</button>
+                                                                <button id={"saveTaskBtn" + i} type="button" className="btn btn-sm btn-custom d-none" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                ) : ""}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div >
+            }
+        </div>
     )
 }
 
