@@ -271,8 +271,9 @@ const PlanDetails = () => {
                                                         {!jiraLinksLoading &&
                                                             task.jiras !== undefined ? task.jiras.map(
                                                                 (jira, j) =>
-                                                                    <span className="jiraLinkPill mr-3"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} title={"Go to JIRA " + jira} target="_blank" rel="noopener noreferrer">{jira}</a> <img className="deleteIcon ml-1" alt="deleteIcon" title={"Remove JIRA " + jira} src={deleteIcon} data-jira_array_index={j} data-task_array_index={i} onClick={removeJIRA}></img></span>
-
+                                                                    <div className="mt-1">
+                                                                        <span className="jiraLinkPill mr-3 float-sm-left"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} title={"Go to JIRA " + jira} target="_blank" rel="noopener noreferrer">{jira}</a> <img className="deleteIcon ml-1" alt="deleteIcon" title={"Remove JIRA " + jira} src={deleteIcon} data-jira_array_index={j} data-task_array_index={i} onClick={removeJIRA}></img></span>
+                                                                    </div>
                                                             ) : ""
                                                         }
                                                     </div>
