@@ -12,6 +12,18 @@ body {
   border: none;
 }
 
+.custom-hyperlink {
+  font-weight: bold;
+  color: #000080;
+  font-size: 12px;
+}
+
+.custom-hyperlink:hover {
+  text-decoration: none;
+  cursor: pointer;
+  color: #1A1A9A;
+}
+
 .card {
   border-radius: 0;
 }

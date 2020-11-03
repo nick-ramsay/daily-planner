@@ -237,6 +237,11 @@ const PlanDetails = () => {
                                     New Task
                         </button>
                             </div>
+                            <div>
+                                <a className="custom-hyperlink text-center" data-toggle="modal" data-target="#importPuntedModal">
+                                    Import Punted Tasks
+                                </a>
+                            </div>
                             <div className="modal fade" id="newTaskModal" tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
                                 <div className="modal-dialog">
                                     <div className="modal-content">
@@ -253,18 +258,36 @@ const PlanDetails = () => {
                                                         <input type="text" placeholder="Enter your task description here" className="form-control" id="taskInput" name="taskInput" onChange={setNewTaskDescription} aria-describedby="taskHelp" />
                                                     </div>
                                                 </div>
+                                            </form>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" className="btn btn-custom" onClick={saveTask} data-toggle="modal" data-target="#newTaskModal">Save Task</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal fade" id="importPuntedModal" tabIndex="-1" aria-labelledby="importPuntedModalLabel" aria-hidden="true">
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title" id="importPuntedModalLabel">Enter a New Task</h5>
+                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div className="modal-body">
+                                            <form className="mt-3">
                                                 <div className="form-row text-center">
                                                     <div className="col">
-                                                        <button type="button" className="btn btn-sm btn-custom m-1" onClick={importPuntedTasks}>
-                                                            Import Punted Tasks
-                        </button>
+                                                        <input type="text" placeholder="Enter your task description here" className="form-control" id="taskInput" name="taskInput" onChange={setNewTaskDescription} aria-describedby="taskHelp" />
                                                     </div>
                                                 </div>
                                             </form>
                                         </div>
                                         <div className="modal-footer">
                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" className="btn btn-custom" onClick={saveTask} data-toggle="modal" data-target="#newTaskModal">Save Task</button>
+                                            <button type="button" className="btn btn-custom" onClick={importPuntedTasks} data-toggle="modal" data-target="#importPuntedModal">Import</button>
                                         </div>
                                     </div>
                                 </div>
