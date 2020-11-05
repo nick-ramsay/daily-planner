@@ -22,6 +22,7 @@ const override = css`
 const PlanDetails = () => {
     var PlanID = useParams().id;
     var [importablePlans, setImportablePlans] = useState([]);
+    var [selectedImportPlan, setSelectedImportPlan] = useState("");
 
     var [loading, setLoading] = useState(true);
     var [jiraLinksLoading, setJiraLinksLoading] = useState(false);
@@ -287,10 +288,11 @@ const PlanDetails = () => {
                                             <form className="mt-3">
                                                 <div className="form-group col-md-12 text-left">
                                                     <label htmlFor="importablePlanOptions">Status</label>
-                                                    <select id="importablePlanOptions" className="form-control">
+                                                    <select id="importablePlanOptions" className="form-control" onChange={(event) => console.log(event.currentTarget.value)}>
                                                         <option selected>Pick a Plan to Import</option>
                                                         {importablePlans !== [] ? importablePlans.map((importablePlan,p) =>
-                                                            <option>"{importablePlan.plan_name}" ({moment(importablePlan.created_date).format("dddd,  DD MMMM YYYY")})</option>
+                                                            importablePlan._id !== PlanID &&
+                                                            <option id={importablePlan._id}>"{importablePlan.plan_name}" ({moment(importablePlan.created_date).format("dddd,  DD MMMM YYYY")})</option>
                                                         ):""}
                                                     </select>
                                                 </div>
