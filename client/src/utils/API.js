@@ -36,5 +36,8 @@ export default {
     },
     importPuntedTasks: function (currentTaskDescriptions) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/import-punted-tasks", data: { currentTaskDescriptions } });
+    },
+    findImportableTasks: function () {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-importable-plans", data: {} });
     }
 };

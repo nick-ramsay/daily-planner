@@ -41,6 +41,11 @@ router
   .route("/update-task-order")
   .post(dpControllers.updateTaskOrder);
 
+
+router
+  .route("/find-importable-plans")
+  .post(dpControllers.findImportablePlans);
+
 router
   .route("/import-punted-tasks")
   .post(dpControllers.importPuntedTasks);

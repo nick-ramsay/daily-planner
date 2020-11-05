@@ -21,6 +21,7 @@ const override = css`
 
 const PlanDetails = () => {
     var PlanID = useParams().id;
+    var [importablePlans, setImportablePlans] = useState([]);
 
     var [loading, setLoading] = useState(true);
     var [jiraLinksLoading, setJiraLinksLoading] = useState(false);
@@ -45,6 +46,12 @@ const PlanDetails = () => {
 
     const renderPlan = () => {
         let selectedPlan = PlanID;
+        API.findImportableTasks().then(
+            (res) => {
+                console.log(res);
+                setImportablePlans(importablePlans => res.data);
+            }
+        );
         API.findPlan(selectedPlan).then(
             (res) => {
                 setLoading(loading => false);
@@ -278,10 +285,14 @@ const PlanDetails = () => {
                                         </div>
                                         <div className="modal-body">
                                             <form className="mt-3">
-                                                <div className="form-row text-center">
-                                                    <div className="col">
-                                                        <input type="text" placeholder="Enter your task description here" className="form-control" id="taskInput" name="taskInput" onChange={setNewTaskDescription} aria-describedby="taskHelp" />
-                                                    </div>
+                                                <div className="form-group col-md-12 text-left">
+                                                    <label htmlFor="importablePlanOptions">Status</label>
+                                                    <select id="importablePlanOptions" className="form-control">
+                                                        <option selected>Pick a Plan to Import</option>
+                                                        {importablePlans !== [] ? importablePlans.map((importablePlan,p) =>
+                                                            <option>"{importablePlan.plan_name}" ({moment(importablePlan.created_date).format("dddd,  DD MMMM YYYY")})</option>
+                                                        ):""}
+                                                    </select>
                                                 </div>
                                             </form>
                                         </div>

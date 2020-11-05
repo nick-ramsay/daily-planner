@@ -112,5 +112,14 @@ module.exports = {
         let currentTaskDescriptions = req.body.currentTaskDescriptions;
 
         console.log(currentTaskDescriptions);
+    },
+    findImportablePlans: function (req, res) {
+        console.log("Called Find All Plans Controller");
+        db.Plans
+            .find({},{_id: 1, plan_name: 1, created_date: 1})
+            .sort({ created_date: -1 })
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
     }
 };
