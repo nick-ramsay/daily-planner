@@ -63,6 +63,12 @@ const PlanDetails = () => {
         );
     }
 
+    const selectImportPlan = (event) => {
+        let selectedPlanID = event.target.options[event.target.selectedIndex].dataset.selected_plan_id;
+        console.log(selectedPlanID);
+        setSelectedImportPlan(selectedImportPlan => selectedPlanID);
+    }
+
     const saveTask = () => {
         if (newTaskDescription !== "") {
             let PlanData = Plan;
@@ -279,7 +285,7 @@ const PlanDetails = () => {
                                 <div className="modal-dialog">
                                     <div className="modal-content">
                                         <div className="modal-header">
-                                            <h5 className="modal-title" id="importPuntedModalLabel">Enter a New Task</h5>
+                                            <h5 className="modal-title" id="importPuntedModalLabel">Import Punted Tasks</h5>
                                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -287,12 +293,12 @@ const PlanDetails = () => {
                                         <div className="modal-body">
                                             <form className="mt-3">
                                                 <div className="form-group col-md-12 text-left">
-                                                    <label htmlFor="importablePlanOptions">Status</label>
-                                                    <select id="importablePlanOptions" className="form-control" onClick={(event) => {setSelectedImportPlan(selectedImportPlan => event.target.options[event.target.selectedIndex].dataset.selected_plan_id)}}>
-                                                        <option data-selected_plan_id="" selected>Pick a Plan to Import</option>
+                                                    <label htmlFor="importablePlanOptions">Plans</label>
+                                                    <select id="importablePlanOptions" className="form-control" defaultValue="Pick a Plan to Import" onChange={selectImportPlan}>
+                                                        <option data-selected_plan_id="">Pick a Plan to Import</option>
                                                         {importablePlans !== [] ? importablePlans.map((importablePlan, p) =>
                                                             importablePlan._id !== PlanID &&
-                                                            <option id={"planOption" + importablePlan._id} data-selected_plan_id={importablePlan._id}>"{importablePlan.plan_name}" ({moment(importablePlan.created_date).format("dddd,  DD MMMM YYYY")})</option>
+                                                            <option key={"importablePlanKey" + p} id={"planOption" + importablePlan._id} data-selected_plan_id={importablePlan._id}>"{importablePlan.plan_name}" ({moment(importablePlan.created_date).format("dddd,  DD MMMM YYYY")})</option>
                                                         ) : ""}
                                                     </select>
                                                 </div>
