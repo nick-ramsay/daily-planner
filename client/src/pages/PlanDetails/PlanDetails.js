@@ -288,12 +288,12 @@ const PlanDetails = () => {
                                             <form className="mt-3">
                                                 <div className="form-group col-md-12 text-left">
                                                     <label htmlFor="importablePlanOptions">Status</label>
-                                                    <select id="importablePlanOptions" className="form-control" onChange={(event) => console.log(event.currentTarget.value)}>
-                                                        <option selected>Pick a Plan to Import</option>
-                                                        {importablePlans !== [] ? importablePlans.map((importablePlan,p) =>
+                                                    <select id="importablePlanOptions" className="form-control" onClick={(event) => {setSelectedImportPlan(selectedImportPlan => event.target.options[event.target.selectedIndex].dataset.selected_plan_id)}}>
+                                                        <option data-selected_plan_id="" selected>Pick a Plan to Import</option>
+                                                        {importablePlans !== [] ? importablePlans.map((importablePlan, p) =>
                                                             importablePlan._id !== PlanID &&
-                                                            <option id={importablePlan._id}>"{importablePlan.plan_name}" ({moment(importablePlan.created_date).format("dddd,  DD MMMM YYYY")})</option>
-                                                        ):""}
+                                                            <option id={"planOption" + importablePlan._id} data-selected_plan_id={importablePlan._id}>"{importablePlan.plan_name}" ({moment(importablePlan.created_date).format("dddd,  DD MMMM YYYY")})</option>
+                                                        ) : ""}
                                                     </select>
                                                 </div>
                                             </form>
