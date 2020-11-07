@@ -215,19 +215,25 @@ const PlanDetails = () => {
             let originalImportedTasks = importedTasks;
             let approvedImportTasks = [];
 
-            console.log(currentTaskDescriptions);
-            console.log(originalImportedTasks);
-            console.log(approvedImportTasks);
-
-            console.log(approvedImportTasks);
-
             for (let i = 0; i < originalImportedTasks.length; i++) {
                 if (currentTaskDescriptions.indexOf(originalImportedTasks[i].description) === -1 && approvedImportTasks.indexOf(originalImportedTasks[i]) === -1 && (originalImportedTasks[i].status === "Punted" || originalImportedTasks[i].status === "Pending Feedback")) {
                     approvedImportTasks.push(originalImportedTasks[i]);
                 }
             }
 
+            for (let i = 0; i < approvedImportTasks.length; i++) {
+                approvedImportTasks[i].status = "Open";
+                approvedImportTasks[i].hoursLogged = 0;
+            }
+
             console.log(approvedImportTasks);
+
+            API.importTasks(PlanID, approvedImportTasks).then(
+                (res) => {
+                    console.log(res.data);
+                    renderPlan();
+                }
+            )
         }
 
         if (selectedImportPlan !== "") {

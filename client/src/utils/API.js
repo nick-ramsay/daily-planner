@@ -39,5 +39,8 @@ export default {
     },
     findImportableTasks: function () {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/find-importable-plans", data: {} });
+    },
+    importTasks: function (PlanID, approvedImportedTasks) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/import-tasks", data: {PlanID, approvedImportedTasks} });
     }
 };

@@ -110,9 +110,9 @@ module.exports = {
     },
     findImportPuntedTasks: function (req, res) {
         let selectedImportPlan = req.body.selectedImportPlan;
-        
+
         db.Plans
-            .find({_id: selectedImportPlan})
+            .find({ _id: selectedImportPlan })
             .then(dbModel => console.log(res.json(dbModel)))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
@@ -122,6 +122,14 @@ module.exports = {
         db.Plans
             .find({}, { _id: 1, plan_name: 1, created_date: 1 })
             .sort({ created_date: -1 })
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
+    },
+    importTasks: function (req, res) {
+        console.log(req.body);
+        db.Plans
+            .update({ _id: req.body.PlanID }, { $push: { tasks: { $each: req.body.approvedImportedTasks } } })
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));

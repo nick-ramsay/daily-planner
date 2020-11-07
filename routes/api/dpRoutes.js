@@ -50,4 +50,8 @@ router
   .route("/find-import-punted-tasks")
   .post(dpControllers.findImportPuntedTasks);
 
+router
+  .route("/import-tasks")
+  .post(dpControllers.importTasks);
+
 module.exports = router;
