@@ -202,18 +202,43 @@ const PlanDetails = () => {
         )
     }
 
-    const importPuntedTasks = (event) => {
+    const importPuntedTasks = () => {
         let currentTaskDescriptions = [];
+        let selectedImportPlanTasks = [];
 
         for (let i = 0; i < Plan.tasks.length; i++) {
             currentTaskDescriptions.push(Plan.tasks[i].description);
         }
 
-        API.importPuntedTasks(currentTaskDescriptions).then(
-            (res) => {
-                console.log(res)
+        const importTasks = (currentTasks, importedTasks) => {
+            let currentTaskDescriptions = currentTasks;
+            let originalImportedTasks = importedTasks;
+            let approvedImportTasks = [];
+
+            console.log(currentTaskDescriptions);
+            console.log(originalImportedTasks);
+            console.log(approvedImportTasks);
+
+            console.log(approvedImportTasks);
+
+            for (let i = 0; i < originalImportedTasks.length; i++) {
+                if (currentTaskDescriptions.indexOf(originalImportedTasks[i].description) === -1 && approvedImportTasks.indexOf(originalImportedTasks[i]) === -1 && (originalImportedTasks[i].status === "Punted" || originalImportedTasks[i].status === "Pending Feedback")) {
+                    approvedImportTasks.push(originalImportedTasks[i]);
+                }
             }
-        )
+
+            console.log(approvedImportTasks);
+        }
+
+        if (selectedImportPlan !== "") {
+            API.findImportPuntedTasks(selectedImportPlan, currentTaskDescriptions).then(
+                (res) => {
+                    console.log(res.data);
+                    selectedImportPlanTasks = res.data[0].tasks;
+                    importTasks(currentTaskDescriptions, selectedImportPlanTasks);
+                }
+            )
+        }
     }
 
     useEffect(() => {

@@ -47,7 +47,7 @@ router
   .post(dpControllers.findImportablePlans);
 
 router
-  .route("/import-punted-tasks")
-  .post(dpControllers.importPuntedTasks);
+  .route("/find-import-punted-tasks")
+  .post(dpControllers.findImportPuntedTasks);
 
 module.exports = router;

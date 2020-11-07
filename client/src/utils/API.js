@@ -34,8 +34,8 @@ export default {
     updateTaskOrder: function (PlanID, taskDescription, newTaskArray) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/update-task-order", data: { PlanID, taskDescription, newTaskArray } });
     },
-    importPuntedTasks: function (currentTaskDescriptions) {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/import-punted-tasks", data: { currentTaskDescriptions } });
+    findImportPuntedTasks: function (selectedImportPlan) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-import-punted-tasks", data: { selectedImportPlan } });
     },
     findImportableTasks: function () {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/find-importable-plans", data: {} });

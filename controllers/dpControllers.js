@@ -51,7 +51,7 @@ module.exports = {
         db.Plans
             .updateOne({ _id: req.body.planID, "tasks.description": req.body.taskDescription },
                 {
-                    $set: { "tasks.$.status": req.body.newStatus, "tasks.$.hoursLogged": req.body.newHoursLogged, "tasks.$.description": req.body.newTaskDescription  }
+                    $set: { "tasks.$.status": req.body.newStatus, "tasks.$.hoursLogged": req.body.newHoursLogged, "tasks.$.description": req.body.newTaskDescription }
                 }
             )
             .then(dbModel => res.json(dbModel))
@@ -95,9 +95,9 @@ module.exports = {
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
     },
-    updateTaskOrder: function (req,res) {
+    updateTaskOrder: function (req, res) {
         console.log("Called updateTaskOrder controller...");
-        
+
         db.Plans.
             updateOne({ _id: req.body.PlanID, "tasks.description": req.body.taskDescription },
                 {
@@ -108,15 +108,19 @@ module.exports = {
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
     },
-    importPuntedTasks: function(req,res) {
-        let currentTaskDescriptions = req.body.currentTaskDescriptions;
-
-        console.log(currentTaskDescriptions);
+    findImportPuntedTasks: function (req, res) {
+        let selectedImportPlan = req.body.selectedImportPlan;
+        
+        db.Plans
+            .find({_id: selectedImportPlan})
+            .then(dbModel => console.log(res.json(dbModel)))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
     },
     findImportablePlans: function (req, res) {
         console.log("Called Find All Plans Controller");
         db.Plans
-            .find({},{_id: 1, plan_name: 1, created_date: 1})
+            .find({}, { _id: 1, plan_name: 1, created_date: 1 })
             .sort({ created_date: -1 })
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
