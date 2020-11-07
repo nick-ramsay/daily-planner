@@ -27,6 +27,7 @@ const PlanDetails = () => {
     var [loading, setLoading] = useState(true);
     var [jiraLinksLoading, setJiraLinksLoading] = useState(false);
     var [Plan, setPlan] = useState({});
+    var [planTaskCount, setPlanTaskCount] = useState(-1);
     var [newTaskDescription, setNewTaskDescription] = useInput();
     var [totalHoursAllowed, setTotalHoursAllowed] = useState(8);
     var [totalHoursLogged, setTotalHoursLogged] = useState(0);
@@ -58,6 +59,7 @@ const PlanDetails = () => {
                 setLoading(loading => false);
                 setJiraLinksLoading(jiraLinksloading => false);
                 setPlan(Plan => res.data);
+                setPlanTaskCount(planTaskCount => res.data.tasks.length)
                 calculateTotalHoursLogged(res.data);
             }
         );
@@ -231,6 +233,7 @@ const PlanDetails = () => {
             API.importTasks(PlanID, approvedImportTasks).then(
                 (res) => {
                     console.log(res.data);
+                    setLoading(loading => true);
                     renderPlan();
                 }
             )
@@ -282,11 +285,14 @@ const PlanDetails = () => {
                                     New Task
                         </button>
                             </div>
-                            <div>
-                                <a className="custom-hyperlink text-center" data-toggle="modal" data-target="#importPuntedModal">
-                                    Import Punted Tasks
-                                </a>
-                            </div>
+                            {planTaskCount === 0 ?
+                                <div>
+                                    <a className="custom-hyperlink text-center" data-toggle="modal" data-target="#importPuntedModal">
+                                        Import Punted Tasks
+                                    </a>
+                                </div>
+                                :""
+                            }
                             <div className="modal fade" id="newTaskModal" tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
                                 <div className="modal-dialog">
                                     <div className="modal-content">
@@ -492,7 +498,7 @@ const PlanDetails = () => {
                     </div>
                 </div>
             }
-        </div>
+        </div >
     )
 }
 
