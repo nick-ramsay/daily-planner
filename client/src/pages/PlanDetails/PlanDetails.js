@@ -250,6 +250,23 @@ const PlanDetails = () => {
         }
     }
 
+    const deleteTask = (event) => {
+        let planTasks = Plan.tasks;
+        let taskPlan = event.currentTarget.dataset.plan_id;
+        let taskArrayIndex = event.currentTarget.dataset.task_array_index;
+        let deleteConfirmationValue = "";
+        
+        deleteConfirmationValue = document.getElementById("deleteTaskConfirmationInput" + taskArrayIndex).value;
+
+        console.log(deleteConfirmationValue);
+        console.log(planTasks);
+        console.log(taskPlan);
+        console.log(taskArrayIndex);
+
+        planTasks.splice(taskArrayIndex,1);
+        console.log(planTasks);
+    }
+
     useEffect(() => {
         renderPlan();
     }, [])
@@ -291,7 +308,7 @@ const PlanDetails = () => {
                                         Import Punted Tasks
                                     </a>
                                 </div>
-                                :""
+                                : ""
                             }
                             <div className="modal fade" id="newTaskModal" tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
                                 <div className="modal-dialog">
@@ -480,8 +497,11 @@ const PlanDetails = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="form-row text-right">
-                                                            <div className="col-md-12">
+                                                        <div className="form-row">
+                                                            <div className="col-md-6 p-2 text-left">
+                                                                <button type="button" id={"deleteTaskBtn" + i} className="btn btn-sm btn-custom-red" data-plan_id={Plan._id} data-task_array_position={i} data-toggle="modal" data-target={"#deleteTaskModal" + i}>Delete Task</button>
+                                                            </div>
+                                                            <div className="col-md-6 p-2 text-right">
                                                                 <button className="btn btn-sm btn-secondary mr-1" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} data-task_array_index={i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={showEditBtn}>Close</button>
                                                                 <button id={"saveTaskBtn" + i} type="button" className="btn btn-sm btn-custom d-none" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Save</button>
                                                             </div>
@@ -489,7 +509,31 @@ const PlanDetails = () => {
                                                     </form>
                                                 </div>
                                             </div>
-
+                                        </div>
+                                        <div className="modal fade" id={"deleteTaskModal" + i} tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
+                                            <div className="modal-dialog">
+                                                <div className="modal-content">
+                                                    <div className="modal-header">
+                                                        <h5 className="modal-title" id="deleteTaskLabel">Are you sure you want to delete this task?</h5>
+                                                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div className="modal-body">
+                                                        <form className="mt-3">
+                                                            <div className="form-row text-center">
+                                                                <div className="col">
+                                                                    <input type="text" placeholder='Type "DELETE" to confirm you want to delete this task...' className="form-control" id={"deleteTaskConfirmationInput" + i} name="deleteTaskConfirmationInput" aria-describedby="deleteTaskConfirmationHelp" />
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div className="modal-footer">
+                                                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="button" className="btn btn-custom" data-plan_id={Plan._id} data-task_array_index={i} onClick={deleteTask} data-toggle="modal" data-target={"#deleteTaskModal" + i}>Delete Task</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 ) : ""}</div>

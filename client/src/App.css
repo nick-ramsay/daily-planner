@@ -7,6 +7,10 @@ body {
   justify-content: center;
 }
 
+.btn:focus {
+  box-shadow: none;
+}
+
 .modal-content {
   border-radius: 0;
   border: none;
@@ -142,24 +146,16 @@ body {
 }
 
 .btn-custom-red {
-  color: white;
-  background-color: #e83e8c;
-  border-color: #e83e8c;
-}
-
-.btn-custom-red:hover {
-  color: #e83e8c;
+  color: #E40046;
   background-color: inherit;
-  border-color: #e83e8c;
+  border-color: #E40046;
 }
 
-.btn-custom-red:focus {
-  color: #343a40;
-  background-color: #e83e8c;
-  border-color: #e83e8c;
-  box-shadow: none;
+.btn-custom-red:hover,.btn-custom-red:focus {
+  color: white;
+  background-color: #E40046;
+  border-color: #E40046;
 }
-
 
 .btn-custom-blue {
   color: #ffffff;
