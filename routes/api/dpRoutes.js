@@ -54,4 +54,8 @@ router
   .route("/import-tasks")
   .post(dpControllers.importTasks);
 
+router
+  .route("/delete-task")
+  .post(dpControllers.deleteTask);
+
 module.exports = router;

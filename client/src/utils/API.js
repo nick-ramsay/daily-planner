@@ -42,5 +42,8 @@ export default {
     },
     importTasks: function (PlanID, approvedImportedTasks) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/import-tasks", data: {PlanID, approvedImportedTasks} });
+    },
+    deleteTask: function (PlanID, taskDescription, deletionDate) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/delete-task", data: {PlanID, taskDescription, deletionDate} });
     }
 };

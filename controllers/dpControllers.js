@@ -133,5 +133,19 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
+    },
+    deleteTask: function (req, res) {
+        console.log("Called delete task controller!");
+        console.log(req.body);
+
+        db.Plans
+            .updateOne({ _id: req.body.planID, "tasks.description": req.body.taskDescription},
+                {
+                    $set: { "tasks.$.deletion_date": req.body.deletionDate}
+                }
+            )
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
     }
 };
