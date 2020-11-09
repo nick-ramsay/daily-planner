@@ -47,6 +47,20 @@ const Home = () => {
     return (
         <div>
             <Navbar />
+            {loading === true &&
+                <div className="container min-vh-100">
+                    <div className="row justify-content-center min-vh-100">
+                        <div className="col-md-12 pt-4 mt-auto mb-auto">
+                            <HashLoader
+                                css={override}
+                                size={200}
+                                color={"#008000"}
+                                loading={loading}
+                            />
+                        </div>
+                    </div>
+                </div>
+            }
             <div className="container pt-4">
                 <div className="pb-2 my-5 mb-4 px-5">
                     <div className="col-md-12">
@@ -62,16 +76,6 @@ const Home = () => {
                                 </div>
                             </div>
                         </form>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <HashLoader
-                                    css={override}
-                                    size={100}
-                                    color={"#008000"}
-                                    loading={loading}
-                                />
-                            </div>
-                        </div>
                         {!loading === true &&
                             <p className="mb-1">
                                 <strong>{Plans.length === 0 ? "No Plans" : Plans.length + (Plans.length > 1 ? " plans" : " plan")}</strong>

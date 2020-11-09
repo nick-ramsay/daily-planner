@@ -77,7 +77,6 @@ const PlanDetails = () => {
             let newTaskData = {
                 description: newTaskDescription,
                 created_date: new Date(),
-                deletion_date: null,
                 status: "Open",
                 order: Plan.tasks.length,
                 hoursLogged: 0,
@@ -287,18 +286,20 @@ const PlanDetails = () => {
         <div>
             <Navbar />
             {loading === true &&
-                <div className="container pt-4">
-                    <div className="pb-2 my-5 mb-4">
-                        <HashLoader
-                            css={override}
-                            size={100}
-                            color={"#008000"}
-                            loading={loading}
-                        />
+                <div className="container pt-4 min-vh-100">
+                    <div className="row justify-content-center min-vh-100">
+                        <div className="col-md-12 pt-4 mt-auto mb-auto">
+                            <HashLoader
+                                css={override}
+                                size={200}
+                                color={"#008000"}
+                                loading={loading}
+                            />
+                        </div>
                     </div>
                 </div>
             }
-            {!loading === true &&
+            {!loading &&
                 <div className="container bg-white pt-4">
                     <div className="pb-2 my-5 mb-4">
                         <div>
