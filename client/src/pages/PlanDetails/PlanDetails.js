@@ -82,7 +82,7 @@ const PlanDetails = () => {
                 hoursLogged: 0,
                 jiras: []
             }
-            PlanData.tasks.push(newTaskData);
+            PlanData.tasks.unshift(newTaskData);
 
             API.checkExistingTasks(PlanID, newTaskDescription).then(
                 (res) => {
