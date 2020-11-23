@@ -300,8 +300,8 @@ const PlanDetails = () => {
                 </div>
             }
             {!loading &&
-                <div className="container bg-white pt-4">
-                    <div className="pb-2 my-5 mb-4">
+                <div className="container pt-4">
+                    <div className="pb-2 my-5 mb-4 bg-white p-3">
                         <div>
                             <h2><strong>{'"' + Plan.plan_name + '"'}</strong></h2>
                             <h4>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h4>
