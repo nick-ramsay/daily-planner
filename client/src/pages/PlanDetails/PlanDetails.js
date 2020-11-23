@@ -315,14 +315,14 @@ const PlanDetails = () => {
                                     New Task
                         </button>
                             </div>
-                            {planTaskCount === 0 ?
-                                <div>
-                                    <a className="custom-hyperlink text-center" data-toggle="modal" data-target="#importPuntedModal">
-                                        Import Punted Tasks
+
+                            <div>
+                                <a className="custom-hyperlink text-center" data-toggle="modal" data-target="#importPuntedModal">
+                                    Import Punted Tasks
                                     </a>
-                                </div>
-                                : ""
-                            }
+                            </div>
+
+
                             <div className="modal fade" id="newTaskModal" tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
                                 <div className="modal-dialog">
                                     <div className="modal-content">

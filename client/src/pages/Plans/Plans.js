@@ -129,7 +129,7 @@ const Home = () => {
                                         }
                                         )()}
                                         <div>
-                                            <a className="btn btn-sm btn-custom mt-1 mb-1" href={'./plan/' + plan._id}>View Tasks</a>
+                                            <a className="btn btn-sm btn-custom mt-1 mb-2" href={'./plan/' + plan._id}>View Tasks</a>
                                         </div>
                                     </div>
                                 </div>
