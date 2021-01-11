@@ -91,6 +91,7 @@ const Home = () => {
                                             var openTaskCount = 0;
                                             var puntedTaskCount = 0;
                                             var pendingFeedbackTaskCount = 0;
+                                            var awaitingBackportTaskCount = 0;
 
                                             for (let j = 0; j < plan.tasks.length; j++) {
                                                 if (plan.tasks[j].status === "Closed") {
@@ -101,6 +102,9 @@ const Home = () => {
                                                 }
                                                 else if (plan.tasks[j].status === "Pending Feedback") {
                                                     pendingFeedbackTaskCount += 1
+                                                }
+                                                else if (plan.tasks[j].status === "Awaiting Backport") {
+                                                    awaitingBackportTaskCount += 1
                                                 }
                                                 else {
                                                     openTaskCount += 1
@@ -122,7 +126,7 @@ const Home = () => {
                                                 return (
                                                     <div>
                                                         <h6>Status: <span className="badge badge-success">Closed {}</span></h6>
-                                                        <p style={{fontSize: 14}}>{puntedTaskCount} {puntedTaskCount === 1 ? "task":"tasks"} punted{pendingFeedbackTaskCount > 0 ? ", " +  pendingFeedbackTaskCount + " pending feedback...":""}</p>
+                                                        <p style={{fontSize: 14}}>{puntedTaskCount} {puntedTaskCount === 1 ? "task":"tasks"} punted{pendingFeedbackTaskCount > 0 ? ", " +  pendingFeedbackTaskCount + " pending feedback":""}{awaitingBackportTaskCount > 0 ? ", " +  awaitingBackportTaskCount + " awaiting backport":""}</p>
                                                     </div>
                                                 )
                                             }

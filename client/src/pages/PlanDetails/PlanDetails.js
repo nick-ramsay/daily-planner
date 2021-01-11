@@ -218,13 +218,20 @@ const PlanDetails = () => {
             let approvedImportTasks = [];
 
             for (let i = 0; i < originalImportedTasks.length; i++) {
-                if (currentTaskDescriptions.indexOf(originalImportedTasks[i].description) === -1 && approvedImportTasks.indexOf(originalImportedTasks[i]) === -1 && (originalImportedTasks[i].status === "Punted" || originalImportedTasks[i].status === "Pending Feedback")) {
+                if (currentTaskDescriptions.indexOf(originalImportedTasks[i].description) === -1 && approvedImportTasks.indexOf(originalImportedTasks[i]) === -1 && (originalImportedTasks[i].status === "Punted" || originalImportedTasks[i].status === "Pending Feedback" || originalImportedTasks[i].status === "Awaiting Backport")) {
                     approvedImportTasks.push(originalImportedTasks[i]);
                 }
             }
 
             for (let i = 0; i < approvedImportTasks.length; i++) {
-                approvedImportTasks[i].status = "Open";
+                if (approvedImportTasks[i].status === "Pending Feedback") {
+                    approvedImportTasks[i].status = "Pending Feedback";
+                } else if (approvedImportTasks[i].status === "Awaiting Backport") {
+                    approvedImportTasks[i].status = "Awaiting Backport";
+                } else {
+                    approvedImportTasks[i].status = "Open";
+                }
+
                 approvedImportTasks[i].hoursLogged = 0;
             }
 
@@ -441,6 +448,10 @@ const PlanDetails = () => {
                                                                                         return (
                                                                                             <h6>Status: <span className="badge badge-secondary">{task.status}</span></h6>
                                                                                         )
+                                                                                    case "Awaiting Backport":
+                                                                                        return (
+                                                                                            <h6>Status: <span className="badge badge-info">{task.status}</span></h6>
+                                                                                        )
                                                                                     default:
                                                                                         return (
                                                                                             <h6>Status: <span className="badge badge-dark">{task.status}</span></h6>
@@ -495,6 +506,7 @@ const PlanDetails = () => {
                                                                                 <option>Open</option>
                                                                                 <option>In Progress</option>
                                                                                 <option>Pending Feedback</option>
+                                                                                <option>Awaiting Backport</option>
                                                                                 <option>Punted</option>
                                                                             </select>
                                                                         </div>
