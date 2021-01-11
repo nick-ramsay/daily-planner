@@ -450,7 +450,7 @@ const PlanDetails = () => {
                                                                                         )
                                                                                     case "Awaiting Backport":
                                                                                         return (
-                                                                                            <h6>Status: <span className="badge badge-info">{task.status}</span></h6>
+                                                                                            <h6>Status: <span className="badge badge-custom-peru">{task.status}</span></h6>
                                                                                         )
                                                                                     default:
                                                                                         return (
