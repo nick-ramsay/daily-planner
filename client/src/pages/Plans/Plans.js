@@ -125,7 +125,7 @@ const Home = () => {
                                             else {
                                                 return (
                                                     <div>
-                                                        <h6>Status: <span className="badge badge-success">Closed {}</span></h6>
+                                                        <h6><span className="badge badge-success">Closed</span></h6>
                                                         <p style={{fontSize: 14}}>{puntedTaskCount} {puntedTaskCount === 1 ? "task":"tasks"} punted{pendingFeedbackTaskCount > 0 ? ", " +  pendingFeedbackTaskCount + " pending feedback":""}{awaitingBackportTaskCount > 0 ? ", " +  awaitingBackportTaskCount + " awaiting backport":""}</p>
                                                     </div>
                                                 )
