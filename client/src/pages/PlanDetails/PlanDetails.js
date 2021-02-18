@@ -25,7 +25,6 @@ const PlanDetails = () => {
     var [selectedImportPlan, setSelectedImportPlan] = useState("");
 
     var [loading, setLoading] = useState(true);
-    var [jiraLinksLoading, setJiraLinksLoading] = useState(false);
     var [Plan, setPlan] = useState({});
     var [planTaskCount, setPlanTaskCount] = useState(-1);
     var [newTaskDescription, setNewTaskDescription] = useInput();
@@ -57,7 +56,6 @@ const PlanDetails = () => {
         API.findPlan(selectedPlan).then(
             (res) => {
                 setLoading(loading => false);
-                setJiraLinksLoading(jiraLinksloading => false);
                 setPlan(Plan => res.data);
                 setPlanTaskCount(planTaskCount => res.data.tasks.length)
                 calculateTotalHoursLogged(res.data);
@@ -148,7 +146,6 @@ const PlanDetails = () => {
     }
 
     const linkJIRA = (event) => {
-        setJiraLinksLoading(jiraLinksLoading => true);
         let taskArrayPosition = event.currentTarget.dataset.task_array_position;
         let taskDescription = document.getElementById("taskDescription" + taskArrayPosition).innerHTML;
         let linkJIRAID = document.getElementById("linkJIRAInput" + taskArrayPosition).value;
@@ -156,7 +153,6 @@ const PlanDetails = () => {
         console.log(linkJIRAID);
         API.linkJIRA(PlanID, taskDescription, taskArrayPosition, linkJIRAID).then(
             (res) => {
-                setJiraLinksLoading(jiraLinksLoading => false);
                 renderPlan();
                 document.getElementById("linkJIRAInput" + taskArrayPosition).value = "";
             }
@@ -164,7 +160,6 @@ const PlanDetails = () => {
     }
 
     const removeJIRA = (event) => {
-        setJiraLinksLoading(jiraLinksLoading => true);
         let jiraArrayIndex = event.currentTarget.dataset.jira_array_index;
         let taskArrayIndex = event.currentTarget.dataset.task_array_index;
         let taskDescription = document.getElementById("taskDescription" + taskArrayIndex).innerHTML;
@@ -174,7 +169,6 @@ const PlanDetails = () => {
 
         API.removeJIRA(PlanID, taskDescription, jiraArray).then(
             (res) => {
-                setJiraLinksLoading(false);
                 renderPlan();
             }
         )
@@ -400,17 +394,8 @@ const PlanDetails = () => {
                                                                     </div>
                                                                 </div>
                                                                 <div className="row mb-2">
-                                                                    <div className="col-md-12">
-                                                                        <BarLoader
-                                                                            css={override}
-                                                                            width={300}
-                                                                            height={10}
-                                                                            color={"#008000"}
-                                                                            loading={jiraLinksLoading}
-                                                                        />
-                                                                    </div>
                                                                     <div className="col-md-12 text-left">
-                                                                        {!jiraLinksLoading &&
+                                                                        {
                                                                             task.jiras !== undefined ? task.jiras.map(
                                                                                 (jira, j) =>
                                                                                     <div className="mt-1">

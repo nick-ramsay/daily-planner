@@ -64,18 +64,20 @@ const Home = () => {
             <div className="container pt-4">
                 <div className="pb-2 my-5 mb-4 px-5">
                     <div className="col-md-12">
-                        <form className="mt-3 mb-4">
-                            <div className="form-row text-center">
-                                <div className="col">
-                                    <input type="text" placeholder="Enter your plan here" className="form-control" id="planInput" name="planInput" onChange={setNewPlan} aria-describedby="PlanHelp" />
+                        {!loading === true &&
+                            <form className="mt-3 mb-4">
+                                <div className="form-row text-center">
+                                    <div className="col">
+                                        <input type="text" placeholder="Enter your plan here" className="form-control" id="planInput" name="planInput" onChange={setNewPlan} aria-describedby="PlanHelp" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="form-row text-center">
-                                <div className="col mt-3">
-                                    <div type="button" className="btn btn-custom" tabIndex="0" onClick={savePlan}>Submit</div>
+                                <div className="form-row text-center">
+                                    <div className="col mt-3">
+                                        <div type="button" className="btn btn-custom" tabIndex="0" onClick={savePlan}>Submit</div>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        }
                         {!loading === true &&
                             <p className="mb-1">
                                 <strong>{Plans.length === 0 ? "No Plans" : Plans.length + (Plans.length > 1 ? " plans" : " plan")}</strong>
@@ -126,7 +128,7 @@ const Home = () => {
                                                 return (
                                                     <div>
                                                         <h6><span className="badge badge-success">Closed</span></h6>
-                                                        <p style={{fontSize: 14}}>{puntedTaskCount} {puntedTaskCount === 1 ? "task":"tasks"} punted{pendingFeedbackTaskCount > 0 ? ", " +  pendingFeedbackTaskCount + " pending feedback":""}{awaitingBackportTaskCount > 0 ? ", " +  awaitingBackportTaskCount + " awaiting backport":""}</p>
+                                                        <p style={{ fontSize: 14 }}>{puntedTaskCount} {puntedTaskCount === 1 ? "task" : "tasks"} punted{pendingFeedbackTaskCount > 0 ? ", " + pendingFeedbackTaskCount + " pending feedback" : ""}{awaitingBackportTaskCount > 0 ? ", " + awaitingBackportTaskCount + " awaiting backport" : ""}</p>
                                                     </div>
                                                 )
                                             }
