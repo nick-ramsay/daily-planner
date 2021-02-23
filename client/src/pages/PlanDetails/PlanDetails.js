@@ -11,7 +11,7 @@ import downArrow from '../../images/baseline_keyboard_arrow_down_black_48dp.png'
 import deleteIcon from '../../images/thin_minus_icon.png';
 import "./style.css";
 
-import Navbar from "../../component/Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 
 const override = css`
   display: block;

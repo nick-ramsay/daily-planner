@@ -6,7 +6,7 @@ import API from "../../utils/API";
 import moment from 'moment';
 import "./style.css";
 
-import Navbar from "../../component/Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 
 const override = css`
   display: block;
