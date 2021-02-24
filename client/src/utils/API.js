@@ -3,6 +3,41 @@ import axios from "axios";
 const apiURL = process.env.NODE_ENV === 'production' ? '' : '//localhost:3001'
 
 export default {
+    //START: Account APIs...
+    sendEmail: function (messageInfo) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/send-email", data: [messageInfo] });
+    },
+    createAccount: function (newAccountInfo) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/create-account", data: newAccountInfo })
+    },
+    setEmailVerificationToken: function (email) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/set-email-verification-token", data: { email: email } })
+    },
+    checkEmailVerificationToken: function (email, emailVerificationToken) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/check-email-verification-token", data: { email: email, emailVerificationToken: emailVerificationToken } })
+    },
+    deleteEmailVerificationToken: function (email) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/delete-email-verification-token", data: { email: email } })
+    },
+    checkExistingAccountEmails: function (email) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/check-existing-account-emails", data: [email] });
+    },
+    setEmailResetCode: function (email, generatedResetToken) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/reset-password-request", data: [email, generatedResetToken] });
+    },
+    checkEmailAndResetToken: function (email, resetToken) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/check-email-and-reset-token", data: { email: email, resetToken: resetToken } });
+    },
+    resetPassword: function (email, newPassword) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/reset-password", data: { email: email, newPassword: newPassword } });
+    },
+    login: function (email, password) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/reset-login", data: { email: email, password: password } });
+    },
+    setSessionAccessToken: function (id, sessionAccessToken) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/set-session-access-token", data: { id: id, sessionAccessToken: sessionAccessToken } });
+    },
+    //END: Account APIs...
     createPlan: function (plan_name, plan_status, created_date) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/create-plan", data: { plan_name, plan_status, created_date } });
     },

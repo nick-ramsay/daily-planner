@@ -1,4 +1,5 @@
 module.exports = {
-    Plans: require("./Plans")
-  };
-  
+  Accounts: require("./Accounts"),
+  AccountCreationRequests: require("./AccountCreationRequests"),
+  Plans: require("./Plans")
+};

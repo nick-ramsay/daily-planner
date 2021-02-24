@@ -23,15 +23,18 @@
   },
   "homepage": "https://github.com/nick-ramsay/daily-planner#readme",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.2",
     "axios": "^0.20.0",
     "concurrently": "^5.3.0",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "googleapis": "^67.1.0",
     "if-env": "^1.0.4",
     "js-sha256": "^0.9.0",
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.6",
+    "nodemailer": "^6.4.18",
     "nodemon": "^2.0.4"
   }
 }

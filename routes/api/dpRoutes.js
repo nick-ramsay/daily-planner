@@ -1,6 +1,62 @@
 const router = require("express").Router();
 const dpControllers = require("../../controllers/dpControllers");
 
+//START: Account Routes...
+
+router
+  .route("/send-email")
+  .post(dpControllers.sendEmail);
+
+router
+  .route("/set-email-verification-token")
+  .post(dpControllers.setEmailVerficationToken)
+
+router
+  .route("/check-email-verification-token")
+  .post(dpControllers.checkEmailVerificationToken)
+
+router
+  .route("/delete-email-verification-token")
+  .post(dpControllers.deleteEmailVerificationToken)
+
+router
+  .route("/create-account")
+  .post(dpControllers.createAccount);
+
+router
+  .route("/check-existing-account-emails")
+  .post(dpControllers.checkExistingAccountEmails);
+
+router
+  .route("/reset-password-request")
+  .post(dpControllers.resetPasswordRequest);
+
+router
+  .route("/check-email-and-reset-token")
+  .post(dpControllers.checkEmailAndToken);
+
+router
+  .route("/reset-password")
+  .post(dpControllers.resetPassword);
+
+router
+  .route("/reset-login")
+  .post(dpControllers.login);
+
+router
+  .route("/set-session-access-token")
+  .post(dpControllers.setSessionAccessToken);
+
+router
+  .route("/fetch-account-details")
+  .post(dpControllers.fetchAccountDetails);
+
+router
+  .route("/test-backend-token")
+  .post(dpControllers.testBackendToken);
+
+//END: User Account Routes...
+
 router
   .route("/create-plan")
   .post(dpControllers.createPlan);
