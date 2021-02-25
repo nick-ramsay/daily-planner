@@ -39,7 +39,7 @@ const CreateAccountRequest = () => {
                             <label htmlFor="createAccountEmailAddress">Email address</label>
                             <input type="email" className="form-control" id="createAccountEmailAddress" name="createAccountEmailAddress" onChange={setEmail} aria-describedby="emailHelp" />
                         </div>
-                        <button type="button" className="btn btn-sm" onClick={checkEmailAvailability}>Submit</button>
+                        <button type="button" className="btn btn-sm btn-custom-blue" onClick={checkEmailAvailability}>Submit</button>
                         <div className="form-group text-center">
                             <p className="submission-message" name="submissionMessage">{submissionMessage}</p>
                         </div>

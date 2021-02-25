@@ -3,7 +3,7 @@ import BarLoader from "react-spinners/BarLoader";
 import HashLoader from "react-spinners/HashLoader";
 import { css } from "@emotion/core";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
-import { useInput } from '../../sharedFunctions/sharedFunctions';
+import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
 import API from "../../utils/API";
 import moment from 'moment';
 import upArrow from '../../images/baseline_keyboard_arrow_up_black_48dp.png';
@@ -23,7 +23,7 @@ const PlanDetails = () => {
     var PlanID = useParams().id;
     var [importablePlans, setImportablePlans] = useState([]);
     var [selectedImportPlan, setSelectedImportPlan] = useState("");
-
+    var [userToken, setUserToken] = useState("");
     var [loading, setLoading] = useState(true);
     var [Plan, setPlan] = useState({});
     var [planTaskCount, setPlanTaskCount] = useState(-1);

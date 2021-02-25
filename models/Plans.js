@@ -5,6 +5,7 @@ const PlansSchema = new Schema({
     plan_name: { type: String },
     plan_status: { type: String },
     created_date: {type: Date},
+    account_id: {type: String},
     tasks: {type: Array}
 })
 

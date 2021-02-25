@@ -41,8 +41,8 @@ export default {
     createPlan: function (plan_name, plan_status, created_date) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/create-plan", data: { plan_name, plan_status, created_date } });
     },
-    findAllPlans: function () {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-all-plans", data: {} });
+    findAllPlans: function (userToken) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-all-plans", data: {userToken: userToken} });
     },
     findPlan: function (planID) {
         console.log(planID);

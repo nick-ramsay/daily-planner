@@ -7,6 +7,21 @@ body {
   justify-content: center;
 }
 
+.jumbotron {
+  background-color: navy;
+  color: white;
+}
+
+a {
+  color: navy;
+}
+
+a:hover {
+  text-decoration: none;
+  color: navy;
+  font-weight: bold;
+}
+
 .btn:focus {
   box-shadow: none;
 }

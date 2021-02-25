@@ -219,6 +219,7 @@ module.exports = {
     },
     findAllPlans: function (req, res) {
         console.log("Called Find All Plans Controller");
+        console.log(req.body);
         db.Plans
             .find({})
             .sort({ created_date: -1 })

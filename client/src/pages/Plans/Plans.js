@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import HashLoader from "react-spinners/HashLoader";
 import { css } from "@emotion/core";
-import { useInput } from '../../sharedFunctions/sharedFunctions';
+import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
 import API from "../../utils/API";
 import moment from 'moment';
 import "./style.css";
@@ -18,10 +18,11 @@ const Home = () => {
 
     var [loading, setLoading] = useState(true);
     var [newPlan, setNewPlan] = useInput("");
+    var [userToken, setUserToken] = useState("");
     var [Plans, setPlans] = useState([]);
 
     const renderPlans = () => {
-        API.findAllPlans().then(
+        API.findAllPlans(userToken).then(
             (res) => {
                 setPlans(Plans => res.data);
                 setLoading(false);
@@ -41,6 +42,7 @@ const Home = () => {
     };
 
     useEffect(() => {
+        setUserToken(userToken => getCookie("user_token"));
         renderPlans();
     }, [])
 

@@ -54,7 +54,7 @@ const Login = () => {
                             <label htmlFor="exampleInputPassword1">Password</label>
                             <input type="password" className="form-control" onChange={setPassword} id="exampleInputPassword1" />
                         </div>
-                        <button type="button" id="login-btn" name="login-btn" onClick={login} className="btn btn-sm">Login</button>
+                        <button type="button" id="login-btn" name="login-btn" onClick={login} className="btn btn-sm btn-custom-blue">Login</button>
                         <div className="mt-3 mb-1">
                             <a href="/create-account-request">New to Investment Tracker? Create an account here!</a>
                         </div>

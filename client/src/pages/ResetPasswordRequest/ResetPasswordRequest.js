@@ -51,7 +51,7 @@ const ResetPasswordRequest = () => {
                             <label htmlFor="resetEmailAddress">Email address</label>
                             <input type="email" className="form-control" id="resetEmailAddress" name="resetEmailAddress" onChange={setEmail} aria-describedby="emailHelp" />
                         </div>
-                        <button type="button" className="btn btn-sm" onClick={requestPasswordResetCode}>Submit</button>
+                        <button type="button" className="btn btn-sm btn-custom-blue" onClick={requestPasswordResetCode}>Submit</button>
                         <div className="form-group text-center">
                             <p className="submission-message" name="submissionMessage">{submissionMessage}</p>
                         </div>

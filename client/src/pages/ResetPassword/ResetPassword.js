@@ -64,7 +64,7 @@ const ResetPassword = () => {
                             <label htmlFor="passwordResetNewPasswordConfirmation">Confirm New Password</label>
                             <input type="password" className="form-control" id="passwordResetNewPasswordConfirmation" name="passwordResetNewPasswordConfirmation" onChange={setNewPasswordConfirm} />
                         </div>
-                        <button type="button" className="btn btn-sm" onClick={resetPassword}>Submit</button>
+                        <button type="button" className="btn btn-sm btn-custom-blue" onClick={resetPassword}>Submit</button>
                         <div className="form-group text-center">
                             <p className="submission-message" name="submissionMessage">{submissionMessage}</p>
                         </div>

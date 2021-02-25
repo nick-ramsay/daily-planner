@@ -108,7 +108,7 @@ return (
                         <label htmlFor="createAccountPasswordConfirm">Confirm Password</label>
                         <input type="password" className="form-control" id="createAccountPasswordConfirm" name="createAccountPasswordConfirm" onChange={setConfirmPassword} />
                     </div>
-                    <button type="button" className="btn btn-sm" onClick={createNewAccount}>Create</button>
+                    <button type="button" className="btn btn-sm btn-custom-blue" onClick={createNewAccount}>Create</button>
                     <div className="form-group text-center">
                         <p className="submission-message" name="submissionMessage">{submissionMessage}</p>
                     </div>
