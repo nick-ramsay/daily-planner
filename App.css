@@ -48,6 +48,10 @@ body {
   height: 23px;
 }
 
+.red-link {
+  color: red;
+}
+
 .table-dark {
   background-color: inherit;
 }

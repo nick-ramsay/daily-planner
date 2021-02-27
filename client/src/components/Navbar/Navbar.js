@@ -1,4 +1,5 @@
 import React from "react";
+import { logout } from "../../sharedFunctions/sharedFunctions"
 import "./style.css";
 
 function Navbar(props) {
@@ -12,6 +13,7 @@ function Navbar(props) {
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav ml-auto">
                     <a className="nav-item nav-link" href="/">Home</a>
+                    <a className="nav-item nav-link red-link" href="/" onClick={logout}>Logout</a>
                 </div>
             </div>
         </nav>
