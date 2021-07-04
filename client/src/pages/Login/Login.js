@@ -4,6 +4,7 @@ import { useInput } from "../../sharedFunctions/sharedFunctions";
 import { sha256 } from 'js-sha256';
 import moment from 'moment';
 import API from "../../utils/API";
+import logo from "../../images/daily-planner.png";
 import GithubLogo from "../../images/github_logos/GitHub_Logo.png";
 
 const Login = () => {
@@ -25,7 +26,6 @@ const Login = () => {
                         document.cookie = "auth_expiry=" + cookieExpiryDate + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
                         document.cookie = "account_id=" + res.data._id + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
                         window.location = "/";
-                        API.initiateExistingPlans(res.data._id).then(response => console.log(res.data));
                     } else {
                         setSubmissionMessage(submissionMessage => "Hmm... this is incorrect. Enter your username and password again.");
                     }
@@ -40,7 +40,8 @@ const Login = () => {
         <div>
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
-                    <div className="row pl-4">
+                <div className="row pl-4">
+                        <img className="mb-2 mr-2" src={logo} width="80rem" height="80rem" />
                         <h1 className="mt-auto" style={{fontSize: "3rem"}}>Daily Plans</h1>
                     </div>
                 </div>
@@ -70,7 +71,7 @@ const Login = () => {
                 </div>
                 <footer className="footer mt-5">
                     <div className="container text-center">
-                        <a href="https://github.com/nick-ramsay/investment-tracker" target="_blank" rel="noopener noreferrer"><img src={GithubLogo} alt="Github Logo" width="60px" /></a>
+                        <a href="https://github.com/nick-ramsay/daily-planner" target="_blank" rel="noopener noreferrer"><img src={GithubLogo} alt="Github Logo" width="60px" /></a>
                     </div>
                 </footer>
             </div>

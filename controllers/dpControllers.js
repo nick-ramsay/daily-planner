@@ -177,14 +177,6 @@ module.exports = {
             .then(dbModel => res.json(dbModel[0]))
             .catch(err => res.status(422).json(err));
     },
-    initiateExistingPlans: (req, res) => {
-        console.log("Called initiateExistingPlans controller...");
-        console.log(req.body);
-        db.Plans
-            .updateMany({}, { account_id: req.body.userID })
-            .then(dbModel => res.json(dbModel[0]))
-            .catch(err => res.status(422).json(err));
-    },
     setSessionAccessToken: function (req, res) {
         console.log("Called session token set controller...");
 

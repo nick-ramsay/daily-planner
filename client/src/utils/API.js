@@ -34,9 +34,6 @@ export default {
     login: function (email, password) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/reset-login", data: { email: email, password: password } });
     },
-    initiateExistingPlans: function (user_id) {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/initiateExistingPlans", data: { userID: user_id} });
-    },
     setSessionAccessToken: function (id, sessionAccessToken) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/set-session-access-token", data: { id: id, sessionAccessToken: sessionAccessToken } });
     },
