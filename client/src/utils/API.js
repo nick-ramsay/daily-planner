@@ -34,15 +34,19 @@ export default {
     login: function (email, password) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/reset-login", data: { email: email, password: password } });
     },
+    initiateExistingPlans: function (user_id) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/initiateExistingPlans", data: { userID: user_id} });
+    },
     setSessionAccessToken: function (id, sessionAccessToken) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/set-session-access-token", data: { id: id, sessionAccessToken: sessionAccessToken } });
     },
     //END: Account APIs...
-    createPlan: function (plan_name, plan_status, created_date) {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/create-plan", data: { plan_name, plan_status, created_date } });
+    createPlan: function (plan_name, account_id, plan_status, created_date) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/create-plan", data: { plan_name, account_id, plan_status, created_date } });
     },
-    findAllPlans: function (userToken) {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-all-plans", data: {userToken: userToken} });
+    findAllPlans: function (account_id) {
+        console.log("API: "+ account_id);
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-all-plans", data: {account_id: account_id} });
     },
     findPlan: function (planID) {
         console.log(planID);

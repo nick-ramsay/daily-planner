@@ -15,14 +15,14 @@ import NoAccess from './pages/NoAccess/NoAccess';
 import moment from 'moment';
 
 var client = {
-  user_id: "",
+  account_id: "",
   session_token: "",
   auth_expiry: ""
 }
 
 const setClientTokenObject = () => {
   client = {
-    user_id: getCookie("user_token"),//getCookie("user_token"),
+    account_id: getCookie("account_id"),//getCookie("user_token"),
     session_token: getCookie("session_access_token"),
     auth_expiry: getCookie("auth_expiry")
   }
@@ -35,7 +35,7 @@ function App() {
   const checkTokenExpiration = () => {
     setClientTokenObject();
 
-    if (client.user_id && client.auth_expiry) {
+    if (client.account_id && client.auth_expiry) {
 
       let authSecondsRemaining = moment(client.auth_expiry).diff(moment(), 'seconds');
 
@@ -54,7 +54,7 @@ function App() {
 
   setInterval(checkTokenExpiration, 1000);
 
-  if (client.user_id) {
+  if (client.account_id) {
     return (
       <Router>
         <div>

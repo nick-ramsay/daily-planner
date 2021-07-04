@@ -44,6 +44,10 @@ router
   .post(dpControllers.login);
 
 router
+  .route("/initiateExistingPlans")
+  .post(dpControllers.initiateExistingPlans);
+
+router
   .route("/set-session-access-token")
   .post(dpControllers.setSessionAccessToken);
 

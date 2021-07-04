@@ -18,11 +18,10 @@ const Home = () => {
 
     var [loading, setLoading] = useState(true);
     var [newPlan, setNewPlan] = useInput("");
-    var [userToken, setUserToken] = useState("");
     var [Plans, setPlans] = useState([]);
 
     const renderPlans = () => {
-        API.findAllPlans(userToken).then(
+        API.findAllPlans(getCookie("account_id")).then(
             (res) => {
                 setPlans(Plans => res.data);
                 setLoading(false);
@@ -32,7 +31,7 @@ const Home = () => {
 
     const savePlan = (event) => {
         if (newPlan !== "") {
-            API.createPlan(newPlan, "Open", new Date()).then(
+            API.createPlan(newPlan, getCookie("account_id"), "Open", new Date()).then(
                 (res) => {
                     renderPlans();
                     document.getElementById('planInput').value = "";
@@ -42,7 +41,6 @@ const Home = () => {
     };
 
     useEffect(() => {
-        setUserToken(userToken => getCookie("user_token"));
         renderPlans();
     }, [])
 

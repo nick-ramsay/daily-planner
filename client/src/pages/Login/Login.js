@@ -19,11 +19,13 @@ const Login = () => {
         if (email && password) {
             API.login(email, sha256(password)).then(
                 res => {
+                    console.log(res.data);
                     if (res.data) {
                         setSubmissionMessage(submissionMessage => "");
                         document.cookie = "auth_expiry=" + cookieExpiryDate + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
-                        document.cookie = "user_token=" + res.data._id + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
+                        document.cookie = "account_id=" + res.data._id + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
                         window.location = "/";
+                        API.initiateExistingPlans(res.data._id).then(response => console.log(res.data));
                     } else {
                         setSubmissionMessage(submissionMessage => "Hmm... this is incorrect. Enter your username and password again.");
                     }
