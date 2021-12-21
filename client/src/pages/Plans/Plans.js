@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import HashLoader from "react-spinners/HashLoader";
 import { css } from "@emotion/core";
 import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
@@ -83,64 +84,69 @@ const Home = () => {
                                 <strong>{Plans.length === 0 ? "No Plans" : Plans.length + (Plans.length > 1 ? " plans" : " plan")}</strong>
                             </p>
                         }
-                        {!loading === true &&
-                            Plans.map((plan, i) =>
-                                <div className="container mt-2 mb-2 plan-card" key={i}>
-                                    <div className="pt-1">
-                                        <div className="mt-1 mb-1 text-center"><h4>{'"' + plan.plan_name + '"'}</h4></div>
-                                        <div className="mt-1 mb-1 text-center"><h5>{moment(plan.created_date).format("dddd,  DD MMMM YYYY")}</h5></div>
-                                        {(() => {
-                                            var openTaskCount = 0;
-                                            var puntedTaskCount = 0;
-                                            var pendingFeedbackTaskCount = 0;
-                                            var awaitingBackportTaskCount = 0;
+                        
+                                {!loading === true &&
+                                    Plans.map((plan, i) =>
+                                        
+                                            <div className="container mt-2 mb-2 plan-card" key={i}>
+                                                <div className="pt-1">
+                                                    <div className="mt-1 mb-1 text-center"><h4>{'"' + plan.plan_name + '"'}</h4></div>
+                                                    <div className="mt-1 mb-1 text-center"><h5>{moment(plan.created_date).format("dddd,  DD MMMM YYYY")}</h5></div>
+                                                    {(() => {
+                                                        var openTaskCount = 0;
+                                                        var puntedTaskCount = 0;
+                                                        var pendingFeedbackTaskCount = 0;
+                                                        var awaitingBackportTaskCount = 0;
 
-                                            for (let j = 0; j < plan.tasks.length; j++) {
-                                                if (plan.tasks[j].status === "Closed") {
-                                                    openTaskCount += 0
-                                                }
-                                                else if (plan.tasks[j].status === "Punted") {
-                                                    puntedTaskCount += 1
-                                                }
-                                                else if (plan.tasks[j].status === "Pending Feedback") {
-                                                    pendingFeedbackTaskCount += 1
-                                                }
-                                                else if (plan.tasks[j].status === "Awaiting Backport") {
-                                                    awaitingBackportTaskCount += 1
-                                                }
-                                                else {
-                                                    openTaskCount += 1
-                                                }
-                                            }
+                                                        for (let j = 0; j < plan.tasks.length; j++) {
+                                                            if (plan.tasks[j].status === "Closed") {
+                                                                openTaskCount += 0
+                                                            }
+                                                            else if (plan.tasks[j].status === "Punted") {
+                                                                puntedTaskCount += 1
+                                                            }
+                                                            else if (plan.tasks[j].status === "Pending Feedback") {
+                                                                pendingFeedbackTaskCount += 1
+                                                            }
+                                                            else if (plan.tasks[j].status === "Awaiting Backport") {
+                                                                awaitingBackportTaskCount += 1
+                                                            }
+                                                            else {
+                                                                openTaskCount += 1
+                                                            }
+                                                        }
 
-                                            if (openTaskCount > 0) {
-                                                return (
+                                                        if (openTaskCount > 0) {
+                                                            return (
+                                                                <div>
+                                                                    <h6>Status: <span className="badge badge-danger">{openTaskCount} {openTaskCount > 1 ? "tasks" : "task"} open</span></h6>
+                                                                </div>
+                                                            )
+                                                        } else if (plan.tasks.length === 0 || plan.tasks === undefined) {
+                                                            return (
+                                                                <h6>Status: <span className="badge badge-warning">New Plan</span></h6>
+                                                            )
+                                                        }
+                                                        else {
+                                                            return (
+                                                                <div>
+                                                                    <h6><span className="badge badge-success">Closed</span></h6>
+                                                                    <p style={{ fontSize: 14 }}>{puntedTaskCount} {puntedTaskCount === 1 ? "task" : "tasks"} punted{pendingFeedbackTaskCount > 0 ? ", " + pendingFeedbackTaskCount + " pending feedback" : ""}{awaitingBackportTaskCount > 0 ? ", " + awaitingBackportTaskCount + " awaiting backport" : ""}</p>
+                                                                </div>
+                                                            )
+                                                        }
+                                                    }
+                                                    )()}
                                                     <div>
-                                                        <h6>Status: <span className="badge badge-danger">{openTaskCount} {openTaskCount > 1 ? "tasks" : "task"} open</span></h6>
+                                                        <a className="btn btn-sm btn-custom mt-1 mb-2" href={'./plan/' + plan._id}>View Tasks</a>
                                                     </div>
-                                                )
-                                            } else if (plan.tasks.length === 0 || plan.tasks === undefined) {
-                                                return (
-                                                    <h6>Status: <span className="badge badge-warning">New Plan</span></h6>
-                                                )
-                                            }
-                                            else {
-                                                return (
-                                                    <div>
-                                                        <h6><span className="badge badge-success">Closed</span></h6>
-                                                        <p style={{ fontSize: 14 }}>{puntedTaskCount} {puntedTaskCount === 1 ? "task" : "tasks"} punted{pendingFeedbackTaskCount > 0 ? ", " + pendingFeedbackTaskCount + " pending feedback" : ""}{awaitingBackportTaskCount > 0 ? ", " + awaitingBackportTaskCount + " awaiting backport" : ""}</p>
-                                                    </div>
-                                                )
-                                            }
-                                        }
-                                        )()}
-                                        <div>
-                                            <a className="btn btn-sm btn-custom mt-1 mb-2" href={'./plan/' + plan._id}>View Tasks</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        }
+                                                </div>
+                                            </div>
+                                       
+                                    )
+
+                                }
+                        
                     </div>
                 </div>
             </div>
