@@ -3,8 +3,9 @@ import { getCookie } from "./sharedFunctions/sharedFunctions";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
 
-import Plans from "../src/pages/Plans/Plans";
-import PlanDetails from "../src/pages/PlanDetails/PlanDetails";
+import Plans from "./pages/Plans/Plans";
+import PlanDetails from "./pages/PlanDetails/PlanDetails";
+import DummyDNDList from "./pages/DummyDNDList/DummyDNDList";
 import Login from './pages/Login/Login';
 import CreateAccountRequest from './pages/CreateAccountRequest/CreateAccountRequest';
 import CreateAccount from './pages/CreateAccount/CreateAccount';
@@ -65,6 +66,7 @@ function App() {
             <Route exact path="/reset-password" component={ResetPassword} />
             <Route exact path="/" component={Plans} />
             <Route exact path="/plan/:id" component={PlanDetails} />
+            <Route exact path="/DummyDNDList/:id" component={DummyDNDList} />
             <Route component={Error} />
           </Switch>
         </div>

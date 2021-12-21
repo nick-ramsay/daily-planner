@@ -39,7 +39,7 @@ const PlanDetails = () => {
     var [taskDescription, setTaskDescription] = useInput();
     var [taskHoursLogged, setTaskHoursLogged] = useInput();
     var [taskStatus, setTaskStatus] = useInput();
-  
+
     const calculateTotalHoursLogged = (PlanData) => {
         console.log("Called calcTotalHours");
         let totalHours = 0;
@@ -393,7 +393,7 @@ const PlanDetails = () => {
                                                             <Draggable key={task._id} draggableId={task._id} index={i}>
                                                                 {(provided, snapshot) => (
                                                                     <div
-                                                                        ref={provided.ref}
+                                                                        ref={provided.innerRef}
                                                                         {...provided.draggableProps}
                                                                         {...provided.dragHandleProps}>
                                                                         <div>
@@ -581,6 +581,7 @@ const PlanDetails = () => {
                                 </DragDropContext>
                             </div>
                         </div>
+                        <a href={"../DummyDNDList/" + PlanID}>See DummyDNDList Version</a>
                     </div>
                 </div>
             }
