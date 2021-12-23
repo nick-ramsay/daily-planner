@@ -25,6 +25,7 @@ const DummyDNDList = () => {
     //REACT HOOKS START...
     var PlanID = useParams().id;
     var [items, setItems] = useState([]);
+    var [tasks, setTasks] = useState([]);
     var [importablePlans, setImportablePlans] = useState([]);
     var [selectedImportPlan, setSelectedImportPlan] = useState("");
     var [userToken, setUserToken] = useState("");
@@ -63,6 +64,7 @@ const DummyDNDList = () => {
             (res) => {
                 setLoading(loading => false);
                 setPlan(Plan => res.data);
+                setTasks(tasks => res.data.tasks);
                 setPlanTaskCount(planTaskCount => res.data.tasks.length)
                 calculateTotalHoursLogged(res.data);
             }
@@ -331,12 +333,12 @@ const DummyDNDList = () => {
         }
 
         const tempItems = reorder(
-            items,
+            tasks,
             result.source.index,
             result.destination.index
         );
 
-        setItems(items => tempItems)
+        setTasks(tasks => tempItems)
     }
 
     //..END: SIMPLE LIST EXAMPLE FUNCITONS
@@ -358,8 +360,8 @@ const DummyDNDList = () => {
                                     ref={provided.innerRef}
                                     style={getListStyle(snapshot.isDraggingOver)}
                                 >
-                                    {items.map((item, index) => (
-                                        <Draggable key={item.id} draggableId={item.id} index={index}>
+                                    {tasks !== undefined ? tasks.map((plan, index) => (
+                                        <Draggable key={"task"+ index} draggableId={"task" + index} index={index}>
                                             {(provided, snapshot) => (
                                                 <div
                                                     ref={provided.innerRef}
@@ -370,11 +372,11 @@ const DummyDNDList = () => {
                                                         provided.draggableProps.style
                                                     )}
                                                 >
-                                                    {item.content}
+                                                    {plan.description}
                                                 </div>
                                             )}
                                         </Draggable>
-                                    ))}
+                                    )):""}
                                     {provided.placeholder}
                                 </div>
                             )}
