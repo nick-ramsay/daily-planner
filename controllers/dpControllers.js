@@ -221,7 +221,7 @@ module.exports = {
         console.log("Called Find All Plans Controller");
         console.log(req.body);
         db.Plans
-            .find({account_id: req.body.account_id})
+            .find({ account_id: req.body.account_id })
             .sort({ created_date: -1 })
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
@@ -302,6 +302,17 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
+    },
+    replaceTaskArray: (req, res) => {
+        console.log("Called replaceTaskArray controller...");
+        console.log(req.body);
+        db.Plans.
+            updateOne({ _id: req.body.PlanID },
+                { tasks: req.body.newTaskArray })
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
+
     },
     updateTaskOrder: function (req, res) {
         console.log("Called updateTaskOrder controller...");

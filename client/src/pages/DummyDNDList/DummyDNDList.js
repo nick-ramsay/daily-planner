@@ -194,6 +194,8 @@ const DummyDNDList = () => {
         planTasks.splice(taskArrayIndex, 1);
         planTasks.splice(newTaskIndex, 0, selectedTask);
 
+        console.log(planTasks);
+
         API.updateTaskOrder(PlanID, taskDescription, planTasks).then(
             (res) => {
                 renderPlan();
@@ -204,6 +206,21 @@ const DummyDNDList = () => {
                 }
             }
         )
+    }
+
+    const reorderTasks = (newTaskArray) => {
+        console.log(newTaskArray.length);
+        console.log(Plan.tasks.length);
+
+        if (newTaskArray.length === Plan.tasks.length) {
+            API.replaceTaskArray(PlanID, newTaskArray).then(
+                (res) => {
+                    console.log(res.data);
+                    setLoading(loading => true);
+                    renderPlan();
+                }
+            );
+        };
     }
 
     const importPuntedTasks = () => {
@@ -338,7 +355,9 @@ const DummyDNDList = () => {
             result.destination.index
         );
 
-        setTasks(tasks => tempItems)
+        setTasks(tasks => tempItems);
+
+        reorderTasks(tempItems);
     }
 
     //..END: SIMPLE LIST EXAMPLE FUNCITONS

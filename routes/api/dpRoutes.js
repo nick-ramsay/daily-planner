@@ -94,6 +94,10 @@ router
   .post(dpControllers.removeJira);
 
 router
+  .route("/replace-task-array")
+  .put(dpControllers.replaceTaskArray);
+
+router
   .route("/update-task-order")
   .post(dpControllers.updateTaskOrder);
 
