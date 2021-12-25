@@ -15,9 +15,6 @@ import "./style.css";
 
 import Navbar from "../../components/Navbar/Navbar";
 
-//<DragDropContext /*>onDragEnd={}*/>
-//<Droppable droppableId="droppable"></Droppable>
-
 const override = css`
   display: block;
   margin: 0 auto;
@@ -26,6 +23,8 @@ const override = css`
 
 const PlanDetails = () => {
     var PlanID = useParams().id;
+    var [items, setItems] = useState([]);
+    var [tasks, setTasks] = useState([]);
     var [importablePlans, setImportablePlans] = useState([]);
     var [selectedImportPlan, setSelectedImportPlan] = useState("");
     var [userToken, setUserToken] = useState("");
@@ -62,6 +61,7 @@ const PlanDetails = () => {
             (res) => {
                 setLoading(loading => false);
                 setPlan(Plan => res.data);
+                setTasks(tasks => res.data.tasks);
                 setPlanTaskCount(planTaskCount => res.data.tasks.length)
                 calculateTotalHoursLogged(res.data);
             }
@@ -109,7 +109,7 @@ const PlanDetails = () => {
         let taskArrayIndex = event.currentTarget.dataset.task_array_index;
 
         document.getElementById("editTaskBtn" + taskArrayIndex).classList.add("d-none");
-        document.getElementById("saveTaskBtn" + taskArrayIndex).classList.remove("d-none");
+        //document.getElementById("saveTaskBtn" + taskArrayIndex).classList.remove("d-none");
         //document.getElementById("moveTaskBtns" + taskArrayIndex).classList.remove("d-none");
     }
 
@@ -203,6 +203,21 @@ const PlanDetails = () => {
         )
     }
 
+    const reorderTasks = (newTaskArray) => {
+        console.log(newTaskArray.length);
+        console.log(Plan.tasks.length);
+
+        if (newTaskArray.length === Plan.tasks.length) {
+            API.replaceTaskArray(PlanID, newTaskArray).then(
+                (res) => {
+                    console.log(res.data);
+                    //setLoading(loading => true);
+                    renderPlan();
+                }
+            );
+        };
+    }
+
     const importPuntedTasks = () => {
         let currentTaskDescriptions = [];
         let selectedImportPlanTasks = [];
@@ -282,7 +297,64 @@ const PlanDetails = () => {
                 }
             )
         }
+    };
+
+    //SIMPLE LIST EXAMPLE FUNCTIONS...
+    // fake data generator
+    const getItems = count =>
+        Array.from({ length: count }, (v, k) => k).map(k => ({
+            id: `item-${k}`,
+            content: `item ${k}`
+        }));
+
+    // a little function to help us with reordering the result
+    const reorder = (list, startIndex, endIndex) => {
+        const result = Array.from(list);
+        const [removed] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, removed);
+
+        return result;
+    };
+
+    const grid = 8;
+
+    const getItemStyle = (isDragging, draggableStyle) => ({
+        // some basic styles to make the items look a bit nicer
+        userSelect: "none",
+        padding: grid * 2,
+        margin: `0 0 ${grid}px 0`,
+
+        // change background colour if dragging
+        background: isDragging ? "lightgreen" : "grey",
+
+        // styles we need to apply on draggables
+        ...draggableStyle
+    });
+
+    const getListStyle = isDraggingOver => ({
+        background: isDraggingOver ? "lightblue" : "lightgrey",
+        padding: grid,
+        width: 500
+    });
+
+    const onDragEnd = (result) => {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
+
+        const tempItems = reorder(
+            tasks,
+            result.source.index,
+            result.destination.index
+        );
+
+        setTasks(tasks => tempItems);
+
+        reorderTasks(tempItems);
     }
+
+    //..END: SIMPLE LIST EXAMPLE FUNCITONS
 
     useEffect(() => {
         renderPlan();
@@ -383,27 +455,38 @@ const PlanDetails = () => {
                                 </div>
                             </div>
                             <div>
-                                <DragDropContext onDragEnd={console.log("I dragged it!")}>
+                                <DragDropContext onDragEnd={onDragEnd}>
                                     <Droppable droppableId="droppable">
                                         {(provided, snapshot) => (
-                                            <div {...provided.droppableProps} ref={provided.innerRef} /*style={getListStyle(snapshot.isDraggingOver)}*/>
-                                                {Plan.tasks !== undefined ? Plan.tasks.map((task, i) => {
+                                            <div
+                                                {...provided.droppableProps}
+                                                ref={provided.innerRef}
+                                            // style={getListStyle(snapshot.isDraggingOver)}
+                                            >
+                                                {tasks !== undefined ? tasks.map((task, i) => {
                                                     if (task.deletion_date === null || task.deletion_date === undefined) {
                                                         return (
-                                                            <Draggable key={task._id} draggableId={task._id} index={i}>
+                                                            <Draggable key={"task" + i} draggableId={"task" + i} index={i}>
                                                                 {(provided, snapshot) => (
                                                                     <div
                                                                         ref={provided.innerRef}
                                                                         {...provided.draggableProps}
-                                                                        {...provided.dragHandleProps}>
+                                                                        {...provided.dragHandleProps}
+                                                                    /*style={getItemStyle(
+                                                                        snapshot.isDragging,
+                                                                        provided.draggableProps.style
+                                                                    )}*/
+                                                                    >
                                                                         <div>
                                                                             <div className="card mb-1 mt-1">
                                                                                 <div className="card-body pt-2 pb-2">
                                                                                     <div className="row">
-                                                                                        <div className="col-md-10">
+                                                                                        <div className="col-md-12">
                                                                                             <div className="row">
                                                                                                 <div className="col-md-12 text-left">
-                                                                                                    <h5><strong>{"#" + (i + 1) + ": "}<span id={"taskDescription" + i}>{task.description}</span></strong></h5>
+                                                                                                    <h5 id={"editTaskBtn" + i}  data-toggle="collapse" data-task_array_index={i} data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
+                                                                                                        <strong>{"#" + (i + 1) + ": "}<span id={"taskDescription" + i} className="task-description-edit">{task.description}</span></strong>
+                                                                                                    </h5>
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div className="row mb-2">
@@ -464,13 +547,14 @@ const PlanDetails = () => {
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div className="col-md-1 mt-auto mb-auto">
+                                                                                        {/*
+                                                                                        <div className="col-md-2 mt-auto mb-auto">
                                                                                             <div className="row">
                                                                                                 <div className="col-md-12 mb-1 text-center">
                                                                                                     <button id={"editTaskBtn" + i} className="btn btn-sm btn-custom-blue" type="button" data-toggle="collapse" data-task_array_index={i} data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={hideEditBtn}>Edit</button>
                                                                                                 </div>
                                                                                             </div>
-                                                                                        </div>
+                                                                                        </div> 
                                                                                         <div className="col-md-1 mt-auto mb-auto">
                                                                                             <div className="row">
                                                                                                 {i === 0 ? "" :
@@ -483,7 +567,7 @@ const PlanDetails = () => {
                                                                                                 }
                                                                                             </div>
                                                                                         </div>
-
+                                                                                        */}
                                                                                     </div>
                                                                                 </div>
                                                                                 <div className="row">
@@ -534,7 +618,7 @@ const PlanDetails = () => {
                                                                                                     </div>
                                                                                                     <div className="col-md-6 p-2 text-right">
                                                                                                         <button className="btn btn-sm btn-secondary mr-1" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} data-task_array_index={i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={showEditBtn}>Close</button>
-                                                                                                        <button id={"saveTaskBtn" + i} type="button" className="btn btn-sm btn-custom d-none" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Save</button>
+                                                                                                        <button id={"saveTaskBtn" + i} type="button" className="btn btn-sm btn-custom" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Save</button>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </form>
@@ -581,7 +665,6 @@ const PlanDetails = () => {
                                 </DragDropContext>
                             </div>
                         </div>
-                        <a href={"../DummyDNDList/" + PlanID}>See DummyDNDList Version</a>
                     </div>
                 </div>
             }
