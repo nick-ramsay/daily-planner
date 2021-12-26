@@ -320,21 +320,21 @@ const PlanDetails = () => {
 
     const getItemStyle = (isDragging, draggableStyle) => ({
         // some basic styles to make the items look a bit nicer
-        userSelect: "none",
-        padding: grid * 2,
-        margin: `0 0 ${grid}px 0`,
+        //userSelect: "none",
+        //padding: grid * 2,
+        //margin: `0 0 ${grid}px 0`,
 
         // change background colour if dragging
-        background: isDragging ? "lightgreen" : "grey",
+        background: isDragging ? "none" : "none",
 
         // styles we need to apply on draggables
         ...draggableStyle
     });
 
     const getListStyle = isDraggingOver => ({
-        background: isDraggingOver ? "lightblue" : "lightgrey",
-        padding: grid,
-        width: 500
+        background: isDraggingOver ? "#E5E5FF" : "none",
+        //padding: grid,
+        //width: 500
     });
 
     const onDragEnd = (result) => {
@@ -461,7 +461,7 @@ const PlanDetails = () => {
                                             <div
                                                 {...provided.droppableProps}
                                                 ref={provided.innerRef}
-                                            // style={getListStyle(snapshot.isDraggingOver)}
+                                            style={getListStyle(snapshot.isDraggingOver)}
                                             >
                                                 {tasks !== undefined ? tasks.map((task, i) => {
                                                     if (task.deletion_date === null || task.deletion_date === undefined) {
@@ -472,10 +472,10 @@ const PlanDetails = () => {
                                                                         ref={provided.innerRef}
                                                                         {...provided.draggableProps}
                                                                         {...provided.dragHandleProps}
-                                                                    /*style={getItemStyle(
+                                                                    style={getItemStyle(
                                                                         snapshot.isDragging,
                                                                         provided.draggableProps.style
-                                                                    )}*/
+                                                                    )}
                                                                     >
                                                                         <div>
                                                                             <div className="card mb-1 mt-1">
