@@ -51,7 +51,7 @@ const PlanDetails = () => {
 
     const renderPlan = () => {
         let selectedPlan = PlanID;
-        API.findImportableTasks().then(
+        API.findImportableTasks(getCookie("account_id")).then(
             (res) => {
                 console.log(res);
                 setImportablePlans(importablePlans => res.data);

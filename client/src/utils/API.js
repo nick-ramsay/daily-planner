@@ -76,8 +76,8 @@ export default {
     findImportPuntedTasks: function (selectedImportPlan) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/find-import-punted-tasks", data: { selectedImportPlan } });
     },
-    findImportableTasks: function () {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-importable-plans", data: {} });
+    findImportableTasks: function (account_id) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-importable-plans", data: {account_id} });
     },
     importTasks: function (PlanID, approvedImportedTasks) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/import-tasks", data: {PlanID, approvedImportedTasks} });

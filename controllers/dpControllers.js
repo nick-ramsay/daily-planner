@@ -329,7 +329,6 @@ module.exports = {
     },
     findImportPuntedTasks: function (req, res) {
         let selectedImportPlan = req.body.selectedImportPlan;
-
         db.Plans
             .find({ _id: selectedImportPlan })
             .then(dbModel => console.log(res.json(dbModel)))
@@ -339,14 +338,13 @@ module.exports = {
     findImportablePlans: function (req, res) {
         console.log("Called Find All Plans Controller");
         db.Plans
-            .find({}, { _id: 1, plan_name: 1, created_date: 1 })
+            .find({account_id: req.body.account_id}, { _id: 1, plan_name: 1, created_date: 1 })
             .sort({ created_date: -1 })
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
     },
     importTasks: function (req, res) {
-        console.log(req.body);
         db.Plans
             .update({ _id: req.body.PlanID }, { $push: { tasks: { $each: req.body.approvedImportedTasks } } })
             .then(dbModel => res.json(dbModel))
@@ -355,7 +353,6 @@ module.exports = {
     },
     deleteTask: function (req, res) {
         console.log("Called delete task controller!");
-        console.log(req.body);
 
         db.Plans
             .updateOne({ _id: req.body.planID, "tasks.description": req.body.taskDescription },

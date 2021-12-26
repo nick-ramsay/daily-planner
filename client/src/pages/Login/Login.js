@@ -59,7 +59,7 @@ const Login = () => {
                         </div>
                         <button type="button" id="login-btn" name="login-btn" onClick={login} className="btn btn-sm btn-custom-blue">Login</button>
                         <div className="mt-3 mb-1">
-                            <a href="/create-account-request">New to Investment Tracker? Create an account here!</a>
+                            <a href="/create-account-request">New to Daily Plans? Create an account here!</a>
                         </div>
                         <div>
                             <a href="/reset-password-request">Forgot password? Reset here!</a>
