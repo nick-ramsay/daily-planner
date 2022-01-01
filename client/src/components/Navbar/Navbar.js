@@ -1,8 +1,12 @@
 import React from "react";
-import { logout } from "../../sharedFunctions/sharedFunctions"
+import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
+import API from "../../utils/API";
+
 import "./style.css";
 
-function Navbar(props) {
+
+
+const Navbar = (props) => {
 
     return (
         <nav className="navbar navbar-dark navbar-expand-lg fixed-top">
@@ -12,8 +16,8 @@ function Navbar(props) {
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav ml-auto">
-                    <a className="nav-item nav-link" href="/">Home</a>
                     <a className="nav-item nav-link red-link" href="/" onClick={logout}>Logout</a>
+                    <a className="nav-item nav-link"></a>
                 </div>
             </div>
         </nav>

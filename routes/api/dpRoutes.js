@@ -55,6 +55,10 @@ router
   .route("/test-backend-token")
   .post(dpControllers.testBackendToken);
 
+router
+  .route("/find-user-name")
+  .post(dpControllers.findUserName)
+
 //END: User Account Routes...
 
 router

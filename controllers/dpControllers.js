@@ -177,6 +177,12 @@ module.exports = {
             .then(dbModel => res.json(dbModel[0]))
             .catch(err => res.status(422).json(err));
     },
+    findUserName: (req, res) => {
+        db.Accounts
+            .find({ _id: req.body.account_id }, {firstname: 1, lastname:1})
+            .then(dbModel => res.json(dbModel[0]))
+            .catch(err => res.status(422).json(err));
+    },
     setSessionAccessToken: function (req, res) {
         console.log("Called session token set controller...");
 
@@ -338,7 +344,7 @@ module.exports = {
     findImportablePlans: function (req, res) {
         console.log("Called Find All Plans Controller");
         db.Plans
-            .find({account_id: req.body.account_id}, { _id: 1, plan_name: 1, created_date: 1 })
+            .find({ account_id: req.body.account_id }, { _id: 1, plan_name: 1, created_date: 1 })
             .sort({ created_date: -1 })
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
