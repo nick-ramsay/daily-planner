@@ -144,8 +144,8 @@ const PlanDetails = () => {
             }
         )
 
-        document.getElementById("saveTaskBtn" + taskArrayPosition).classList.add("d-none");
-        document.getElementById("editTaskBtn" + taskArrayPosition).classList.remove("d-none");
+        //document.getElementById("saveTaskBtn" + taskArrayPosition).classList.add("d-none");
+        //document.getElementById("editTaskBtn" + taskArrayPosition).classList.remove("d-none");
         //document.getElementById("moveTaskBtns" + taskArrayPosition).classList.add("d-none");
 
     }
