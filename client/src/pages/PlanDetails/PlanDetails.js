@@ -113,12 +113,14 @@ const PlanDetails = () => {
         //document.getElementById("moveTaskBtns" + taskArrayIndex).classList.remove("d-none");
     }
 
+    /*
     const showEditBtn = (event) => {
         let taskArrayIndex = event.currentTarget.dataset.task_array_index;
         document.getElementById("editTaskBtn" + taskArrayIndex).classList.remove("d-none");
         document.getElementById("saveTaskBtn" + taskArrayIndex).classList.add("d-none");
         //document.getElementById("moveTaskBtns" + taskArrayIndex).classList.add("d-none");
     }
+    */
 
     const updateTask = (event) => {
         let taskArrayPosition = event.currentTarget.dataset.task_array_position;
@@ -617,7 +619,7 @@ const PlanDetails = () => {
                                                                                                         <button type="button" id={"deleteTaskBtn" + i} className="btn btn-sm btn-custom-red" data-plan_id={Plan._id} data-task_array_position={i} data-toggle="modal" data-target={"#deleteTaskModal" + i}>Delete Task</button>
                                                                                                     </div>
                                                                                                     <div className="col-md-6 p-2 text-right">
-                                                                                                        <button className="btn btn-sm btn-secondary mr-1" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} data-task_array_index={i} aria-expanded="false" aria-controls={"taskDetails" + task + i} onClick={showEditBtn}>Close</button>
+                                                                                                        <button className="btn btn-sm btn-secondary mr-1" type="button" data-toggle="collapse" data-target={"#taskDetails" + i} data-task_array_index={i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Close</button>
                                                                                                         <button id={"saveTaskBtn" + i} type="button" className="btn btn-sm btn-custom" data-plan_id={Plan._id} data-task_array_position={i} onClick={updateTask} data-toggle="collapse" data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>Save</button>
                                                                                                     </div>
                                                                                                 </div>
