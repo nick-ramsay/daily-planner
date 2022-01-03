@@ -32,8 +32,7 @@ const Navbar = (props) => {
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav ml-auto">
-                    <a className="nav-item nav-link red-link" href="/" onClick={logout}>Logout</a>
-                    <a className="nav-item nav-link account-link">{firstname.slice(0, 1) + lastname.slice(0, 1)}</a>
+                    <a className="nav-item nav-link account-link" href="./account-org">{firstname.slice(0, 1) + lastname.slice(0, 1)}</a>
                 </div>
             </div>
         </nav>

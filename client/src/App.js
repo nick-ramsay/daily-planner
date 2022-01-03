@@ -11,6 +11,7 @@ import CreateAccountRequest from './pages/CreateAccountRequest/CreateAccountRequ
 import CreateAccount from './pages/CreateAccount/CreateAccount';
 import ResetPasswordRequest from './pages/ResetPasswordRequest/ResetPasswordRequest';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
+import AccountOrg from './pages/AccountOrg/AccountOrg';
 import Error from './pages/Error/Error';
 import NoAccess from './pages/NoAccess/NoAccess';
 import moment from 'moment';
@@ -67,6 +68,7 @@ function App() {
             <Route exact path="/" component={Plans} />
             <Route exact path="/plan/:id" component={PlanDetails} />
             <Route exact path="/DummyDNDList/:id" component={DummyDNDList} />
+            <Route exact path="/account-org" component={AccountOrg} />
             <Route component={Error} />
           </Switch>
         </div>
