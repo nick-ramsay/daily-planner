@@ -1,3 +1,14 @@
 nav {
     background-color: #000080;
 }
+
+.account-link {
+    color: white;
+    background-color: red;
+    border: 1px solid white;
+    border-radius: 25px;
+}
+
+.account-link:hover {
+    cursor: pointer;
+}

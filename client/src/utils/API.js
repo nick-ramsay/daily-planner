@@ -38,7 +38,7 @@ export default {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/set-session-access-token", data: { id: id, sessionAccessToken: sessionAccessToken } });
     },
     findUserName: (account_id) => {
-        return axios({ method: "get", url: apiURL + "/api/daily-planner/find-user-name", data: { account_id: account_id} });
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-user-name", data: { account_id: account_id} });
     },
     //END: Account APIs...
     createPlan: function (plan_name, account_id, plan_status, created_date) {

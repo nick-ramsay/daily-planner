@@ -179,7 +179,7 @@ module.exports = {
     },
     findUserName: (req, res) => {
         db.Accounts
-            .find({ _id: req.body.account_id }, {firstname: 1, lastname:1})
+            .find({ _id: req.body.account_id }, {_id: -1, firstname: 1, lastname:1})
             .then(dbModel => res.json(dbModel[0]))
             .catch(err => res.status(422).json(err));
     },
