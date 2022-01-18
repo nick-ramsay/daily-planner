@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import HashLoader from "react-spinners/HashLoader";
 import { css } from "@emotion/core";
@@ -22,6 +22,52 @@ const AccountOrg = () => {
     const renderAccountDetails = () => {
         console.log("API to be added...");
         setLoading(loading => false);
+    }
+
+    const saveNewScheduledTask = () => {
+        console.log(moment().weekday());
+
+        let newScheduledTaskDescription = document.getElementById("autoTaskDescInput").value;
+        let newScheduledTaskHours = document.getElementById("autoTaskDefaultHours").value;
+        let newScheduledTaskWeekdays = [];
+        let newScheduledTaskData;
+
+        if (document.getElementById("new-auto-task-sunday").checked) {
+            newScheduledTaskWeekdays.push(Number(document.getElementById("new-auto-task-sunday").value))
+        } if (document.getElementById("new-auto-task-monday").checked) {
+            newScheduledTaskWeekdays.push(Number(document.getElementById("new-auto-task-monday").value))
+        } if (document.getElementById("new-auto-task-tuesday").checked) {
+            newScheduledTaskWeekdays.push(Number(document.getElementById("new-auto-task-tuesday").value))
+        } if (document.getElementById("new-auto-task-wednesday").checked) {
+            newScheduledTaskWeekdays.push(Number(document.getElementById("new-auto-task-wednesday").value))
+        } if (document.getElementById("new-auto-task-thursday").checked) {
+            newScheduledTaskWeekdays.push(Number(document.getElementById("new-auto-task-thursday").value))
+        } if (document.getElementById("new-auto-task-friday").checked) {
+            newScheduledTaskWeekdays.push(Number(document.getElementById("new-auto-task-friday").value))
+        } if (document.getElementById("new-auto-task-saturday").checked) {
+            newScheduledTaskWeekdays.push(Number(document.getElementById("new-auto-task-saturday").value))
+        }
+
+        newScheduledTaskData = {
+            description: newScheduledTaskDescription,
+            hours: Number(newScheduledTaskHours),
+            weekdays: newScheduledTaskWeekdays
+        };
+
+        if (newScheduledTaskDescription !== "") {
+            console.log("Make API call...");
+        }
+
+        console.log(newScheduledTaskData);
+
+        document.getElementById("autoTaskDescInput").value = "";
+        document.getElementById("autoTaskDefaultHours").value = 0;
+
+        let weekdayInputElements = document.getElementsByClassName("autoTaskWeekdays");
+
+        for (let i = 0; i < weekdayInputElements.length; i++) {
+            document.getElementsByClassName("autoTaskWeekdays")[i].checked = false;
+        }
     }
 
     useEffect(() => {
@@ -69,37 +115,46 @@ const AccountOrg = () => {
                                                 </div>
                                             </div>
                                             <div className="form-group row">
+                                                <label for="autoTaskDefaultHours" className="col-md-2 col-form-label">Default Hours</label>
+                                                <div className="col-md-10">
+                                                    <input type="number" defaultValue={0} placeholder={0} step={0} min={0} className="form-control" id="autoTaskDefaultHours" placeholder="Enter task description" />
+                                                </div>
+                                            </div>
+                                            <div className="form-group row">
                                                 <label for="inputPassword" className="col-md-2 col-form-label">Days of Week</label>
                                                 <div className="col-md-10">
                                                     <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="checkbox" id="new-auto-task-monday" value="1" />
+                                                        <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-monday" value="1" />
                                                         <label className="form-check-label" for="inlineCheckbox1">Monday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="checkbox" id="new-auto-task-tuesday" value="2" />
+                                                        <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-tuesday" value="2" />
                                                         <label className="form-check-label" for="new-auto-task-tuesday">Tuesday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="checkbox" id="new-auto-task-wednesday" value="3" />
+                                                        <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-wednesday" value="3" />
                                                         <label className="form-check-label" for="new-auto-task-wednesday">Wednesday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="checkbox" id="new-auto-task-thursday" value="4" />
+                                                        <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-thursday" value="4" />
                                                         <label className="form-check-label" for="new-auto-task-thursday">Thursday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="checkbox" id="new-auto-task-friday" value="5" />
+                                                        <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-friday" value="5" />
                                                         <label className="form-check-label" for="new-auto-task-friday">Friday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="checkbox" id="new-auto-task-saturday" value="6" />
+                                                        <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-saturday" value="6" />
                                                         <label className="form-check-label" for="new-auto-task-saturday">Saturday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
-                                                        <input className="form-check-input" type="checkbox" id="new-auto-task-sunday" value="7" />
+                                                        <input className="form-check-input autoTaskWeekdays" name="autoTaskWeekdays" type="checkbox" id="new-auto-task-sunday" value="0" />
                                                         <label className="form-check-label" for="new-auto-task-sunday">Sunday</label>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div className="form-group row justify-content-center">
+                                                <button type="button" className="btn btn-sm btn-success" onClick={saveNewScheduledTask}>Save</button>
                                             </div>
                                         </form>
                                     </div>
