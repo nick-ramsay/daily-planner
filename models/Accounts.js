@@ -8,7 +8,8 @@ const AccountsSchema = new Schema({
     firstname: {type: String},
     lastname: {type: String},
     sessionAccessToken: {type: String},
-    passwordResetToken: {type: String}
+    passwordResetToken: {type: String},
+    autoTasks: {type: Array}
 })
 
 const Accounts = mongoose.model("Accounts", AccountsSchema);

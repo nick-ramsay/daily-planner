@@ -59,6 +59,10 @@ router
   .route("/find-user-name")
   .post(dpControllers.findUserName)
 
+router
+  .route("/save-auto-task")
+  .post(dpControllers.saveAutoTask)
+
 //END: User Account Routes...
 
 router

@@ -179,7 +179,16 @@ module.exports = {
     },
     findUserName: (req, res) => {
         db.Accounts
-            .find({ _id: req.body.account_id }, {_id: -1, firstname: 1, lastname:1})
+            .find({ _id: req.body.account_id }, { _id: -1, firstname: 1, lastname: 1 })
+            .then(dbModel => res.json(dbModel[0]))
+            .catch(err => res.status(422).json(err));
+    },
+    saveAutoTask: (req, res) => {
+        console.log("Called saveAutoTask controller...");
+        console.log(req.body);
+
+        db.Accounts
+            .updateOne({ _id: req.body.account_id }, { $push: { autoTasks: req.body.auto_task_data } })
             .then(dbModel => res.json(dbModel[0]))
             .catch(err => res.status(422).json(err));
     },

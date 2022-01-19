@@ -56,6 +56,12 @@ const AccountOrg = () => {
 
         if (newScheduledTaskDescription !== "") {
             console.log("Make API call...");
+            API.saveAutoTask(getCookie("account_id"), newScheduledTaskData).then(
+                (res) => {
+                    console.log("Called Called saveAutoTask API");
+                    console.log(res);
+                }
+            );
         }
 
         console.log(newScheduledTaskData);
