@@ -18,10 +18,12 @@ const override = css`
 const AccountOrg = () => {
 
     var [loading, setLoading] = useState(true);
+    var [autoTasks, setAutoTasks] = useState();
 
     const renderAccountDetails = () => {
         console.log("API to be added...");
         setLoading(loading => false);
+        renderAutoTasks();
     }
 
     const saveNewScheduledTask = () => {
@@ -60,6 +62,7 @@ const AccountOrg = () => {
                 (res) => {
                     console.log("Called Called saveAutoTask API");
                     console.log(res);
+                    renderAutoTasks();
                 }
             );
         }
@@ -76,9 +79,17 @@ const AccountOrg = () => {
         }
     }
 
+    const renderAutoTasks = () => {
+        API.findAutoTasks(getCookie("account_id")).then(
+            (res) => {
+                console.log(res.data.autoTasks);
+                setAutoTasks(autoTasks => res.data.autoTasks);
+            }
+        );
+    };
+
     useEffect(() => {
         renderAccountDetails();
-        console.log(moment().day());
     }, [])
 
     return (
@@ -163,6 +174,42 @@ const AccountOrg = () => {
                                                 <button type="button" className="btn btn-sm btn-success" onClick={saveNewScheduledTask}>Save</button>
                                             </div>
                                         </form>
+                                        <div>
+                                            {
+                                                autoTasks !== undefined ?
+                                                    autoTasks.map((autoTask, i) =>
+                                                        <div className="card mb-1">
+                                                            <div className="col-md-12">
+                                                                <h5><strong>"{autoTasks[i].description}"</strong></h5>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-md-6 text-center">
+                                                                    <div className="row">
+                                                                        <div className='col-md-12'>
+                                                                            <strong>Hours</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className='row'>
+                                                                        <div className='col-md-12'>
+                                                                            {autoTasks[i].hours}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-6">
+                                                                    <div className="row">
+                                                                        <div className='col-md-12'>
+                                                                            <strong>Days</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                    {autoTasks[i].weekdays.map((weekday, j) =>
+                                                                        <span>{moment.weekdays(weekday)}{j + 1 !== autoTasks[i].weekdays.length ? ", " : ""}</span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ) : ""
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -60,6 +60,10 @@ router
   .post(dpControllers.findUserName)
 
 router
+  .route("/find-auto-tasks")
+  .post(dpControllers.findAutoTasks)
+
+router
   .route("/save-auto-task")
   .post(dpControllers.saveAutoTask)
 

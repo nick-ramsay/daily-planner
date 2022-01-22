@@ -192,6 +192,12 @@ module.exports = {
             .then(dbModel => res.json(dbModel[0]))
             .catch(err => res.status(422).json(err));
     },
+    findAutoTasks: (req, res) => {
+        db.Accounts
+            .find({ _id: req.body.account_id }, { autoTasks: 1 })
+            .then(dbModel => res.json(dbModel[0]))
+            .catch(err => res.status(422).json(err));
+    },
     setSessionAccessToken: function (req, res) {
         console.log("Called session token set controller...");
 
