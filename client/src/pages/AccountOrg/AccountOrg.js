@@ -180,7 +180,7 @@ const AccountOrg = () => {
                                                     autoTasks.map((autoTask, i) =>
                                                         <div className="card mb-1">
                                                             <div className="col-md-12">
-                                                                <h5><strong>"{autoTasks[i].description}"</strong></h5>
+                                                                <h5 data-toggle="collapse" data-target={"#autoTaskCard" + i}><strong>"{autoTasks[i].description}"</strong></h5>
                                                             </div>
                                                             <div className="row">
                                                                 <div className="col-md-6 text-center">
@@ -205,6 +205,16 @@ const AccountOrg = () => {
                                                                         <span>{moment.weekdays(weekday)}{j + 1 !== autoTasks[i].weekdays.length ? ", " : ""}</span>
                                                                     )}
                                                                 </div>
+                                                            </div>
+                                                            <div className="collapse" id={"autoTaskCard" + i}>
+                                                                <form>
+                                                                    <div className="col-md-12">
+                                                                        <div className="form-group">
+                                                                            <label for={"autoTasksDescription" + i}>Description</label>
+                                                                            <input type="text" class="form-control" id={"autoTasksDescription" + i} defaultValue={autoTasks[i].description} />
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     ) : ""
