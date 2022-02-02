@@ -53,7 +53,8 @@ const AccountOrg = () => {
         newScheduledTaskData = {
             description: newScheduledTaskDescription,
             hours: Number(newScheduledTaskHours),
-            weekdays: newScheduledTaskWeekdays
+            weekdays: newScheduledTaskWeekdays,
+            activated: true
         };
 
         if (newScheduledTaskDescription !== "") {
@@ -187,7 +188,18 @@ const AccountOrg = () => {
                                                                 <h5 data-toggle="collapse" data-target={"#autoTaskCard" + i}><strong>"{autoTasks[i].description}"</strong></h5>
                                                             </div>
                                                             <div className="row">
-                                                                <div className="col-md-6 text-center">
+                                                                <div className="col-md-4">
+                                                                    <div className="row">
+                                                                        <div className='col-md-12'>
+                                                                            <strong>On/Off</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="custom-control custom-switch">
+                                                                        <input type="checkbox" class="custom-control-input" id={"autoTaskOnOff" + i} defaultChecked={autoTasks[i].activated} />
+                                                                        <label class="custom-control-label" for={"autoTaskOnOff" + i}></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-4 text-center">
                                                                     <div className="row">
                                                                         <div className='col-md-12'>
                                                                             <strong>Hours</strong>
@@ -199,7 +211,7 @@ const AccountOrg = () => {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div className="col-md-6">
+                                                                <div className="col-md-4">
                                                                     <div className="row">
                                                                         <div className='col-md-12'>
                                                                             <strong>Days</strong>
