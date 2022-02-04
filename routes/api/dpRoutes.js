@@ -67,6 +67,10 @@ router
   .route("/save-auto-task")
   .post(dpControllers.saveAutoTask)
 
+router
+  .route("/auto-task-on-off")
+  .post(dpControllers.autoTaskOnOff)
+
 //END: User Account Routes...
 
 router

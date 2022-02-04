@@ -46,6 +46,9 @@ export default {
     findAutoTasks: (account_id) => {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/find-auto-tasks", data: { account_id: account_id} });
     },
+    autoTaskOnOff: (account_id, index, onOffBoolean) => {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/auto-task-on-off", data: { account_id: account_id, index: index, onOffBoolean: onOffBoolean} });
+    },
     //END: Account APIs...
     createPlan: function (plan_name, account_id, plan_status, created_date) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/create-plan", data: { plan_name, account_id, plan_status, created_date } });

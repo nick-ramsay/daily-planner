@@ -198,6 +198,14 @@ module.exports = {
             .then(dbModel => res.json(dbModel[0]))
             .catch(err => res.status(422).json(err));
     },
+    autoTaskOnOff: (req, res) => {
+        console.log(req.body);
+        /*db.Accounts
+            .updateOne({ _id: req.body.account_id }, {$push: autoTasks.$[index].activated: req.body.onOffBoolean })
+            .then(dbModel => res.json(dbModel[0]))
+            .catch(err => res.status(422).json(err));
+            */
+    },
     setSessionAccessToken: function (req, res) {
         console.log("Called session token set controller...");
 

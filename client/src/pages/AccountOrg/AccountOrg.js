@@ -112,6 +112,17 @@ const AccountOrg = () => {
         console.log(newAutoTaskData);
     };
 
+    const autoTaskOnOff = (index, onOffBoolean) => {
+        console.log(index);
+        console.log(onOffBoolean);
+        API.autoTaskOnOff(getCookie("account_id"), index, (onOffBoolean === true ? false : true))/*.then(
+            () => {
+                console.log();
+                //setAutoTasks(autoTasks => res.data.autoTasks);
+            }
+        )*/
+    }
+
     const renderAutoTasks = () => {
         API.findAutoTasks(getCookie("account_id")).then(
             (res) => {
@@ -148,9 +159,9 @@ const AccountOrg = () => {
                         <h2>User</h2>
                         <div className="accordion mt-2" id="new-auto-task-accordion">
                             <div className="card">
-                                <div className="card-header" id="headingOne">
+                                <div className="card-header card-header-accordion" id="headingOne">
                                     <h2 className="mb-0">
-                                        <button className="btn" type="button" data-toggle="collapse" data-target="#collapseNewAutoTask" aria-expanded="true" aria-controls="new-auto-task-accordion">
+                                        <button className="btn" style={{ color: "white" }} type="button" data-toggle="collapse" data-target="#collapseNewAutoTask" aria-expanded="true" aria-controls="new-auto-task-accordion">
                                             Automatic Tasks
                                         </button>
                                     </h2>
@@ -223,7 +234,7 @@ const AccountOrg = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div class="custom-control custom-switch">
-                                                                        <input type="checkbox" class="custom-control-input" id={"autoTaskOnOff" + i} defaultChecked={autoTasks[i].activated} />
+                                                                        <input type="checkbox" class="custom-control-input" id={"autoTaskOnOff" + i} defaultChecked={autoTasks[i].activated} onClick={() => autoTaskOnOff(i, autoTasks[i].activated)} />
                                                                         <label class="custom-control-label" for={"autoTaskOnOff" + i}></label>
                                                                     </div>
                                                                 </div>
