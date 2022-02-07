@@ -1,4 +1,4 @@
-//Datadog Tracing Injection
+//Datadog Tracing Injections
 const tracer = require('dd-trace').init({
   debug: true,
   logInjection: true
