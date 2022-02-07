@@ -1,3 +1,8 @@
+const tracer = require('dd-trace').init({
+  debug: true,
+  logInjection: true
+});
+
 const express = require("express");
 const mongoose = require('mongoose');
 require("dotenv").config();
@@ -8,6 +13,12 @@ const routes = require("./routes");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+
+var StatsD = require('hot-shots');
+var dogstatsd = new StatsD();
+
+// Increment a counter.
+dogstatsd.increment('page.views');
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
