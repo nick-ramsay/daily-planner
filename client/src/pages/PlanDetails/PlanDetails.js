@@ -234,7 +234,7 @@ const PlanDetails = () => {
             let approvedImportTasks = [];
 
             for (let i = 0; i < originalImportedTasks.length; i++) {
-                if (currentTaskDescriptions.indexOf(originalImportedTasks[i].description) === -1 && approvedImportTasks.indexOf(originalImportedTasks[i]) === -1 && (originalImportedTasks[i].status === "Punted" || originalImportedTasks[i].status === "Pending Feedback" || originalImportedTasks[i].status === "Awaiting Backport")) {
+                if (currentTaskDescriptions.indexOf(originalImportedTasks[i].description) === -1 && approvedImportTasks.indexOf(originalImportedTasks[i]) === -1 && (originalImportedTasks[i].status === "Punted" || originalImportedTasks[i].status === "Pending Feedback" || originalImportedTasks[i].status === "Awaiting Backport" || originalImportedTasks[i].status === "On Hold")) {
                     approvedImportTasks.push(originalImportedTasks[i]);
                 }
             }
@@ -244,6 +244,8 @@ const PlanDetails = () => {
                     approvedImportTasks[i].status = "Pending Feedback";
                 } else if (approvedImportTasks[i].status === "Awaiting Backport") {
                     approvedImportTasks[i].status = "Awaiting Backport";
+                } else if (approvedImportTasks[i].status === "On Hold") {
+                    approvedImportTasks[i].status = "On Hold";
                 } else {
                     approvedImportTasks[i].status = "Open";
                 }
@@ -463,7 +465,7 @@ const PlanDetails = () => {
                                             <div
                                                 {...provided.droppableProps}
                                                 ref={provided.innerRef}
-                                            style={getListStyle(snapshot.isDraggingOver)}
+                                                style={getListStyle(snapshot.isDraggingOver)}
                                             >
                                                 {tasks !== undefined ? tasks.map((task, i) => {
                                                     if (task.deletion_date === null || task.deletion_date === undefined) {
@@ -474,10 +476,10 @@ const PlanDetails = () => {
                                                                         ref={provided.innerRef}
                                                                         {...provided.draggableProps}
                                                                         {...provided.dragHandleProps}
-                                                                    style={getItemStyle(
-                                                                        snapshot.isDragging,
-                                                                        provided.draggableProps.style
-                                                                    )}
+                                                                        style={getItemStyle(
+                                                                            snapshot.isDragging,
+                                                                            provided.draggableProps.style
+                                                                        )}
                                                                     >
                                                                         <div>
                                                                             <div className="card mb-1 mt-1">
@@ -486,7 +488,7 @@ const PlanDetails = () => {
                                                                                         <div className="col-md-12">
                                                                                             <div className="row">
                                                                                                 <div className="col-md-12 text-left">
-                                                                                                    <h5 id={"editTaskBtn" + i}  data-toggle="collapse" data-task_array_index={i} data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
+                                                                                                    <h5 id={"editTaskBtn" + i} data-toggle="collapse" data-task_array_index={i} data-target={"#taskDetails" + i} aria-expanded="false" aria-controls={"taskDetails" + task + i}>
                                                                                                         <strong>{"#" + (i + 1) + ": "}<span id={"taskDescription" + i} className="task-description-edit">{task.description}</span></strong>
                                                                                                     </h5>
                                                                                                 </div>
@@ -590,7 +592,7 @@ const PlanDetails = () => {
                                                                                                             <option>Open</option>
                                                                                                             <option>In Progress</option>
                                                                                                             <option>Pending Feedback</option>
-                                                                                                            <option>Awaiting Backport</option>
+                                                                                                            <option>On Hold</option>
                                                                                                             <option>Punted</option>
                                                                                                         </select>
                                                                                                     </div>
