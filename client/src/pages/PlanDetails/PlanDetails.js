@@ -537,6 +537,10 @@ const PlanDetails = () => {
                                                                                                                     return (
                                                                                                                         <h6>Status: <span className="badge badge-custom-peru">{task.status}</span></h6>
                                                                                                                     )
+                                                                                                                case "On Hold":
+                                                                                                                    return (
+                                                                                                                        <h6>Status: <span className="badge badge-custom-darkorange">{task.status}</span></h6>
+                                                                                                                    )
                                                                                                                 default:
                                                                                                                     return (
                                                                                                                         <h6>Status: <span className="badge badge-dark">{task.status}</span></h6>
@@ -594,6 +598,7 @@ const PlanDetails = () => {
                                                                                                             <option>Pending Feedback</option>
                                                                                                             <option>On Hold</option>
                                                                                                             <option>Punted</option>
+                                                                                                            <option>Meeting</option>
                                                                                                         </select>
                                                                                                     </div>
                                                                                                     <div className="form-group col-md-6 text-left">
