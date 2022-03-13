@@ -539,7 +539,7 @@ const PlanDetails = () => {
                                                                                                                     )
                                                                                                                 case "Meeting":
                                                                                                                     return (
-                                                                                                                        <h6>Status: <span className="badge badge-custom-darkorange">{task.status}</span></h6>
+                                                                                                                        <h6>Status: <span className="badge badge-custom-sunshine">{task.status}</span></h6>
                                                                                                                     )
                                                                                                                 default:
                                                                                                                     return (
