@@ -122,7 +122,8 @@ const PlanDetails = () => {
 
     const generateLinks = (taskDescription) => {
         let zendeskRegex = /ZD\s{1}\d{6,7}/g;
-        let zendeskStrings = taskDescription.match(zendeskRegex);
+        console.log(taskDescription.match(zendeskRegex));
+        let zendeskStrings = taskDescription.match(zendeskRegex) != null ? taskDescription.match(zendeskRegex):[];
 
         let newLinks = [];
 
@@ -141,6 +142,7 @@ const PlanDetails = () => {
             newLinks.push(currentLink);
 
         };
+        console.log(newLinks);
         return newLinks;
     }
 
