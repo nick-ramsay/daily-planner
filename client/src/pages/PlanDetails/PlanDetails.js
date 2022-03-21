@@ -40,9 +40,7 @@ const PlanDetails = () => {
     var [taskStatus, setTaskStatus] = useInput();
 
     const calculateTotalHoursLogged = (PlanData) => {
-        console.log("Called calcTotalHours");
         let totalHours = 0;
-        console.log(PlanData.tasks);
         for (let i = 0; i < PlanData.tasks.length; i++) {
             totalHours += Number(PlanData.tasks[i].hoursLogged);
         };
@@ -53,7 +51,6 @@ const PlanDetails = () => {
         let selectedPlan = PlanID;
         API.findImportableTasks(getCookie("account_id")).then(
             (res) => {
-                console.log(res);
                 setImportablePlans(importablePlans => res.data);
             }
         );
@@ -83,6 +80,7 @@ const PlanDetails = () => {
                 status: "Open",
                 order: Plan.tasks.length,
                 hoursLogged: 0,
+                links: generateLinks(newTaskDescription),
                 jiras: []
             }
             PlanData.tasks.unshift(newTaskData);
@@ -122,33 +120,50 @@ const PlanDetails = () => {
     }
     */
 
+    const generateLinks = (taskDescription) => {
+        let zendeskRegex = /ZD\s{1}\d{6,7}/g;
+        let zendeskStrings = taskDescription.match(zendeskRegex);
+
+        let newLinks = [];
+
+        for (let l = 0; l < zendeskStrings.length; l += 1) {
+
+            let currentTitle = zendeskStrings[l];
+            let currentID = Number(zendeskStrings[l].match(/\s{1}\d{6,7}/g)[0]);
+            let currentURL = 'https://datadog.zendesk.com/agent/tickets/' + currentID;
+
+            let currentLink = {
+                title: currentTitle,
+                id: currentID,
+                url: currentURL
+            };
+
+            newLinks.push(currentLink);
+
+        };
+        return newLinks;
+    }
+
     const updateTask = (event) => {
         let taskArrayPosition = event.currentTarget.dataset.task_array_position;
         let taskDescription = document.getElementById("taskDescription" + taskArrayPosition).innerHTML;
         let newHoursLogged = document.getElementById("taskHoursLogged" + taskArrayPosition).value;
         let newStatus = document.getElementById("taskStatus" + taskArrayPosition).value;
         let newTaskDescription = document.getElementById("updatedTaskDescription" + taskArrayPosition).value;
-
-        console.log(newTaskDescription)
-
+        
+        let newLinks = generateLinks(newTaskDescription);
 
         API.checkExistingTasks(PlanID, newTaskDescription).then(
             (res) => {
-                console.log("Called checkExistingTasks API");
-                console.log(res);
                 renderPlan();
             }
         );
 
-        API.updateTask(PlanID, taskDescription, taskArrayPosition, newHoursLogged, newStatus, newTaskDescription).then(
+        API.updateTask(PlanID, taskDescription, taskArrayPosition, newHoursLogged, newStatus, newTaskDescription, newLinks).then(
             (res) => {
                 renderPlan();
             }
         )
-
-        //document.getElementById("saveTaskBtn" + taskArrayPosition).classList.add("d-none");
-        //document.getElementById("editTaskBtn" + taskArrayPosition).classList.remove("d-none");
-        //document.getElementById("moveTaskBtns" + taskArrayPosition).classList.add("d-none");
 
     }
 
@@ -497,11 +512,11 @@ const PlanDetails = () => {
                                                                                             </div>
                                                                                             <div className="row mb-2">
                                                                                                 <div className="col-md-12 text-left">
-                                                                                                    {
-                                                                                                        task.jiras !== undefined ? task.jiras.map(
-                                                                                                            (jira, j) =>
+                                                                                                    {    
+                                                                                                        task.links !== undefined ? task.links.map(
+                                                                                                            (link, j) =>
                                                                                                                 <div className="mt-1">
-                                                                                                                    <span className="jiraLinkPill mr-3 float-sm-left"><a className="jiraLinks" href={"https://jira.iscinternal.com/browse/" + jira} title={"Go to JIRA " + jira} target="_blank" rel="noopener noreferrer">{jira}</a> <img className="deleteIcon ml-1" alt="deleteIcon" title={"Remove JIRA " + jira} src={deleteIcon} data-jira_array_index={j} data-task_array_index={i} onClick={removeJIRA}></img></span>
+                                                                                                                    <span className="jiraLinkPill mr-3 float-sm-left" style={{fontSize:12}}><a className="jiraLinks" href={link.url} title={"Go to link " + link.title} target="_blank" rel="noopener noreferrer">{link.title}</a></span>
                                                                                                                 </div>
                                                                                                         ) : ""
                                                                                                     }
