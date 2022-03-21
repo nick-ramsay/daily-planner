@@ -11,3 +11,8 @@
     background-color: #F7B733;
     color: #fff;
 }
+
+.badge-custom-maroon {
+    background-color: maroon;
+    color: #fff;
+}

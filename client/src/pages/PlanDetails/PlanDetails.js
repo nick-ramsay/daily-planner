@@ -234,7 +234,7 @@ const PlanDetails = () => {
             let approvedImportTasks = [];
 
             for (let i = 0; i < originalImportedTasks.length; i++) {
-                if (currentTaskDescriptions.indexOf(originalImportedTasks[i].description) === -1 && approvedImportTasks.indexOf(originalImportedTasks[i]) === -1 && (originalImportedTasks[i].status === "Punted" || originalImportedTasks[i].status === "Pending Feedback" || originalImportedTasks[i].status === "Awaiting Backport" || originalImportedTasks[i].status === "On Hold")) {
+                if (currentTaskDescriptions.indexOf(originalImportedTasks[i].description) === -1 && approvedImportTasks.indexOf(originalImportedTasks[i]) === -1 && (originalImportedTasks[i].status === "Punted" || originalImportedTasks[i].status === "Pending Feedback" || originalImportedTasks[i].status === "Awaiting Backport" || originalImportedTasks[i].status === "On Hold" || originalImportedTasks[i].status === "Long Term")) {
                     approvedImportTasks.push(originalImportedTasks[i]);
                 }
             }
@@ -246,6 +246,8 @@ const PlanDetails = () => {
                     approvedImportTasks[i].status = "Awaiting Backport";
                 } else if (approvedImportTasks[i].status === "On Hold") {
                     approvedImportTasks[i].status = "On Hold";
+                } else if (approvedImportTasks[i].status === "Long Term") {
+                    approvedImportTasks[i].status = "Long Term";
                 } else {
                     approvedImportTasks[i].status = "Open";
                 }
@@ -541,6 +543,10 @@ const PlanDetails = () => {
                                                                                                                     return (
                                                                                                                         <h6>Status: <span className="badge badge-custom-sunshine">{task.status}</span></h6>
                                                                                                                     )
+                                                                                                                case "Long Term":
+                                                                                                                    return (
+                                                                                                                        <h6>Status: <span className="badge badge-custom-maroon">{task.status}</span></h6>
+                                                                                                                    )
                                                                                                                 default:
                                                                                                                     return (
                                                                                                                         <h6>Status: <span className="badge badge-dark">{task.status}</span></h6>
@@ -597,6 +603,7 @@ const PlanDetails = () => {
                                                                                                             <option>In Progress</option>
                                                                                                             <option>Pending Feedback</option>
                                                                                                             <option>On Hold</option>
+                                                                                                            <option>Long Term</option>
                                                                                                             <option>Punted</option>
                                                                                                             <option>Meeting</option>
                                                                                                         </select>
