@@ -117,6 +117,9 @@ const Home = () => {
                                                 else if (plan.tasks[j].status === "Meeting") {
                                                     openTaskCount += 0
                                                 }
+                                                else if (plan.tasks[j].status === "Long Task") {
+                                                    openTaskCount += 0
+                                                }
                                                 else {
                                                     openTaskCount += 1
                                                 }
