@@ -169,35 +169,6 @@ const PlanDetails = () => {
 
     }
 
-    const linkJIRA = (event) => {
-        let taskArrayPosition = event.currentTarget.dataset.task_array_position;
-        let taskDescription = document.getElementById("taskDescription" + taskArrayPosition).innerHTML;
-        let linkJIRAID = document.getElementById("linkJIRAInput" + taskArrayPosition).value;
-
-        console.log(linkJIRAID);
-        API.linkJIRA(PlanID, taskDescription, taskArrayPosition, linkJIRAID).then(
-            (res) => {
-                renderPlan();
-                document.getElementById("linkJIRAInput" + taskArrayPosition).value = "";
-            }
-        )
-    }
-
-    const removeJIRA = (event) => {
-        let jiraArrayIndex = event.currentTarget.dataset.jira_array_index;
-        let taskArrayIndex = event.currentTarget.dataset.task_array_index;
-        let taskDescription = document.getElementById("taskDescription" + taskArrayIndex).innerHTML;
-        let jiraArray = Plan.tasks[taskArrayIndex].jiras;
-
-        jiraArray.splice(jiraArrayIndex, 1);
-
-        API.removeJIRA(PlanID, taskDescription, jiraArray).then(
-            (res) => {
-                renderPlan();
-            }
-        )
-    }
-
     const moveJira = (event) => {
         let planTasks = Plan.tasks;
         let taskArrayIndex = parseInt(event.currentTarget.dataset.task_array_index);
@@ -628,21 +599,6 @@ const PlanDetails = () => {
                                                                                                     <div className="form-group col-md-6 text-left">
                                                                                                         <label htmlFor="taskHoursLogged">Hours Logged</label>
                                                                                                         <input type="number" className="form-control" id={"taskHoursLogged" + i} key={task.description + i} step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div className="form-row">
-                                                                                                    <div className="form-group col-md-6 text-left">
-                                                                                                        <div className="row">
-                                                                                                            <div className="col-md-12">
-                                                                                                                <label htmlFor="taskHoursLogged">Link JIRA</label>
-                                                                                                            </div>
-                                                                                                            <div className="col-md-9">
-                                                                                                                <input type="text" key={task.description + i} className="form-control" id={"linkJIRAInput" + i} />
-                                                                                                            </div>
-                                                                                                            <div className="col-md-3 text-center">
-                                                                                                                <button className="btn btn-sm btn-custom-blue mt-1" id="linkJIRAButton" type="button" data-task_array_position={i} data-plan_id={Plan._id} onClick={linkJIRA}>Add</button>
-                                                                                                            </div>
-                                                                                                        </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div className="form-row">
