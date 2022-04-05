@@ -1,6 +1,9 @@
 import React, { } from 'react';
 import { getCookie } from "./sharedFunctions/sharedFunctions";
+import {config} from 'dotenv';
+import keys from "./keys";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { datadogRum } from '@datadog/browser-rum';
 import './App.css';
 
 import Plans from "./pages/Plans/Plans";
@@ -15,6 +18,19 @@ import AccountOrg from './pages/AccountOrg/AccountOrg';
 import Error from './pages/Error/Error';
 import NoAccess from './pages/NoAccess/NoAccess';
 import moment from 'moment';
+
+datadogRum.init({
+  applicationId: keys.datadog.app_key_rum,
+  clientToken: keys.datadog.client_token_rum,
+  site: keys.datadog.dd_site,
+  //  service: 'my-web-application',
+  //  env: 'production',
+  //  version: '1.0.0',
+  sampleRate: 100,
+  trackInteractions: true,
+})
+
+datadogRum.startSessionReplayRecording();
 
 var client = {
   account_id: "",
