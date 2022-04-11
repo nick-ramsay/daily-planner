@@ -38,24 +38,24 @@ export default {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/set-session-access-token", data: { id: id, sessionAccessToken: sessionAccessToken } });
     },
     findUserName: (account_id) => {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-user-name", data: { account_id: account_id} });
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-user-name", data: { account_id: account_id } });
     },
     saveAutoTask: (account_id, auto_task_data) => {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/save-auto-task", data: { account_id: account_id, auto_task_data: auto_task_data} });
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/save-auto-task", data: { account_id: account_id, auto_task_data: auto_task_data } });
     },
     findAutoTasks: (account_id) => {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-auto-tasks", data: { account_id: account_id} });
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-auto-tasks", data: { account_id: account_id } });
     },
     autoTaskOnOff: (account_id, index, onOffBoolean) => {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/auto-task-on-off", data: { account_id: account_id, index: index, onOffBoolean: onOffBoolean} });
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/auto-task-on-off", data: { account_id: account_id, index: index, onOffBoolean: onOffBoolean } });
     },
     //END: Account APIs...
     createPlan: function (plan_name, account_id, plan_status, created_date) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/create-plan", data: { plan_name, account_id, plan_status, created_date } });
     },
     findAllPlans: function (account_id) {
-        console.log("API: "+ account_id);
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-all-plans", data: {account_id: account_id} });
+        console.log("API: " + account_id);
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-all-plans", data: { account_id: account_id } });
     },
     findPlan: function (planID) {
         console.log(planID);
@@ -89,12 +89,15 @@ export default {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/find-import-punted-tasks", data: { selectedImportPlan } });
     },
     findImportableTasks: function (account_id) {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-importable-plans", data: {account_id} });
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-importable-plans", data: { account_id } });
     },
     importTasks: function (PlanID, approvedImportedTasks) {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/import-tasks", data: {PlanID, approvedImportedTasks} });
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/import-tasks", data: { PlanID, approvedImportedTasks } });
     },
     deleteTask: function (PlanID, taskDescription, deletionDate) {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/delete-task", data: {PlanID, taskDescription, deletionDate} });
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/delete-task", data: { PlanID, taskDescription, deletionDate } });
+    },
+    syncWithZendesk: (zdURL) => {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/sync-with-zendesk", data: { zdURL: zdURL } })
     }
 };

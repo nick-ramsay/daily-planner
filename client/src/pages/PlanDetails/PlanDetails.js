@@ -8,6 +8,7 @@ import { BrowserRouter as Router, useParams } from "react-router-dom";
 import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
 import API from "../../utils/API";
 import moment from 'moment';
+import * as cheerio from 'cheerio';
 import upArrow from '../../images/baseline_keyboard_arrow_up_black_48dp.png';
 import downArrow from '../../images/baseline_keyboard_arrow_down_black_48dp.png';
 import deleteIcon from '../../images/thin_minus_icon.png';
@@ -123,7 +124,7 @@ const PlanDetails = () => {
     const generateLinks = (taskDescription) => {
         let zendeskRegex = /ZD\s{1}\d{6,7}/g;
         console.log(taskDescription.match(zendeskRegex));
-        let zendeskStrings = taskDescription.match(zendeskRegex) != null ? taskDescription.match(zendeskRegex):[];
+        let zendeskStrings = taskDescription.match(zendeskRegex) != null ? taskDescription.match(zendeskRegex) : [];
 
         let newLinks = [];
 
@@ -152,7 +153,7 @@ const PlanDetails = () => {
         let newHoursLogged = document.getElementById("taskHoursLogged" + taskArrayPosition).value;
         let newStatus = document.getElementById("taskStatus" + taskArrayPosition).value;
         let newTaskDescription = document.getElementById("updatedTaskDescription" + taskArrayPosition).value;
-        
+
         let newLinks = generateLinks(newTaskDescription);
 
         API.checkExistingTasks(PlanID, newTaskDescription).then(
@@ -348,6 +349,11 @@ const PlanDetails = () => {
         reorderTasks(tempItems);
     }
 
+    const syncWithZendesk = () => {
+        console.log("Clicked sync with Zendesk");
+        API.syncWithZendesk("https://datadog.zendesk.com/agent/filters/50279056");
+    };
+
     //..END: SIMPLE LIST EXAMPLE FUNCITONS
 
     useEffect(() => {
@@ -389,9 +395,14 @@ const PlanDetails = () => {
                             </div>
 
                             <div>
-                                <a className="custom-hyperlink text-center" data-toggle="modal" data-target="#importPuntedModal">
-                                    Import Punted Tasks
-                                </a>
+                                <div className="row justify-content-center">
+                                    <a className="custom-hyperlink" data-toggle="modal" data-target="#importPuntedModal">
+                                        Import Punted Tasks
+                                    </a>
+                                </div>
+                                <div className="row justify-content-center">
+                                    <a className="custom-hyperlink text-center" onClick={syncWithZendesk}>Sync with Zendesk</a>
+                                </div>
                             </div>
                             <div className="modal fade" id="newTaskModal" tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
                                 <div className="modal-dialog">
@@ -485,11 +496,11 @@ const PlanDetails = () => {
                                                                                             </div>
                                                                                             <div className="row mb-2">
                                                                                                 <div className="col-md-12 text-left">
-                                                                                                    {    
+                                                                                                    {
                                                                                                         task.links !== undefined ? task.links.map(
                                                                                                             (link, j) =>
                                                                                                                 <div className="mt-1">
-                                                                                                                    <span className="jiraLinkPill mr-3 float-sm-left" style={{fontSize:12}}><a className="jiraLinks" href={link.url} title={"Go to link " + link.title} target="_blank" rel="noopener noreferrer">{link.title}</a></span>
+                                                                                                                    <span className="jiraLinkPill mr-3 float-sm-left" style={{ fontSize: 12 }}><a className="jiraLinks" href={link.url} title={"Go to link " + link.title} target="_blank" rel="noopener noreferrer">{link.title}</a></span>
                                                                                                                 </div>
                                                                                                         ) : ""
                                                                                                     }

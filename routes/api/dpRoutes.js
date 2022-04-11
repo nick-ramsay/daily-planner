@@ -134,4 +134,8 @@ router
   .route("/delete-task")
   .post(dpControllers.deleteTask);
 
+router
+  .route("/sync-with-zendesk")
+  .post(dpControllers.syncWithZendesk);
+
 module.exports = router;

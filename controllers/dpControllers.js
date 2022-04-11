@@ -4,6 +4,8 @@ const sgMail = require('@sendgrid/mail');
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 const keys = require("../keys");
 
@@ -392,5 +394,14 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
+    },
+    syncWithZendesk: (req,res) => {
+        console.log("Called syncWithZendesk controller");
+        console.log(req.body);
+        axios.get(req.body.zdURL).then((response) => {
+            let $ = cheerio.load(response.data);
+            console.log(response.data);
+            console.log($);
+        });
     }
 };
