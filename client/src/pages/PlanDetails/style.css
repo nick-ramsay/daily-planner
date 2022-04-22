@@ -2,6 +2,23 @@
     border-color: black;
 }
 
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: navy;
+    border-color:navy;
+}
+
+.btn-navy-inverse {
+    color:navy;
+    border: 1px solid navy;
+    background-color: inherit;
+}
+
+.btn-navy-inverse:hover {
+    color: white;
+    border: 1px solid navy;
+    background-color: navy;
+}
+
 .badge-custom-peru {
     background-color: peru;
     color: #fff;
@@ -14,5 +31,10 @@
 
 .badge-custom-maroon {
     background-color: maroon;
+    color: #fff;
+}
+
+.badge-custom-hotpink {
+    background-color: hotpink;
     color: #fff;
 }

@@ -25,6 +25,7 @@ const override = css`
 const PlanDetails = () => {
     var PlanID = useParams().id;
     var [items, setItems] = useState([]);
+    var [autoSort, setAutoSort] = useState(true);
     var [tasks, setTasks] = useState([]);
     var [importablePlans, setImportablePlans] = useState([]);
     var [selectedImportPlan, setSelectedImportPlan] = useState("");
@@ -151,10 +152,15 @@ const PlanDetails = () => {
         let taskArrayPosition = event.currentTarget.dataset.task_array_position;
         let taskDescription = document.getElementById("taskDescription" + taskArrayPosition).innerHTML;
         let newHoursLogged = document.getElementById("taskHoursLogged" + taskArrayPosition).value;
+        let originalStatus = document.getElementById("task-status-" + taskArrayPosition).innerHTML;
         let newStatus = document.getElementById("taskStatus" + taskArrayPosition).value;
         let newTaskDescription = document.getElementById("updatedTaskDescription" + taskArrayPosition).value;
 
         let newLinks = generateLinks(newTaskDescription);
+
+        if (autoSort === true && originalStatus !== newStatus) {
+            console.log(originalStatus);
+        }; //^^^AUTO SORT LOGIC ^^^
 
         API.checkExistingTasks(PlanID, newTaskDescription).then(
             (res) => {
@@ -354,6 +360,24 @@ const PlanDetails = () => {
         API.syncWithZendesk("https://datadog.zendesk.com/agent/filters/50279056");
     };
 
+    const puntAllOpen = () => {
+
+        let tempTasks = tasks;
+
+        for (let i = 0; i < tempTasks.length; i++) {
+            if (tempTasks[i].status === "Open" || tempTasks[i].status === "In Progress") {
+                tempTasks[i].status = "Punted";
+            };
+        }
+
+        API.replaceTaskArray(PlanID, tempTasks).then(
+            (res) => {
+                console.log(res.data);
+                renderPlan();
+            }
+        );
+    }
+
     //..END: SIMPLE LIST EXAMPLE FUNCITONS
 
     useEffect(() => {
@@ -393,15 +417,41 @@ const PlanDetails = () => {
                                     New Task
                                 </button>
                             </div>
+                            <div class="accordion" id="planSettingsAccordion">
+                                <div>
+                                    <div>
+                                        <h2 class="mb-0">
+                                            <button class="btn" type="button" style={{ fontWeight: 'bold', fontSize: 14 }} data-toggle="collapse" data-target="#planSettingsCard" aria-expanded="true" aria-controls="planSettingsAccordion">
+                                                <span>Tools & Settings</span><span style={{ fontSize: 20 }}> &#9881;</span>
+                                            </button>
+                                        </h2>
+                                    </div>
 
-                            <div>
-                                <div className="row justify-content-center">
-                                    <a className="custom-hyperlink" data-toggle="modal" data-target="#importPuntedModal">
-                                        Import Punted Tasks
-                                    </a>
-                                </div>
-                                <div className="row justify-content-center">
-                                    <a className="custom-hyperlink text-center" onClick={syncWithZendesk}>Sync with Zendesk</a>
+                                    <div id="planSettingsCard" class="collapse" aria-labelledby="headingOne" data-parent="#planSettingsAccordion">
+                                        <div class="card-body">
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <button type="button" className="btn btn-sm btn-navy-inverse" data-toggle="modal" data-target="#importPuntedModal">
+                                                        Import Punted Tasks
+                                                    </button>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <button type="button" className="btn btn-sm btn-navy-inverse" onClick={syncWithZendesk}>Sync with Zendesk</button>
+                                                </div>
+                                            </div>
+                                            <div className='row mt-2'>
+                                                <div className='col-md-6'>
+                                                    <button className="btn btn-sm btn-navy-inverse" type="button" onClick={puntAllOpen}>Punt-It-All</button>
+                                                </div>
+                                                <div className='col-md-6'>
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" checked={autoSort} id="autoSortSwitch" onClick={() => { autoSort === true ? setAutoSort(false) : setAutoSort(true); }} />
+                                                        <label class="custom-control-label" for="autoSortSwitch">Auto Sort</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div className="modal fade" id="newTaskModal" tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
@@ -516,39 +566,39 @@ const PlanDetails = () => {
                                                                                                             switch (task.status) {
                                                                                                                 case "Closed":
                                                                                                                     return (
-                                                                                                                        <h6>Status: <span className="badge badge-success">{task.status}</span></h6>
+                                                                                                                        <h6>Status: <span id={"task-status-" + i} className="badge badge-success">{task.status}</span></h6>
                                                                                                                     )
                                                                                                                 case "Open":
                                                                                                                     return (
-                                                                                                                        <h6>Status: <span className="badge badge-primary">{task.status}</span></h6>
+                                                                                                                        <h6>Status: <span id={"task-status-" + i} className="badge badge-primary">{task.status}</span></h6>
                                                                                                                     )
                                                                                                                 case "In Progress":
                                                                                                                     return (
-                                                                                                                        <h6>Status: <span className="badge badge-warning">{task.status}</span></h6>
+                                                                                                                        <h6>Status: <span id={"task-status-" + i} className="badge badge-warning">{task.status}</span></h6>
                                                                                                                     )
                                                                                                                 case "Pending Feedback":
                                                                                                                     return (
-                                                                                                                        <h6>Status: <span className="badge badge-info">{task.status}</span></h6>
+                                                                                                                        <h6>Status: <span id={"task-status-" + i} className="badge badge-info">{task.status}</span></h6>
                                                                                                                     )
                                                                                                                 case "Punted":
                                                                                                                     return (
-                                                                                                                        <h6>Status: <span className="badge badge-secondary">{task.status}</span></h6>
+                                                                                                                        <h6>Status: <span id={"task-status-" + i} className="badge badge-secondary">{task.status}</span></h6>
                                                                                                                     )
                                                                                                                 case "Awaiting Backport":
                                                                                                                     return (
-                                                                                                                        <h6>Status: <span className="badge badge-custom-peru">{task.status}</span></h6>
+                                                                                                                        <h6>Status: <span id={"task-status-" + i} className="badge badge-custom-peru">{task.status}</span></h6>
                                                                                                                     )
                                                                                                                 case "Meeting":
                                                                                                                     return (
-                                                                                                                        <h6>Status: <span className="badge badge-custom-sunshine">{task.status}</span></h6>
+                                                                                                                        <h6>Status: <span id={"task-status-" + i} className="badge badge-custom-sunshine">{task.status}</span></h6>
                                                                                                                     )
                                                                                                                 case "Long Term":
                                                                                                                     return (
-                                                                                                                        <h6>Status: <span className="badge badge-custom-maroon">{task.status}</span></h6>
+                                                                                                                        <h6>Status: <span id={"task-status-" + i} className="badge badge-custom-hotpink">{task.status}</span></h6>
                                                                                                                     )
                                                                                                                 default:
                                                                                                                     return (
-                                                                                                                        <h6>Status: <span className="badge badge-dark">{task.status}</span></h6>
+                                                                                                                        <h6>Status: <span id={"task-status-" + i} className="badge badge-dark">{task.status}</span></h6>
                                                                                                                     )
                                                                                                             }
                                                                                                         }
