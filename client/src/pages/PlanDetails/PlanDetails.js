@@ -9,6 +9,7 @@ import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctio
 import API from "../../utils/API";
 import moment from 'moment';
 import * as cheerio from 'cheerio';
+import axios from "axios";
 import upArrow from '../../images/baseline_keyboard_arrow_up_black_48dp.png';
 import downArrow from '../../images/baseline_keyboard_arrow_down_black_48dp.png';
 import deleteIcon from '../../images/thin_minus_icon.png';
@@ -152,14 +153,21 @@ const PlanDetails = () => {
         let taskArrayPosition = event.currentTarget.dataset.task_array_position;
         let taskDescription = document.getElementById("taskDescription" + taskArrayPosition).innerHTML;
         let newHoursLogged = document.getElementById("taskHoursLogged" + taskArrayPosition).value;
-        let originalStatus = document.getElementById("task-status-" + taskArrayPosition).innerHTML;
+        let originalStatus = tasks[taskArrayPosition].status;
         let newStatus = document.getElementById("taskStatus" + taskArrayPosition).value;
         let newTaskDescription = document.getElementById("updatedTaskDescription" + taskArrayPosition).value;
 
         let newLinks = generateLinks(newTaskDescription);
+        
+        let autoSortTargetIndex = -1;
 
         if (autoSort === true && originalStatus !== newStatus) {
-            console.log(originalStatus);
+            for(let i = 0; i < tasks.length; i++) {
+                if (tasks[i].status === newStatus && autoSortTargetIndex === -1) {
+                    autoSortTargetIndex = i;
+                }
+            }
+            console.log(autoSortTargetIndex);
         }; //^^^AUTO SORT LOGIC ^^^
 
         API.checkExistingTasks(PlanID, newTaskDescription).then(
@@ -174,30 +182,6 @@ const PlanDetails = () => {
             }
         )
 
-    }
-
-    const moveJira = (event) => {
-        let planTasks = Plan.tasks;
-        let taskArrayIndex = parseInt(event.currentTarget.dataset.task_array_index);
-        let taskDescription = document.getElementById("taskDescription" + taskArrayIndex).innerHTML;
-        let moveJiraIncrement = parseInt(event.currentTarget.dataset.move_jira_increment);
-
-        let selectedTask = Plan.tasks[taskArrayIndex];
-        let newTaskIndex = (taskArrayIndex + moveJiraIncrement);
-
-        planTasks.splice(taskArrayIndex, 1);
-        planTasks.splice(newTaskIndex, 0, selectedTask);
-
-        API.updateTaskOrder(PlanID, taskDescription, planTasks).then(
-            (res) => {
-                renderPlan();
-                for (let i = 0; i < Plan.tasks.length; i++) {
-                    document.getElementById("editTaskBtn" + i).classList.remove("d-none");
-                    document.getElementById("taskDetails" + i).classList.remove("show");
-                    document.getElementById("taskDetails" + i).classList.add("collapse");
-                }
-            }
-        )
     }
 
     const reorderTasks = (newTaskArray) => {
@@ -357,7 +341,13 @@ const PlanDetails = () => {
 
     const syncWithZendesk = () => {
         console.log("Clicked sync with Zendesk");
-        API.syncWithZendesk("https://datadog.zendesk.com/agent/filters/50279056");
+        //API.syncWithZendesk("https://datadog.zendesk.com/agent/filters/50279056");
+
+        axios.get('https://datadog.zendesk.com/agent/filters/50279056').then((response) => {
+            let $ = cheerio.load(response.data);
+            console.log(response.data);
+            console.log($);
+        });
     };
 
     const puntAllOpen = () => {
