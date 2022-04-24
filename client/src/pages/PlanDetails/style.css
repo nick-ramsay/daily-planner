@@ -5,6 +5,7 @@
 .custom-control-input:checked ~ .custom-control-label::before {
     background-color: navy;
     border-color:navy;
+    outline:none;
 }
 
 .btn-navy-inverse {
