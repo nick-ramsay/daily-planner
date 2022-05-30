@@ -30,6 +30,8 @@ datadogRum.init({
   trackInteractions: true,
 })
 
+datadogRum.addRumGlobalContext('company_name', 'The Daily Planner Co.');
+
 datadogRum.startSessionReplayRecording();
 
 var client = {
