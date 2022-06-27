@@ -6,6 +6,7 @@ import HashLoader from "react-spinners/HashLoader";
 import { css } from "@emotion/core";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
+import { ExportToCsv } from 'export-to-csv';
 import API from "../../utils/API";
 import moment from 'moment';
 import * as cheerio from 'cheerio';
@@ -158,11 +159,11 @@ const PlanDetails = () => {
         let newTaskDescription = document.getElementById("updatedTaskDescription" + taskArrayPosition).value;
 
         let newLinks = generateLinks(newTaskDescription);
-        
+
         let autoSortTargetIndex = -1;
 
         if (autoSort === true && originalStatus !== newStatus) {
-            for(let i = 0; i < tasks.length; i++) {
+            for (let i = 0; i < tasks.length; i++) {
                 if (tasks[i].status === newStatus && autoSortTargetIndex === -1) {
                     autoSortTargetIndex = i;
                 }
@@ -368,6 +369,70 @@ const PlanDetails = () => {
         );
     }
 
+    const exportDailyWork = (exportType) => {
+        let tempExportType = exportType;
+        let tempTasks = tasks;
+        console.log(exportType);
+        console.log(tempTasks);
+
+        let timeLoggedExports = [];
+
+        for (let i = 0; i < tempTasks.length; i++) {
+            if (tempTasks[i].hoursLogged != "0") {
+                let currentTaskObject = {
+                    name: tempTasks[i].description,
+                    status: tempTasks[i].status,
+                    hours: Number(tempTasks[i].hoursLogged),
+                    tickets: tempTasks[i].links[0] !== undefined ? tempTasks[i].links[0].url : ""
+                }
+
+                timeLoggedExports.push(currentTaskObject);
+            }
+        }
+
+        var data = [
+            {
+                name: 'Test 1',
+                age: 13,
+                average: 8.2,
+                approved: true,
+                description: "using 'Content here, content here' "
+            },
+            {
+                name: 'Test 2',
+                age: 11,
+                average: 8.2,
+                approved: true,
+                description: "using 'Content here, content here' "
+            },
+            {
+                name: 'Test 4',
+                age: 10,
+                average: 8.2,
+                approved: true,
+                description: "using 'Content here, content here' "
+            },
+        ];
+
+        const options = {
+            fieldSeparator: ',',
+            quoteStrings: '"',
+            decimalSeparator: '.',
+            showLabels: true,
+            showTitle: true,
+            title: Plan.plan_name + " (" + moment(Plan.created_date).format("dddd,  DD MMMM YYYY") + ")",
+            filename: Plan.plan_name + "_" + Plan.created_date,
+            useTextFile: false,
+            useBom: true,
+            useKeysAsHeaders: true,
+            // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+        };
+
+        const csvExporter = new ExportToCsv(options);
+
+        csvExporter.generateCsv(timeLoggedExports);
+    }
+
     //..END: SIMPLE LIST EXAMPLE FUNCITONS
 
     useEffect(() => {
@@ -438,6 +503,11 @@ const PlanDetails = () => {
                                                         <input type="checkbox" class="custom-control-input" checked={autoSort} id="autoSortSwitch" onClick={() => { autoSort === true ? setAutoSort(false) : setAutoSort(true); }} />
                                                         <label class="custom-control-label" for="autoSortSwitch">Auto Sort</label>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div className='row mt-2'>
+                                                <div className='col-md-6'>
+                                                    <button className="btn btn-sm btn-navy-inverse" type="button" onClick={() => exportDailyWork("timeLogged")}>Export Work w/ Time Logged</button>
                                                 </div>
                                             </div>
                                         </div>
