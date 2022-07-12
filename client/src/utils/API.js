@@ -67,8 +67,8 @@ export default {
     updatePlanTasks: function (planID, tasks) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/update-plan-tasks", data: { planID, tasks } })
     },
-    updateTask: function (planID, taskDescription, taskArrayPosition, newHoursLogged, newStatus, newTaskDescription, newLinks) {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/update-task", data: { planID, taskDescription, taskArrayPosition, newHoursLogged, newStatus, newTaskDescription, newLinks } })
+    updateTask: function (planID, taskDescription, taskArrayPosition, newHoursLogged, newStatus, newTaskDescription, newLinks, touched) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/update-task", data: { planID, taskDescription, taskArrayPosition, newHoursLogged, newStatus, newTaskDescription, newLinks, touched } })
     },
     checkExistingTasks: function (planID, newTaskDescription) {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/check-existing-tasks", data: { planID, newTaskDescription } });

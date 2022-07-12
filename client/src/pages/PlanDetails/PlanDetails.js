@@ -177,7 +177,7 @@ const PlanDetails = () => {
             }
         );
 
-        API.updateTask(PlanID, taskDescription, taskArrayPosition, newHoursLogged, newStatus, newTaskDescription, newLinks).then(
+        API.updateTask(PlanID, taskDescription, taskArrayPosition, newHoursLogged, newStatus, newTaskDescription, newLinks, true).then(
             (res) => {
                 renderPlan();
             }
@@ -378,10 +378,10 @@ const PlanDetails = () => {
         let timeLoggedExports = [];
 
         for (let i = 0; i < tempTasks.length; i++) {
-            if (tempTasks[i].hoursLogged != "0") {
+            if (tempTasks[i].hoursLogged != "0" || tempTasks[i].touched || moment(tempTasks[i].created_date).format("DD-MM-YYYY") == moment().format("DD-MM-YYYY")) {
                 let currentTaskObject = {
                     name: tempTasks[i].description,
-                    status: tempTasks[i].status,
+                    status: moment(tempTasks[i].created_date).format("DD-MM-YYYY") == moment().format("DD-MM-YYYY") ? tempTasks[i].status + " (New Task)":tempTasks[i].status,
                     hours: Number(tempTasks[i].hoursLogged),
                     tickets: tempTasks[i].links[0] !== undefined ? tempTasks[i].links[0].url : ""
                 }

@@ -290,7 +290,7 @@ module.exports = {
         db.Plans
             .updateOne({ _id: req.body.planID, "tasks.description": req.body.taskDescription },
                 {
-                    $set: { "tasks.$.status": req.body.newStatus, "tasks.$.hoursLogged": req.body.newHoursLogged, "tasks.$.description": req.body.newTaskDescription, "tasks.$.links":req.body.newLinks}
+                    $set: { "tasks.$.status": req.body.newStatus, "tasks.$.hoursLogged": req.body.newHoursLogged, "tasks.$.description": req.body.newTaskDescription, "tasks.$.links":req.body.newLinks, "tasks.$.touched": req.body.touched}
                 }
             )
             .then(dbModel => res.json(dbModel))
