@@ -719,7 +719,7 @@ const PlanDetails = () => {
                                                                                                     </div>
                                                                                                     <div className="form-group col-md-6 text-left">
                                                                                                         <label htmlFor="taskHoursLogged">Hours Logged</label>
-                                                                                                        <input type="number" className="form-control" id={"taskHoursLogged" + i} key={task.description + i} step=".1" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
+                                                                                                        <input type="number" className="form-control" id={"taskHoursLogged" + i} key={task.description + i} step=".125" min="0" defaultValue={task.hoursLogged} onChange={setTaskHoursLogged} />
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div className="form-row">
