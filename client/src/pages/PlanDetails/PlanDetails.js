@@ -146,9 +146,30 @@ const PlanDetails = () => {
             newLinks.push(currentLink);
 
         };
-        console.log(newLinks);
         return newLinks;
     }
+
+    const automatedSort = (tasks, originalArrayPosition, newStatus) => {
+        console.log(tasks);
+        console.log(originalArrayPosition);
+        console.log(newStatus);
+        let tempTasks = tasks;
+        let newTaskStatus = newStatus;
+        let originalArrayIndex = Number(originalArrayPosition);
+
+        if (newStatus === "Open") {
+            let bottomStatusIndex = -1;
+            for (let i = 0; i < tempTasks.length; i++) {
+                if (tempTasks[i].status === newTaskStatus && bottomStatusIndex < i && i < originalArrayIndex) {
+                    bottomStatusIndex = i;
+                    console.log(bottomStatusIndex);
+                    console.log("Called AutoSort for Open!")
+                }
+            }
+            bottomStatusIndex += 1;
+            console.log(bottomStatusIndex);
+        }
+    };
 
     const updateTask = (event) => {
         let taskArrayPosition = event.currentTarget.dataset.task_array_position;
@@ -160,22 +181,13 @@ const PlanDetails = () => {
 
         let newLinks = generateLinks(newTaskDescription);
 
-        let autoSortTargetIndex = -1;
-
-        if (autoSort === true && originalStatus !== newStatus) {
-            for (let i = 0; i < tasks.length; i++) {
-                if (tasks[i].status === newStatus && autoSortTargetIndex === -1) {
-                    autoSortTargetIndex = i;
-                }
-            }
-            console.log(autoSortTargetIndex);
-        }; //^^^AUTO SORT LOGIC ^^^
-
         API.checkExistingTasks(PlanID, newTaskDescription).then(
             (res) => {
                 renderPlan();
             }
         );
+
+        //console.log(automatedSort(tasks, taskArrayPosition, newStatus));
 
         API.updateTask(PlanID, taskDescription, taskArrayPosition, newHoursLogged, newStatus, newTaskDescription, newLinks, true).then(
             (res) => {
@@ -381,7 +393,7 @@ const PlanDetails = () => {
             if (tempTasks[i].hoursLogged != "0" || tempTasks[i].touched || moment(tempTasks[i].created_date).format("DD-MM-YYYY") == moment().format("DD-MM-YYYY")) {
                 let currentTaskObject = {
                     name: tempTasks[i].description,
-                    status: moment(tempTasks[i].created_date).format("DD-MM-YYYY") == moment().format("DD-MM-YYYY") ? tempTasks[i].status + " (New Task)":tempTasks[i].status,
+                    status: moment(tempTasks[i].created_date).format("DD-MM-YYYY") == moment().format("DD-MM-YYYY") ? tempTasks[i].status + " (New Task)" : tempTasks[i].status,
                     hours: Number(tempTasks[i].hoursLogged),
                     tickets: tempTasks[i].links[0] !== undefined ? tempTasks[i].links[0].url : ""
                 }
