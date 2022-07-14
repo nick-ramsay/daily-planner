@@ -51,7 +51,7 @@ const Login = () => {
                     <form className="p-3">
                         <div className="form-group">
                             <label htmlFor="exampleInputEmail1">Email address</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1" onChange={setEmail} aria-describedby="emailHelp" />
+                            <input type="email" className="form-control" id="exampleInputEmail1" onChange={setEmail} aria-describedby="emailHelp" data-dd-privacy="allow" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="exampleInputPassword1">Password</label>
