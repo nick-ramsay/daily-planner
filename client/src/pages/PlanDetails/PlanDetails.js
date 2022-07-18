@@ -187,8 +187,6 @@ const PlanDetails = () => {
             }
         );
 
-        //console.log(automatedSort(tasks, taskArrayPosition, newStatus));
-
         API.updateTask(PlanID, taskDescription, taskArrayPosition, newHoursLogged, newStatus, newTaskDescription, newLinks, true).then(
             (res) => {
                 renderPlan();
@@ -245,6 +243,7 @@ const PlanDetails = () => {
                 }
 
                 approvedImportTasks[i].hoursLogged = 0;
+                approvedImportTasks[i].touched = false;
             }
 
             console.log(approvedImportTasks);
@@ -390,7 +389,7 @@ const PlanDetails = () => {
         let timeLoggedExports = [];
 
         for (let i = 0; i < tempTasks.length; i++) {
-            if (tempTasks[i].hoursLogged != "0" || tempTasks[i].touched || moment(tempTasks[i].created_date).format("DD-MM-YYYY") == moment().format("DD-MM-YYYY")) {
+            if (tempTasks[i].hoursLogged != "0" || tempTasks[i].touched === true || moment(tempTasks[i].created_date).format("DD-MM-YYYY") == moment().format("DD-MM-YYYY")) {
                 let currentTaskObject = {
                     name: tempTasks[i].description,
                     status: moment(tempTasks[i].created_date).format("DD-MM-YYYY") == moment().format("DD-MM-YYYY") ? tempTasks[i].status + " (New Task)" : tempTasks[i].status,
@@ -401,30 +400,6 @@ const PlanDetails = () => {
                 timeLoggedExports.push(currentTaskObject);
             }
         }
-
-        var data = [
-            {
-                name: 'Test 1',
-                age: 13,
-                average: 8.2,
-                approved: true,
-                description: "using 'Content here, content here' "
-            },
-            {
-                name: 'Test 2',
-                age: 11,
-                average: 8.2,
-                approved: true,
-                description: "using 'Content here, content here' "
-            },
-            {
-                name: 'Test 4',
-                age: 10,
-                average: 8.2,
-                approved: true,
-                description: "using 'Content here, content here' "
-            },
-        ];
 
         const options = {
             fieldSeparator: ',',
@@ -442,7 +417,12 @@ const PlanDetails = () => {
 
         const csvExporter = new ExportToCsv(options);
 
-        csvExporter.generateCsv(timeLoggedExports);
+        console.log(timeLoggedExports);
+        if (timeLoggedExports.length > 0) {
+            csvExporter.generateCsv(timeLoggedExports)
+        } else {
+            csvExporter.generateCsv([{}]);
+        };
     }
 
     //..END: SIMPLE LIST EXAMPLE FUNCITONS
