@@ -19,26 +19,32 @@ const Home = () => {
 
     var [loading, setLoading] = useState(true);
     var [newPlan, setNewPlan] = useInput("");
+    var [todaysPlanCreated, setTodaysPlanCreated] = useState(false);
     var [Plans, setPlans] = useState([]);
 
     const renderPlans = () => {
         API.findAllPlans(getCookie("account_id")).then(
             (res) => {
+                for (let i = 0; res.data.length > i; i++) {
+                    console.log(moment(res.data[i].created_date).format("MM/DD/YYYY"));
+                    console.log(moment().format("MM/DD/YYYY"));
+                    if (moment(res.data[i].created_date).format("MM/DD/YYYY") === moment().format("MM/DD/YYYY")) {
+                        setTodaysPlanCreated(todaysPlanCreated => true);
+                    }
+                }
                 setPlans(Plans => res.data);
                 setLoading(false);
             }
         );
     }
 
-    const savePlan = (event) => {
-        if (newPlan !== "") {
-            API.createPlan(newPlan, getCookie("account_id"), "Open", new Date()).then(
-                (res) => {
-                    renderPlans();
-                    document.getElementById('planInput').value = "";
-                }
-            );
-        }
+    const createPlan = (event) => {
+        console.log(Plans);
+        API.createPlan(getCookie("account_id"), "Open", new Date()).then(
+            (res) => {
+                renderPlans();
+            }
+        );
     };
 
     useEffect(() => {
@@ -65,18 +71,16 @@ const Home = () => {
             <div className="container pt-4">
                 <div className="pb-2 my-5 mb-4 px-5">
                     <div className="col-md-12">
+                        <h2 className="font-weight-bold">Your Plans</h2>
                         {!loading === true &&
-                            <form className="mt-3 mb-4">
-                                <div className="form-row text-center">
-                                    <div className="col">
-                                        <input type="text" placeholder="Enter your plan here" className="form-control" id="planInput" name="planInput" onChange={setNewPlan} aria-describedby="PlanHelp" />
-                                    </div>
-                                </div>
-                                <div className="form-row text-center">
-                                    <div className="col mt-3">
-                                        <div type="button" className="btn btn-custom" tabIndex="0" onClick={savePlan}>Submit</div>
-                                    </div>
-                                </div>
+                            <form>
+                                {todaysPlanCreated === false ?
+                                    <div className="form-row text-center">
+                                        <div className="col mt-3">
+                                            <div type="button" className="btn btn-custom" tabIndex="0" onClick={createPlan}>Create Today's Plan</div>
+                                        </div>
+                                    </div> : ""
+                                }
                             </form>
                         }
                         {!loading === true &&
@@ -90,8 +94,7 @@ const Home = () => {
 
                                 <div className="container mt-2 mb-2 plan-card" key={i}>
                                     <div className="pt-1">
-                                        <div className="mt-1 mb-1 text-center"><h4>{'"' + plan.plan_name + '"'}</h4></div>
-                                        <div className="mt-1 mb-1 text-center"><h5>{moment(plan.created_date).format("dddd,  DD MMMM YYYY")}</h5></div>
+                                        <div className="mt-1 mb-1 text-center"><strong><h4>{moment(plan.created_date).format("dddd,  DD MMMM YYYY")}</h4></strong></div>
                                         {(() => {
                                             var openTaskCount = 0;
                                             var puntedTaskCount = 0;
@@ -128,12 +131,12 @@ const Home = () => {
                                             if (openTaskCount > 0) {
                                                 return (
                                                     <div>
-                                                        <h6>Status: <span className="badge badge-danger">{openTaskCount} {openTaskCount > 1 ? "tasks" : "task"} open</span></h6>
+                                                        <h6><span className="badge badge-danger">{openTaskCount} {openTaskCount > 1 ? "tasks" : "task"} open</span></h6>
                                                     </div>
                                                 )
                                             } else if (plan.tasks.length === 0 || plan.tasks === undefined) {
                                                 return (
-                                                    <h6>Status: <span className="badge badge-warning">New Plan</span></h6>
+                                                    <h6><span className="badge badge-warning">New Plan</span></h6>
                                                 )
                                             }
                                             else {

@@ -50,8 +50,8 @@ export default {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/auto-task-on-off", data: { account_id: account_id, index: index, onOffBoolean: onOffBoolean } });
     },
     //END: Account APIs...
-    createPlan: function (plan_name, account_id, plan_status, created_date) {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/create-plan", data: { plan_name, account_id, plan_status, created_date } });
+    createPlan: function (account_id, plan_status, created_date) {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/create-plan", data: { account_id, plan_status, created_date } });
     },
     findAllPlans: function (account_id) {
         console.log("API: " + account_id);

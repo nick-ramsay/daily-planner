@@ -452,8 +452,7 @@ const PlanDetails = () => {
                 <div className="container pt-4">
                     <div className="pb-2 my-5 mb-4 bg-white p-3">
                         <div>
-                            <h2><strong>{'"' + Plan.plan_name + '"'}</strong></h2>
-                            <h4>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h4>
+                            <h2 className='font-weight-bold'>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h2>
                             <h5><strong>{totalHoursLogged} hours logged</strong></h5>
                             <div className="progress mt-2 mb-2">
                                 <div className="progress-bar bg-custom" role="progressbar" style={{ width: (totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
