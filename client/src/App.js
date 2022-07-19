@@ -28,7 +28,7 @@ datadogRum.init({
   //  version: '1.0.0',
   sampleRate: 100,
   trackInteractions: true,
-  
+
   beforeSend: (event, context) => {
     // collect a RUM resource's response headers
     if (event.type === 'resource' && event.resource.type === 'xhr') {
@@ -37,7 +37,11 @@ datadogRum.init({
   },
 })
 
-datadogRum.addRumGlobalContext('company_name', 'The Daily Planner Co.');
+datadogRum.addRumGlobalContext('company_name', {
+  "item_key_1": "Key Value 1",
+  "item_key_2": "Key Value 2"
+  
+});
 
 datadogRum.startSessionReplayRecording();
 
