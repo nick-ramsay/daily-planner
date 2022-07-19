@@ -1,6 +1,6 @@
 import React, { } from 'react';
 import { getCookie } from "./sharedFunctions/sharedFunctions";
-import {config} from 'dotenv';
+import { config } from 'dotenv';
 import keys from "./keys";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { datadogRum } from '@datadog/browser-rum';
@@ -28,12 +28,13 @@ datadogRum.init({
   //  version: '1.0.0',
   sampleRate: 100,
   trackInteractions: true,
+  /*
   beforeSend: (event, context) => {
     // collect a RUM resource's response headers
-    if (event.type === 'resource') {
-        event.context = {...event.context, responseHeaders: context.response.headers}
+    if (event.type === 'resource' && event.resource.type === 'fetch') {
+      event.context = { ...event.context, responseHeaders: context.response.headers }
     }
-},
+  },*/
 })
 
 datadogRum.addRumGlobalContext('company_name', 'The Daily Planner Co.');
