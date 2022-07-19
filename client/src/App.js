@@ -28,13 +28,13 @@ datadogRum.init({
   //  version: '1.0.0',
   sampleRate: 100,
   trackInteractions: true,
-  /*
+  
   beforeSend: (event, context) => {
     // collect a RUM resource's response headers
-    if (event.type === 'resource' && event.resource.type === 'fetch') {
-      event.context = { ...event.context, responseHeaders: context.response.headers }
+    if (event.type === 'resource' && event.resource.type === 'xhr') {
+      event.context = { ...event.context, responseHeaders: context.XMLHttpRequest }
     }
-  },*/
+  },
 })
 
 datadogRum.addRumGlobalContext('company_name', 'The Daily Planner Co.');
