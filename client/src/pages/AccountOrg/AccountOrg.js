@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import React, { useState, useEffect, } from 'react';
 import HashLoader from "react-spinners/HashLoader";
 import { css } from "@emotion/core";
-import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
+import { logout, getCookie } from "../../sharedFunctions/sharedFunctions";
 import API from "../../utils/API";
 import moment from 'moment';
 import "./style.css";
@@ -81,7 +80,6 @@ const AccountOrg = () => {
     };
 
     const updateAutoTask = (index) => {
-        console.log(index);
         let newDescription = document.getElementById("autoTaskDescription" + index).value;
         let newHours = Number(document.getElementById("autoTaskHours" + index).value);
         let newWeekdays = [];
@@ -133,7 +131,7 @@ const AccountOrg = () => {
     };
 
     useEffect(() => {
-        renderAccountDetails();
+        renderAccountDetails()
     }, [])
 
     return (
@@ -170,47 +168,47 @@ const AccountOrg = () => {
                                     <div className="card-body">
                                         <form>
                                             <div className="form-group row">
-                                                <label for="autoTaskDescInput" className="col-md-2 col-form-label">Description</label>
+                                                <label htmlFor="autoTaskDescInput" className="col-md-2 col-form-label">Description</label>
                                                 <div className="col-md-10">
                                                     <input type="text" className="form-control" id="autoTaskDescInput" placeholder="Enter task description" />
                                                 </div>
                                             </div>
                                             <div className="form-group row">
-                                                <label for="autoTaskDefaultHours" className="col-md-2 col-form-label">Default Hours</label>
+                                                <label htmlFor="autoTaskDefaultHours" className="col-md-2 col-form-label">Default Hours</label>
                                                 <div className="col-md-10">
-                                                    <input type="number" defaultValue={0} placeholder={0} step={0} min={0} className="form-control" id="autoTaskDefaultHours" placeholder="Enter task description" />
+                                                    <input type="number" defaultValue={0} placeholder={0} step={0} min={0} className="form-control" id="autoTaskDefaultHours" />
                                                 </div>
                                             </div>
                                             <div className="form-group row">
-                                                <label for="inputPassword" className="col-md-2 col-form-label">Days of Week</label>
+                                                <label htmlFor="inputPassword" className="col-md-2 col-form-label">Days of Week</label>
                                                 <div className="col-md-10">
                                                     <div className="form-check form-check-inline">
                                                         <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-monday" value="1" />
-                                                        <label className="form-check-label" for="inlineCheckbox1">Monday</label>
+                                                        <label className="form-check-label" htmlFor="inlineCheckbox1">Monday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
                                                         <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-tuesday" value="2" />
-                                                        <label className="form-check-label" for="new-auto-task-tuesday">Tuesday</label>
+                                                        <label className="form-check-label" htmlFor="new-auto-task-tuesday">Tuesday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
                                                         <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-wednesday" value="3" />
-                                                        <label className="form-check-label" for="new-auto-task-wednesday">Wednesday</label>
+                                                        <label className="form-check-label" htmlFor="new-auto-task-wednesday">Wednesday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
                                                         <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-thursday" value="4" />
-                                                        <label className="form-check-label" for="new-auto-task-thursday">Thursday</label>
+                                                        <label className="form-check-label" htmlFor="new-auto-task-thursday">Thursday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
                                                         <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-friday" value="5" />
-                                                        <label className="form-check-label" for="new-auto-task-friday">Friday</label>
+                                                        <label className="form-check-label" htmlFor="new-auto-task-friday">Friday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
                                                         <input className="form-check-input autoTaskWeekdays" type="checkbox" id="new-auto-task-saturday" value="6" />
-                                                        <label className="form-check-label" for="new-auto-task-saturday">Saturday</label>
+                                                        <label className="form-check-label" htmlFor="new-auto-task-saturday">Saturday</label>
                                                     </div>
                                                     <div className="form-check form-check-inline">
                                                         <input className="form-check-input autoTaskWeekdays" name="autoTaskWeekdays" type="checkbox" id="new-auto-task-sunday" value="0" />
-                                                        <label className="form-check-label" for="new-auto-task-sunday">Sunday</label>
+                                                        <label className="form-check-label" htmlFor="new-auto-task-sunday">Sunday</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -233,9 +231,9 @@ const AccountOrg = () => {
                                                                             <strong>On/Off</strong>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="custom-control custom-switch">
-                                                                        <input type="checkbox" class="custom-control-input" id={"autoTaskOnOff" + i} defaultChecked={autoTasks[i].activated} onClick={() => autoTaskOnOff(i, autoTasks[i].activated)} />
-                                                                        <label class="custom-control-label" for={"autoTaskOnOff" + i}></label>
+                                                                    <div className="custom-control custom-switch">
+                                                                        <input type="checkbox" className="custom-control-input" id={"autoTaskOnOff" + i} defaultChecked={autoTasks[i].activated} onClick={() => autoTaskOnOff(i, autoTasks[i].activated)} />
+                                                                        <label className="custom-control-label" htmlFor={"autoTaskOnOff" + i}></label>
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-md-4 text-center">
@@ -264,47 +262,47 @@ const AccountOrg = () => {
                                                             <div className="collapse" id={"autoTaskCard" + i}>
                                                                 <form>
                                                                     <div className="form-group row mt-2">
-                                                                        <label for={"autoTaskDescription" + i} className="col-md-2 col-form-label">Description</label>
+                                                                        <label htmlFor={"autoTaskDescription" + i} className="col-md-2 col-form-label">Description</label>
                                                                         <div className="col-md-10">
                                                                             <input type="text" className="form-control" id={"autoTaskDescription" + i} defaultValue={autoTask.description} />
                                                                         </div>
                                                                     </div>
                                                                     <div className="form-group row">
-                                                                        <label for={"autoTaskHours" + i} className="col-md-2 col-form-label">Default Hours</label>
+                                                                        <label htmlFor={"autoTaskHours" + i} className="col-md-2 col-form-label">Default Hours</label>
                                                                         <div className="col-md-10">
                                                                             <input type="number" defaultValue={autoTask.hours} step={0} min={0} className="form-control" id={"autoTaskHours" + i} />
                                                                         </div>
                                                                     </div>
                                                                     <div className="form-group row">
-                                                                        <label for="autoTaskWeekdays" className="col-md-2 col-form-label">Days of Week</label>
+                                                                        <label htmlFor="autoTaskWeekdays" className="col-md-2 col-form-label">Days of Week</label>
                                                                         <div className="col-md-10">
                                                                             <div className="form-check form-check-inline">
                                                                                 <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-monday-" + i} value="1" defaultChecked={autoTask.weekdays.indexOf(1) !== -1 ? true : false} />
-                                                                                <label className="form-check-label" for={"auto-task-monday-" + i}>Monday</label>
+                                                                                <label className="form-check-label" htmlFor={"auto-task-monday-" + i}>Monday</label>
                                                                             </div>
                                                                             <div className="form-check form-check-inline">
                                                                                 <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-tuesday-" + i} value="2" defaultChecked={autoTask.weekdays.indexOf(2) !== -1 ? true : false} />
-                                                                                <label className="form-check-label" for={"auto-task-tuesday-" + i}>Tuesday</label>
+                                                                                <label className="form-check-label" htmlFor={"auto-task-tuesday-" + i}>Tuesday</label>
                                                                             </div>
                                                                             <div className="form-check form-check-inline">
                                                                                 <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-wednesday-" + i} value="3" defaultChecked={autoTask.weekdays.indexOf(3) !== -1 ? true : false} />
-                                                                                <label className="form-check-label" for={"auto-task-wednesday-" + i}>Wednesday</label>
+                                                                                <label className="form-check-label" htmlFor={"auto-task-wednesday-" + i}>Wednesday</label>
                                                                             </div>
                                                                             <div className="form-check form-check-inline">
                                                                                 <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-thursday-" + i} value="4" defaultChecked={autoTask.weekdays.indexOf(4) !== -1 ? true : false} />
-                                                                                <label className="form-check-label" for={"auto-task-thursday-" + i}>Thursday</label>
+                                                                                <label className="form-check-label" htmlFor={"auto-task-thursday-" + i}>Thursday</label>
                                                                             </div>
                                                                             <div className="form-check form-check-inline">
                                                                                 <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-friday-" + i} value="5" defaultChecked={autoTask.weekdays.indexOf(5) !== -1 ? true : false} />
-                                                                                <label className="form-check-label" for={"auto-task-friday-" + i}>Friday</label>
+                                                                                <label className="form-check-label" htmlFor={"auto-task-friday-" + i}>Friday</label>
                                                                             </div>
                                                                             <div className="form-check form-check-inline">
                                                                                 <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-saturday-" + i} value="6" defaultChecked={autoTask.weekdays.indexOf(6) !== -1 ? true : false} />
-                                                                                <label className="form-check-label" for={"auto-task-saturday-" + i}>Saturday</label>
+                                                                                <label className="form-check-label" htmlFor={"auto-task-saturday-" + i}>Saturday</label>
                                                                             </div>
                                                                             <div className="form-check form-check-inline">
                                                                                 <input className="form-check-input autoTaskWeekdays" name="autoTaskWeekdays" type="checkbox" id={"auto-task-sunday-" + i} value="0" defaultChecked={autoTask.weekdays.indexOf(0) !== -1 ? true : false} />
-                                                                                <label className="form-check-label" for={"auto-task-sunday-" + i}>Sunday</label>
+                                                                                <label className="form-check-label" htmlFor={"auto-task-sunday-" + i}>Sunday</label>
                                                                             </div>
                                                                         </div>
                                                                     </div>

@@ -1,6 +1,5 @@
 import React, { } from 'react';
 import { getCookie } from "./sharedFunctions/sharedFunctions";
-import { config } from 'dotenv';
 import keys from "./keys";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { datadogRum } from '@datadog/browser-rum';
@@ -8,7 +7,6 @@ import './App.css';
 
 import Plans from "./pages/Plans/Plans";
 import PlanDetails from "./pages/PlanDetails/PlanDetails";
-import DummyDNDList from "./pages/DummyDNDList/DummyDNDList";
 import Login from './pages/Login/Login';
 import CreateAccountRequest from './pages/CreateAccountRequest/CreateAccountRequest';
 import CreateAccount from './pages/CreateAccount/CreateAccount';
@@ -96,7 +94,6 @@ function App() {
             <Route exact path="/reset-password" component={ResetPassword} />
             <Route exact path="/" component={Plans} />
             <Route exact path="/plan/:id" component={PlanDetails} />
-            <Route exact path="/DummyDNDList/:id" component={DummyDNDList} />
             <Route exact path="/account-org" component={AccountOrg} />
             <Route component={Error} />
           </Switch>

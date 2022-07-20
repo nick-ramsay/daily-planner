@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
+import { getCookie } from "../../sharedFunctions/sharedFunctions";
 import API from "../../utils/API";
 
 import "./style.css";
@@ -13,7 +13,6 @@ const Navbar = (props) => {
     const renderAccountName = () => {
         API.findUserName(getCookie("account_id")).then(
             (res) => {
-                console.log(res);
                 setFirstname(firstname => res.data.firstname);
                 setLastname(lastname => res.data.lastname);
             }

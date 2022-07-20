@@ -41,7 +41,7 @@ const Login = () => {
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
                 <div className="row pl-4">
-                        <img className="mb-2 mr-2" src={logo} width="80rem" height="80rem" />
+                        <img className="mb-2 mr-2" alt="Daily Plans App Logo" src={logo} width="80rem" height="80rem" />
                         <h1 className="mt-auto" style={{fontSize: "3rem"}}>Daily Plans</h1>
                     </div>
                 </div>

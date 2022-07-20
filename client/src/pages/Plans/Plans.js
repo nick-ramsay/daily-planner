@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import HashLoader from "react-spinners/HashLoader";
 import { css } from "@emotion/core";
-import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
+import { getCookie } from "../../sharedFunctions/sharedFunctions";
 import API from "../../utils/API";
 import moment from 'moment';
 import "./style.css";
@@ -18,7 +17,6 @@ const override = css`
 const Home = () => {
 
     var [loading, setLoading] = useState(true);
-    var [newPlan, setNewPlan] = useInput("");
     var [todaysPlanCreated, setTodaysPlanCreated] = useState(false);
     var [Plans, setPlans] = useState([]);
 
@@ -26,8 +24,6 @@ const Home = () => {
         API.findAllPlans(getCookie("account_id")).then(
             (res) => {
                 for (let i = 0; res.data.length > i; i++) {
-                    console.log(moment(res.data[i].created_date).format("MM/DD/YYYY"));
-                    console.log(moment().format("MM/DD/YYYY"));
                     if (moment(res.data[i].created_date).format("MM/DD/YYYY") === moment().format("MM/DD/YYYY")) {
                         setTodaysPlanCreated(todaysPlanCreated => true);
                     }
@@ -39,7 +35,6 @@ const Home = () => {
     }
 
     const createPlan = (event) => {
-        console.log(Plans);
         API.createPlan(getCookie("account_id"), "Open", new Date()).then(
             (res) => {
                 renderPlans();

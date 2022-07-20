@@ -54,11 +54,9 @@ export default {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/create-plan", data: { account_id, plan_status, created_date } });
     },
     findAllPlans: function (account_id) {
-        console.log("API: " + account_id);
         return axios({ method: "post", url: apiURL + "/api/daily-planner/find-all-plans", data: { account_id: account_id } });
     },
     findPlan: function (planID) {
-        console.log(planID);
         return axios({ method: "post", url: apiURL + "/api/daily-planner/find-plan", data: { planID } });
     },
     deleteOnePlan: function (planID) {
