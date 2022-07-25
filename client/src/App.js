@@ -26,6 +26,7 @@ datadogRum.init({
   //  version: '1.0.0',
   sampleRate: 100,
   trackInteractions: true,
+  trackFrustrations: true,
 
   beforeSend: (event, context) => {
     // collect a RUM resource's response headers
