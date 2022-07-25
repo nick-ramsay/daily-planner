@@ -68,20 +68,20 @@ const Home = () => {
                     <div className="col-md-12">
                         <h2 className="font-weight-bold">Your Plans</h2>
                         {!loading === true &&
+                            <p className="mb-1">
+                                <strong>{Plans.length === 0 ? "No Plans" : Plans.length + (Plans.length > 1 ? " plans" : " plan")}</strong>
+                            </p>
+                        }
+                        {!loading === true &&
                             <form>
                                 {todaysPlanCreated === false ?
                                     <div className="form-row text-center">
-                                        <div className="col mt-3">
-                                            <div type="button" className="btn btn-custom" tabIndex="0" onClick={createPlan}>Create Today's Plan</div>
+                                        <div className="col mt-1 mb-1">
+                                            <div type="button" className="btn btn-sm btn-custom" tabIndex="0" onClick={createPlan}>Create Today's Plan</div>
                                         </div>
                                     </div> : ""
                                 }
                             </form>
-                        }
-                        {!loading === true &&
-                            <p className="mb-1">
-                                <strong>{Plans.length === 0 ? "No Plans" : Plans.length + (Plans.length > 1 ? " plans" : " plan")}</strong>
-                            </p>
                         }
 
                         {!loading === true &&

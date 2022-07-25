@@ -403,23 +403,19 @@ const PlanDetails = () => {
                 }
                 {!loading &&
                     <div className="container pt-4">
-                        <div className="pb-2 my-5 mb-4 bg-white p-3">
+                        <div className="pb-2 my-5 bg-white p-3">
                             <div>
                                 <h2 className='font-weight-bold'>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h2>
                                 <h5><strong>{totalHoursLogged} hours logged</strong></h5>
-                                <div className="progress mt-2 mb-2">
+                                <div className="progress mt-2">
                                     <div className="progress-bar bg-custom" role="progressbar" style={{ width: (totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <p>You {(8 - totalHoursLogged > 0) ? "have" : "are"} {(Math.abs(8 - totalHoursLogged).toFixed(2))} {(8 - totalHoursLogged === 1) ? "hour" : "hours"} {(8 - totalHoursLogged >= 0) ? "remaining." : "overtime."} {(8 - totalHoursLogged < 0) ? "Overachiever!" : (8 - totalHoursLogged === 0) ? "Congrats! You're done!" : ""} </p>
-                                <div>
-                                    <button type="button" className="btn btn-sm btn-custom m-1" data-toggle="modal" data-target="#newTaskModal">
-                                        New Task
-                                    </button>
-                                </div>
+                                <span>You {(8 - totalHoursLogged > 0) ? "have" : "are"} {(Math.abs(8 - totalHoursLogged).toFixed(2))} {(8 - totalHoursLogged === 1) ? "hour" : "hours"} {(8 - totalHoursLogged >= 0) ? "remaining." : "overtime."} {(8 - totalHoursLogged < 0) ? "Overachiever!" : (8 - totalHoursLogged === 0) ? "Congrats! You're done!" : ""} </span>
+
                                 <div className="accordion" id="planSettingsAccordion">
                                     <div>
                                         <div>
-                                            <h2 className="mb-0">
+                                            <h2 className="mb-1">
                                                 <button className="btn" type="button" style={{ fontWeight: 'bold', fontSize: 14 }} data-toggle="collapse" data-target="#planSettingsCard" aria-expanded="true" aria-controls="planSettingsAccordion">
                                                     <span>Tools & Settings</span><span style={{ fontSize: 20 }}> &#9881;</span>
                                                 </button>
@@ -454,6 +450,11 @@ const PlanDetails = () => {
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div>
+                                    <button type="button" className="btn btn-sm btn-custom m-1" data-toggle="modal" data-target="#newTaskModal">
+                                        New Task
+                                    </button>
                                 </div>
                                 <div className="modal fade" id="newTaskModal" tabIndex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
                                     <div className="modal-dialog">
