@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { datadogRum } from '@datadog/browser-rum';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import HashLoader from "react-spinners/HashLoader";
 import { css } from "@emotion/core";
@@ -86,6 +87,10 @@ const PlanDetails = () => {
                 (res) => {
                     document.getElementById("taskInput").value = "";
                     renderPlan();
+                    datadogRum.addAction('new-task-created', {
+                        'newTaskDescription': newTaskData.description, // for example, 42.12
+                        'newTaskCreatedDate': newTaskData.created_date, // for example, ['tomato', 'strawberries']
+                    })
                 }
             )
         }
