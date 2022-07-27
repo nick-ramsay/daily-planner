@@ -459,7 +459,7 @@ const PlanDetails = () => {
                                 <div>
                                     <button type="button" className="btn btn-sm btn-custom m-1" data-toggle="modal" data-target="#newTaskModal" onClick={
                                         datadogRum.addAction('new-task-modal-opened', {
-                                            'newTaskCreatedDate': new Date(),
+                                            'newTaskModalOpenedTimestamp': new Date(),
                                         })
                                     }>
                                         New Task
