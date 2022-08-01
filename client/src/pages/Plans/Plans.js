@@ -118,6 +118,9 @@ const Home = () => {
                                                 else if (plan.tasks[j].status === "Long Term") {
                                                     openTaskCount += 0
                                                 }
+                                                else if (plan.tasks[j].status === "Slack Thread") {
+                                                    openTaskCount += 0
+                                                }
                                                 else {
                                                     openTaskCount += 1
                                                 }

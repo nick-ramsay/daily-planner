@@ -208,7 +208,7 @@ const PlanDetails = () => {
             let approvedImportTasks = [];
 
             for (let i = 0; i < originalImportedTasks.length; i++) {
-                if (currentTaskDescriptions.indexOf(originalImportedTasks[i].description) === -1 && approvedImportTasks.indexOf(originalImportedTasks[i]) === -1 && (originalImportedTasks[i].status === "Punted" || originalImportedTasks[i].status === "Pending Feedback" || originalImportedTasks[i].status === "Awaiting Backport" || originalImportedTasks[i].status === "On Hold" || originalImportedTasks[i].status === "Long Term")) {
+                if (currentTaskDescriptions.indexOf(originalImportedTasks[i].description) === -1 && approvedImportTasks.indexOf(originalImportedTasks[i]) === -1 && (originalImportedTasks[i].status === "Punted" || originalImportedTasks[i].status === "Pending Feedback" || originalImportedTasks[i].status === "Awaiting Backport" || originalImportedTasks[i].status === "On Hold" || originalImportedTasks[i].status === "Long Term" || originalImportedTasks[i].status === "Slack Thread")) {
                     approvedImportTasks.push(originalImportedTasks[i]);
                 }
             }
@@ -222,6 +222,8 @@ const PlanDetails = () => {
                     approvedImportTasks[i].status = "On Hold";
                 } else if (approvedImportTasks[i].status === "Long Term") {
                     approvedImportTasks[i].status = "Long Term";
+                } else if (approvedImportTasks[i].status === "Slack Thread") {
+                    approvedImportTasks[i].status = "Slack Thread";
                 } else {
                     approvedImportTasks[i].status = "Open";
                 }
@@ -607,6 +609,10 @@ const PlanDetails = () => {
                                                                                                                         return (
                                                                                                                             <h6>Status: <span id={"task-status-" + i} className="badge badge-custom-hotpink">{task.status}</span></h6>
                                                                                                                         )
+                                                                                                                    case "Slack Thread":
+                                                                                                                        return (
+                                                                                                                            <h6>Status: <span id={"task-status-" + i} className="badge badge-custom-purple">{task.status}</span></h6>
+                                                                                                                        )
                                                                                                                     default:
                                                                                                                         return (
                                                                                                                             <h6>Status: <span id={"task-status-" + i} className="badge badge-dark">{task.status}</span></h6>
@@ -663,6 +669,7 @@ const PlanDetails = () => {
                                                                                                                 <option>In Progress</option>
                                                                                                                 <option>Pending Feedback</option>
                                                                                                                 <option>On Hold</option>
+                                                                                                                <option>Slack Thread</option>
                                                                                                                 <option>Long Term</option>
                                                                                                                 <option>Punted</option>
                                                                                                                 <option>Meeting</option>
