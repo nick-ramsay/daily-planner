@@ -3,6 +3,8 @@ import { getCookie } from "./sharedFunctions/sharedFunctions";
 import keys from "./keys";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { datadogRum } from '@datadog/browser-rum';
+import { datadogLogs } from '@datadog/browser-logs'
+
 import './App.css';
 
 import Plans from "./pages/Plans/Plans";
@@ -41,6 +43,13 @@ datadogRum.addRumGlobalContext('company_name', {
   "item_key_2": "Key Value 2"
   
 });
+
+datadogLogs.init({
+  clientToken: keys.datadog.client_token_rum,
+  site: keys.datadog.dd_site,
+  forwardErrorsToLogs: true,
+  sampleRate: 100,
+})
 
 datadogRum.startSessionReplayRecording();
 
