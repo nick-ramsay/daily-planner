@@ -571,7 +571,7 @@ const PlanDetails = () => {
                                                                                                 </div>
                                                                                                 <div className="row">
                                                                                                     <div className="col-md-4 text-left">
-                                                                                                        <h6><span>Created: {moment(task.created_date).format("DD MMMM YYYY, h:mm A")}</span></h6>
+                                                                                                        <h6><span>Created at {moment(task.created_date).format("DD MMMM YYYY, h:mm A")}</span></h6>
                                                                                                     </div>
                                                                                                     <div className="col-md-4 text-left">
                                                                                                         <div>
@@ -579,43 +579,43 @@ const PlanDetails = () => {
                                                                                                                 switch (task.status) {
                                                                                                                     case "Closed":
                                                                                                                         return (
-                                                                                                                            <h6>Status: <span id={"task-status-" + i} className="badge badge-success">{task.status}</span></h6>
+                                                                                                                            <h6><span id={"task-status-" + i} className="badge badge-success">{task.status}</span></h6>
                                                                                                                         )
                                                                                                                     case "Open":
                                                                                                                         return (
-                                                                                                                            <h6>Status: <span id={"task-status-" + i} className="badge badge-primary">{task.status}</span></h6>
+                                                                                                                            <h6><span id={"task-status-" + i} className="badge badge-primary">{task.status}</span></h6>
                                                                                                                         )
                                                                                                                     case "In Progress":
                                                                                                                         return (
-                                                                                                                            <h6>Status: <span id={"task-status-" + i} className="badge badge-warning">{task.status}</span></h6>
+                                                                                                                            <h6><span id={"task-status-" + i} className="badge badge-warning">{task.status}</span></h6>
                                                                                                                         )
                                                                                                                     case "Pending Feedback":
                                                                                                                         return (
-                                                                                                                            <h6>Status: <span id={"task-status-" + i} className="badge badge-info">{task.status}</span></h6>
+                                                                                                                            <h6><span id={"task-status-" + i} className="badge badge-info">{task.status}</span></h6>
                                                                                                                         )
                                                                                                                     case "Punted":
                                                                                                                         return (
-                                                                                                                            <h6>Status: <span id={"task-status-" + i} className="badge badge-secondary">{task.status}</span></h6>
+                                                                                                                            <h6><span id={"task-status-" + i} className="badge badge-secondary">{task.status}</span></h6>
                                                                                                                         )
                                                                                                                     case "Awaiting Backport":
                                                                                                                         return (
-                                                                                                                            <h6>Status: <span id={"task-status-" + i} className="badge badge-custom-peru">{task.status}</span></h6>
+                                                                                                                            <h6><span id={"task-status-" + i} className="badge badge-custom-peru">{task.status}</span></h6>
                                                                                                                         )
                                                                                                                     case "Meeting":
                                                                                                                         return (
-                                                                                                                            <h6>Status: <span id={"task-status-" + i} className="badge badge-custom-sunshine">{task.status}</span></h6>
+                                                                                                                            <h6><span id={"task-status-" + i} className="badge badge-custom-sunshine">{task.status}</span></h6>
                                                                                                                         )
                                                                                                                     case "Long Term":
                                                                                                                         return (
-                                                                                                                            <h6>Status: <span id={"task-status-" + i} className="badge badge-custom-hotpink">{task.status}</span></h6>
+                                                                                                                            <h6><span id={"task-status-" + i} className="badge badge-custom-hotpink">{task.status}</span></h6>
                                                                                                                         )
                                                                                                                     case "Slack Thread":
                                                                                                                         return (
-                                                                                                                            <h6>Status: <span id={"task-status-" + i} className="badge badge-custom-purple">{task.status}</span></h6>
+                                                                                                                            <h6><span id={"task-status-" + i} className="badge badge-custom-purple">{task.status}</span></h6>
                                                                                                                         )
                                                                                                                     default:
                                                                                                                         return (
-                                                                                                                            <h6>Status: <span id={"task-status-" + i} className="badge badge-dark">{task.status}</span></h6>
+                                                                                                                            <h6><span id={"task-status-" + i} className="badge badge-dark">{task.status}</span></h6>
                                                                                                                         )
                                                                                                                 }
                                                                                                             }
@@ -623,7 +623,7 @@ const PlanDetails = () => {
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div className="col-md-4 text-left">
-                                                                                                        <h6>Hours Logged: {task.hoursLogged + (task.hoursLogged === 1 ? " hour" : " hours")}</h6>
+                                                                                                        <h6>{task.hoursLogged + (task.hoursLogged === 1 ? " hour logged" : " hours logged")}</h6>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
