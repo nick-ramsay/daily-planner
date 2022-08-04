@@ -51,15 +51,7 @@ Once an account is created, users can sign in to the application using their e-m
 
 **Plans:**
 
-Users will first land on a homepage showing them a dashboard with a chart and metrics evaluating their financial performance based upon transactions recorded throughout the workflows. The page will summarize total revenue, expenses, and profits/losses.
-
-![Daily Plans Homepage](https://github.com/nick-ramsay/readme-images/blob/master/daily-plans/homepage-metrics.jpg?raw=true)
-
 **Tasks**
-
-Customer information can be recorded on the Customer page. Once the information is recorded, a user can click on the red icon to cancel the customer making them inactive. The customer can be reactivated by clicking on the blue edit button and then selecting the "Reactivate Customer" button. Customer information can also be edited and saved on the Edit Customer component.
-
-![Daily Plans Customers](https://github.com/nick-ramsay/readme-images/blob/master/daily-plans/customers.jpg?raw=true)
 
 ## Built With
 - Daily Plans application was built using React.js, MongoDB, Bootstrap, Node.js and the following Node Package Manager modules:
