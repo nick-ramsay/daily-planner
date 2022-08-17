@@ -42,6 +42,10 @@ const Home = () => {
         );
     };
 
+    const generateTimeAllocationData = () => {
+        console.log(Plans);
+    }
+
     useEffect(() => {
         renderPlans();
     }, [])
@@ -67,6 +71,30 @@ const Home = () => {
                 <div className="pb-2 my-5 mb-4 px-5">
                     <div className="col-md-12">
                         <h2 className="font-weight-bold">Your Plans</h2>
+                        <p>
+                            <button className="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#time-allocation-chart" aria-expanded="false" aria-controls="collapseExample">
+                                Time Allocation Chart
+                            </button>
+                        </p>
+                        <div className="collapse" id="time-allocation-chart">
+                            <div className="card card-body">
+                                <form>
+                                    <div className="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="time-allocation-from">Date From</label>
+                                            <input type="date" className="form-control" defaultValue={moment().subtract(7,"days").format("YYYY-MM-DD")} id="time-allocation-from" name="time-allocation-from"/>                                        
+                                       </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="time-allocation-to">Date To</label>
+                                            <input type="date" className="form-control" defaultValue={moment().format("YYYY-MM-DD")} id="time-allocation-to" name="time-allocation-to"/>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <button className='btn btn-sm btn-success justify-content-center' type='button' onClick={generateTimeAllocationData}>Run</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                         {!loading === true &&
                             <p className="mb-1">
                                 <strong>{Plans.length === 0 ? "No Plans" : Plans.length + (Plans.length > 1 ? " plans" : " plan")}</strong>
