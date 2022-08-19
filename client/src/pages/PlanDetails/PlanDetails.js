@@ -27,7 +27,7 @@ const PlanDetails = () => {
     var [loading, setLoading] = useState(true);
     var [Plan, setPlan] = useState({});
     var [newTaskDescription, setNewTaskDescription] = useInput();
-    var [totalHoursLogged, setTotalHoursLogged] = useState(0);
+    var [totalHoursLogged, setTotalHoursLogged] = useState({ totalHoursLogged: 0 });
 
     var [taskDescription, setTaskDescription] = useInput();
     var [taskHoursLogged, setTaskHoursLogged] = useInput();
@@ -38,7 +38,12 @@ const PlanDetails = () => {
         for (let i = 0; i < PlanData.tasks.length; i++) {
             totalHours += Number(PlanData.tasks[i].hoursLogged);
         };
-        setTotalHoursLogged(totalHoursLogged => totalHours);
+        console.log(totalHours);
+        let tempTotalHoursLogged = {
+            totalHoursLogged: totalHours
+        }
+        console.log(tempTotalHoursLogged)
+        setTotalHoursLogged(totalHoursLogged => tempTotalHoursLogged);
     }
 
     const renderPlan = () => {
@@ -413,11 +418,18 @@ const PlanDetails = () => {
                         <div className="pb-2 my-5 bg-white p-3">
                             <div>
                                 <h2 className='font-weight-bold'>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h2>
-                                <h5><strong>{totalHoursLogged} hours logged</strong></h5>
+                                <h5><strong>{Number(totalHoursLogged.totalHoursLogged)} hours logged</strong></h5>
                                 <div className="progress mt-2">
-                                    <div className="progress-bar bg-custom" role="progressbar" style={{ width: (totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div className="progress-bar bg-custom" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <span>You {(8 - totalHoursLogged > 0) ? "have" : "are"} {(Math.abs(8 - totalHoursLogged).toFixed(2))} {(8 - totalHoursLogged === 1) ? "hour" : "hours"} {(8 - totalHoursLogged >= 0) ? "remaining." : "overtime."} {(8 - totalHoursLogged < 0) ? "Overachiever!" : (8 - totalHoursLogged === 0) ? "Congrats! You're done!" : ""} </span>
+                                <br></br>
+                                <div className="progress">
+                                    <div className="progress-bar bg-success" role="progressbar" style={{ width: "30%" }} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div className="progress-bar" role="progressbar" style={{ width: "15%" }} aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div className="progress-bar bg-info" role="progressbar" style={{ width: "20%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div className="progress-bar progress-peru" role="progressbar" style={{ width: "20%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span>You {(8 - totalHoursLogged.totalHoursLogged > 0) ? "have" : "are"} {(Math.abs(8 - totalHoursLogged.totalHoursLogged).toFixed(2))} {(8 - totalHoursLogged.totalHoursLogged === 1) ? "hour" : "hours"} {(8 - totalHoursLogged.totalHoursLogged >= 0) ? "remaining." : "overtime."} {(8 - totalHoursLogged.totalHoursLogged < 0) ? "Overachiever!" : (8 - totalHoursLogged.totalHoursLogged === 0) ? "Congrats! You're done!" : ""} </span>
 
                                 <div className="accordion" id="planSettingsAccordion">
                                     <div>
