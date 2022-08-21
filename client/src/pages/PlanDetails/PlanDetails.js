@@ -35,12 +35,54 @@ const PlanDetails = () => {
 
     const calculateTotalHoursLogged = (PlanData) => {
         let totalHours = 0;
+        let closedHours = 0;
+        let openHours = 0;
+        let inProgressHours = 0;
+        let pendingFeedbackHours = 0;
+        let onHoldHours = 0;
+        let slackThreadHours = 0;
+        let longTermHours = 0;
+        let puntedHours = 0;
+        let meetingHours = 0;
+        let otherHours = 0;
+
         for (let i = 0; i < PlanData.tasks.length; i++) {
             totalHours += Number(PlanData.tasks[i].hoursLogged);
+            if (PlanData.tasks[i].status === "Closed") {
+                closedHours += Number(PlanData.tasks[i].hoursLogged)
+            } else if (PlanData.tasks[i].status === "Open") {
+                openHours += Number(PlanData.tasks[i].hoursLogged)
+            } else if (PlanData.tasks[i].status === "In Progress") {
+                inProgressHours += Number(PlanData.tasks[i].hoursLogged)
+            } else if (PlanData.tasks[i].status === "Pending Feedback") {
+                pendingFeedbackHours += Number(PlanData.tasks[i].hoursLogged)
+            } else if (PlanData.tasks[i].status === "On Hold") {
+                onHoldHours += Number(PlanData.tasks[i].hoursLogged)
+            } else if (PlanData.tasks[i].status === "Slack Thread") {
+                slackThreadHours += Number(PlanData.tasks[i].hoursLogged)
+            } else if (PlanData.tasks[i].status === "Long Term") {
+                longTermHours += Number(PlanData.tasks[i].hoursLogged)
+            } else if (PlanData.tasks[i].status === "Punted") {
+                puntedHours += Number(PlanData.tasks[i].hoursLogged)
+            } else if (PlanData.tasks[i].status === "Meeting") {
+                meetingHours += Number(PlanData.tasks[i].hoursLogged)
+            } else {
+                otherHours += Number(PlanData.tasks[i].hoursLogged)
+            }
         };
-        console.log(totalHours);
         let tempTotalHoursLogged = {
-            totalHoursLogged: totalHours
+            hoursInDay: 8,
+            totalHoursLogged: totalHours,
+            closedHours: closedHours,
+            openHours: openHours,
+            inProgressHours: inProgressHours,
+            pendingFeedbackHours: pendingFeedbackHours,
+            onHoldHours: onHoldHours,
+            slackThreadHours: slackThreadHours,
+            longTermHours: longTermHours,
+            puntedHours: puntedHours,
+            meetingHours: meetingHours,
+            otherHours: otherHours
         }
         console.log(tempTotalHoursLogged)
         setTotalHoursLogged(totalHoursLogged => tempTotalHoursLogged);
@@ -419,17 +461,22 @@ const PlanDetails = () => {
                             <div>
                                 <h2 className='font-weight-bold'>{moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}</h2>
                                 <h5><strong>{Number(totalHoursLogged.totalHoursLogged)} hours logged</strong></h5>
-                                <div className="progress mt-2">
-                                    <div className="progress-bar bg-custom" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div className="progress mt-2" id="hour-bar" >
+                                    <div className="progress-bar bg-custom" onClick={() => {document.getElementById("hour-bar").classList.add("d-none"); document.getElementById("color-coded-hour-bar").classList.remove("d-none")}} role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged / 8 * 100) + "%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <br></br>
-                                <div className="progress">
-                                    <div className="progress-bar bg-success" role="progressbar" style={{ width: "30%" }} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                                    <div className="progress-bar" role="progressbar" style={{ width: "15%" }} aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                    <div className="progress-bar bg-info" role="progressbar" style={{ width: "20%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    <div className="progress-bar progress-peru" role="progressbar" style={{ width: "20%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div className="progress d-none" id="color-coded-hour-bar" onClick={() => {document.getElementById("color-coded-hour-bar").classList.add("d-none"); document.getElementById("hour-bar").classList.remove("d-none")}}>
+                                    <div className="progress-bar bg-success" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged <= totalHoursLogged.hoursInDay ? (totalHoursLogged.closedHours / totalHoursLogged.hoursInDay) * 100 : (totalHoursLogged.closedHours / totalHoursLogged.totalHoursLogged) * 100) + "%" }} title={totalHoursLogged.closedHours + " hours logged toward Closed tasks"} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Closed</div>
+                                    <div className="progress-bar bg-primary" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged <= totalHoursLogged.hoursInDay ? (totalHoursLogged.openHours / totalHoursLogged.hoursInDay) * 100 : (totalHoursLogged.openHours / totalHoursLogged.totalHoursLogged) * 100) + "%" }} title={totalHoursLogged.openHours + " hours logged toward Open tasks"} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Open</div>
+                                    <div className="progress-bar bg-warning" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged <= totalHoursLogged.hoursInDay ? (totalHoursLogged.inProgressHours / totalHoursLogged.hoursInDay) * 100 : (totalHoursLogged.inProgressHours / totalHoursLogged.totalHoursLogged) * 100) + "%" }} title={totalHoursLogged.inProgressHours + " hours logged toward In Progress tasks"} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">In Progress</div>
+                                    <div className="progress-bar bg-info" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged <= totalHoursLogged.hoursInDay ? (totalHoursLogged.pendingFeedbackHours / totalHoursLogged.hoursInDay) * 100 : (totalHoursLogged.pendingFeedbackHours / totalHoursLogged.totalHoursLogged) * 100) + "%" }} title={totalHoursLogged.pendingFeedbackHours + " hours logged toward Pending Feedback tasks"} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Pending</div>
+                                    <div className="progress-bar bg-dark" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged <= totalHoursLogged.hoursInDay ? (totalHoursLogged.onHoldHours / totalHoursLogged.hoursInDay) * 100 : (totalHoursLogged.onHoldHours / totalHoursLogged.totalHoursLogged) * 100) + "%" }} title={totalHoursLogged.onHoldHours + " hours logged toward On Hold tasks"} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">On Hold</div>
+                                    <div className="progress-bar badge-custom-purple" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged <= totalHoursLogged.hoursInDay ? (totalHoursLogged.slackThreadHours / totalHoursLogged.hoursInDay) * 100 : (totalHoursLogged.slackThreadHours / totalHoursLogged.totalHoursLogged) * 100) + "%" }} title={totalHoursLogged.slackThreadHours + " hours logged toward Slack Thread tasks"} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Slack Thread</div>
+                                    <div className="progress-bar badge-custom-hotpink" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged <= totalHoursLogged.hoursInDay ? (totalHoursLogged.longTermHours / totalHoursLogged.hoursInDay) * 100 : (totalHoursLogged.longTermHours / totalHoursLogged.totalHoursLogged) * 100) + "%" }} title={totalHoursLogged.longTermHours + " hours logged toward Long Term tasks"} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Long Term</div>
+                                    <div className="progress-bar bg-secondary" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged <= totalHoursLogged.hoursInDay ? (totalHoursLogged.puntedHours / totalHoursLogged.hoursInDay) * 100 : (totalHoursLogged.puntedHours / totalHoursLogged.totalHoursLogged) * 100) + "%" }} title={totalHoursLogged.puntedHours + " hours logged toward Punted tasks"} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Punted</div>
+                                    <div className="progress-bar badge-custom-sunshine" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged <= totalHoursLogged.hoursInDay ? (totalHoursLogged.meetingHours / totalHoursLogged.hoursInDay) * 100 : (totalHoursLogged.meetingHours / totalHoursLogged.totalHoursLogged) * 100) + "%" }} title={totalHoursLogged.meetingHours + " hours logged toward Meeting tasks"} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Meetings</div>
+                                    <div className="progress-bar bg-warning" role="progressbar" style={{ width: (totalHoursLogged.totalHoursLogged <= totalHoursLogged.hoursInDay ? (totalHoursLogged.otherHours / totalHoursLogged.hoursInDay) * 100 : (totalHoursLogged.otherHours / totalHoursLogged.totalHoursLogged) * 100) + "%" }} title={totalHoursLogged.otherHours + " hours logged toward other tasks"} aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Other</div>
                                 </div>
-                                <span>You {(8 - totalHoursLogged.totalHoursLogged > 0) ? "have" : "are"} {(Math.abs(8 - totalHoursLogged.totalHoursLogged).toFixed(2))} {(8 - totalHoursLogged.totalHoursLogged === 1) ? "hour" : "hours"} {(8 - totalHoursLogged.totalHoursLogged >= 0) ? "remaining." : "overtime."} {(8 - totalHoursLogged.totalHoursLogged < 0) ? "Overachiever!" : (8 - totalHoursLogged.totalHoursLogged === 0) ? "Congrats! You're done!" : ""} </span>
+                                <span>You {(totalHoursLogged.hoursInDay - totalHoursLogged.totalHoursLogged > 0) ? "have" : "are"} {(Math.abs(totalHoursLogged.hoursInDay - totalHoursLogged.totalHoursLogged).toFixed(2))} {(totalHoursLogged.hoursInDay - totalHoursLogged.totalHoursLogged === 1) ? "hour" : "hours"} {(totalHoursLogged.hoursInDay - totalHoursLogged.totalHoursLogged >= 0) ? "remaining." : "overtime."} {(totalHoursLogged.hoursInDay - totalHoursLogged.totalHoursLogged < 0) ? "Overachiever!" : (totalHoursLogged.hoursInDay - totalHoursLogged.totalHoursLogged === 0) ? "Congrats! You're done!" : ""} </span>
 
                                 <div className="accordion" id="planSettingsAccordion">
                                     <div>
