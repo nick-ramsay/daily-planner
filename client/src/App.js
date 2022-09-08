@@ -48,6 +48,7 @@ datadogLogs.init({
   clientToken: keys.datadog.client_token_rum,
   site: keys.datadog.dd_site,
   forwardErrorsToLogs: true,
+  forwardConsoleLogs: 'all',
   sampleRate: 100,
 })
 
