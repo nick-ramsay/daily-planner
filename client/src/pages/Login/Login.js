@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { datadogRum } from '@datadog/browser-rum';
 import "./style.css";
 import { useInput } from "../../sharedFunctions/sharedFunctions";
 import { sha256 } from 'js-sha256';
@@ -22,6 +23,11 @@ const Login = () => {
                 res => {
                     console.log(res.data);
                     if (res.data) {
+                        datadogRum.setUser({
+                            email: email,
+                            memberships: [20854, 20855, 20856],
+                            memberships_string: ["20854", "20855", "20856"]
+                        });
                         setSubmissionMessage(submissionMessage => "");
                         document.cookie = "auth_expiry=" + cookieExpiryDate + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
                         document.cookie = "account_id=" + res.data._id + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
