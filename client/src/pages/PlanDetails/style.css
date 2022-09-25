@@ -50,7 +50,7 @@
 }
 
 .badge-custom-purple-inverted {
-    background-color: #f7eb97;
+    background-color: inherit;
     color: darkorchid;
     border: 1px darkorchid solid;
 }

@@ -291,6 +291,8 @@ const PlanDetails = () => {
           approvedImportTasks[i].status = "On Hold";
         } else if (approvedImportTasks[i].status === "Long Term") {
           approvedImportTasks[i].status = "Long Term";
+        } else if (approvedImportTasks[i].status === "Slack Thread") {
+          approvedImportTasks[i].status = "Slack Thread";
         } else {
           approvedImportTasks[i].status = "Open";
         }
@@ -1312,7 +1314,8 @@ const PlanDetails = () => {
                                                                 );
                                                               case "Slack Thread":
                                                                 if (
-                                                                  task.touched === false
+                                                                  task.touched ===
+                                                                  false
                                                                 ) {
                                                                   return (
                                                                     <h6>
