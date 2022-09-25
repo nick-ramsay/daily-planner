@@ -48,3 +48,9 @@
     background-color: darkorchid;
     color: #fff;
 }
+
+.badge-custom-purple-inverted {
+    background-color: #f7eb97;
+    color: darkorchid;
+    border: 1px darkorchid solid;
+}
