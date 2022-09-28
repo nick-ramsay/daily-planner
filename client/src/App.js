@@ -29,7 +29,7 @@ datadogRum.init({
   sampleRate: 100,
   trackInteractions: true,
   trackFrustrations: true,
-
+  defaultPrivacyLevel: 'mask-user-input',
   beforeSend: (event, context) => {
     // collect a RUM resource's response headers
     if (event.type === 'resource' && event.resource.type === 'xhr') {

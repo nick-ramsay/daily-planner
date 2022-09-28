@@ -939,7 +939,7 @@ const PlanDetails = () => {
                               <input
                                 type="text"
                                 placeholder="Enter your task description here"
-                                className="form-control"
+                                className="dd-privacy-allow form-control"
                                 id="taskInput"
                                 name="taskInput"
                                 onChange={setNewTaskDescription}
