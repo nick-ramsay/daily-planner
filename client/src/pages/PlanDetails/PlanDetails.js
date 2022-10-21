@@ -943,6 +943,7 @@ const PlanDetails = () => {
                                 id="taskInput"
                                 name="taskInput"
                                 onChange={setNewTaskDescription}
+                                data-track="SEARCH - input box"
                                 aria-describedby="taskHelp"
                               />
                             </div>
