@@ -498,7 +498,12 @@ const PlanDetails = () => {
           <div className="container pt-4">
             <div className="pb-2 my-5 bg-white p-3">
               <div>
-                <h2 className="font-weight-bold">
+                <h2
+                  className="font-weight-bold"
+                  onClick={datadogRum.addError("error", {
+                    test_profile_id: getCookie("account_id"),
+                  })}
+                >
                   {moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}
                 </h2>
                 <h5>
