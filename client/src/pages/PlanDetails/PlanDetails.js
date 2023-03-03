@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { datadogRum } from "@datadog/browser-rum";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import HashLoader from "react-spinners/HashLoader";
-import { css } from "@emotion/core";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import { useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
 import { ExportToCsv } from "export-to-csv";
@@ -11,12 +10,6 @@ import moment from "moment";
 import "./style.css";
 
 import Navbar from "../../components/Navbar/Navbar";
-
-const override = css`
-  display: block;
-  margin: 0 auto;
-  color: #008000;
-`;
 
 const PlanDetails = () => {
   var PlanID = useParams().id;
@@ -477,7 +470,7 @@ const PlanDetails = () => {
   }, []);
 
   return (
-    <Router>
+    
       <div>
         <Navbar />
         {loading === true && (
@@ -485,7 +478,6 @@ const PlanDetails = () => {
             <div className="row justify-content-center min-vh-100">
               <div className="col-md-12 pt-4 mt-auto mb-auto">
                 <HashLoader
-                  css={override}
                   size={200}
                   color={"#008000"}
                   loading={loading}
@@ -1690,7 +1682,7 @@ const PlanDetails = () => {
           </div>
         )}
       </div>
-    </Router>
+  
   );
 };
 

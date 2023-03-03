@@ -51,7 +51,7 @@ if (process.env.NODE_ENV === "production") {
     .then(() => console.log("Database Connected Successfully"))
     .catch(err => console.log(err));
 } else {
-  mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/daily-planner", { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1/daily-planner", { useNewUrlParser: true, useUnifiedTopology: true });
 }
 
 //Start the API server

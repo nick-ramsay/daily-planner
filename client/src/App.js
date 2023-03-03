@@ -1,7 +1,7 @@
 import React from "react";
 import { getCookie } from "./sharedFunctions/sharedFunctions";
 import keys from "./keys";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Switch } from "react-router-dom";
 import { datadogRum } from "@datadog/browser-rum";
 import { datadogLogs } from "@datadog/browser-logs";
 
@@ -29,6 +29,7 @@ datadogRum.init({
   sampleRate: 100,
   trackInteractions: true,
   trackFrustrations: true,
+  allowedTracingUrls:["http://daily-plans.herokuapp.com/"],
   defaultPrivacyLevel: "mask-user-input",
   beforeSend: (event, context) => {
     // collect a RUM resource's response headers
@@ -44,10 +45,10 @@ datadogRum.init({
 datadogRum.addRumGlobalContext("test_profile_id", getCookie("account_id"));
 datadogRum.setUser({
   profile_id: getCookie("account_id"),
-  name: 'John Doe',
-  email: 'john@doe.com',
-  plan: 'premium',
-})
+  name: "John Doe",
+  email: "john@doe.com",
+  plan: "premium",
+});
 
 datadogLogs.init({
   clientToken: keys.datadog.client_token_rum,
@@ -104,45 +105,41 @@ function App() {
   if (client.account_id) {
     return (
       <Router>
-        <div>
-          <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/create-account" component={CreateAccount} />
+          <Routes>
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/create-account" element={<CreateAccount />} />
             <Route
               exact
               path="/reset-password-request"
-              component={ResetPasswordRequest}
+              element={<ResetPasswordRequest />}
             />
-            <Route exact path="/reset-password" component={ResetPassword} />
-            <Route exact path="/" component={Plans} />
-            <Route exact path="/plan/:id" component={PlanDetails} />
-            <Route exact path="/account-org" component={AccountOrg} />
-            <Route component={Error} />
-          </Switch>
-        </div>
+            <Route exact path="/reset-password" element={<ResetPassword />} />
+            <Route exact path="/" element={<Plans />} />
+            <Route exact path="/plan/:id" element={<PlanDetails />} />
+            <Route exact path="/account-org" element={<AccountOrg />} />
+            <Route element={<Error />} />
+          </Routes>
       </Router>
     );
   } else {
     return (
       <Router>
-        <div>
-          <Switch>
-            <Route exact path="/" component={Login} />
+          <Routes>
+            <Route exact path="/" element={<Login />} />
             <Route
               exact
               path="/create-account-request"
-              component={CreateAccountRequest}
+              element={<CreateAccountRequest />}
             />
-            <Route exact path="/create-account" component={CreateAccount} />
+            <Route exact path="/create-account" element={<CreateAccount />} />
             <Route
               exact
               path="/reset-password-request"
-              component={ResetPasswordRequest}
+              element={<ResetPasswordRequest />}
             />
-            <Route exact path="/reset-password" component={ResetPassword} />
-            <Route component={NoAccess} />
-          </Switch>
-        </div>
+            <Route exact path="/reset-password" element={<ResetPassword />} />
+            <Route element={<NoAccess />} />
+          </Routes>
       </Router>
     );
   }

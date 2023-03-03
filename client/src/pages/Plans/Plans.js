@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { datadogRum } from "@datadog/browser-rum";
 import HashLoader from "react-spinners/HashLoader";
-import { css } from "@emotion/core";
 import { getCookie } from "../../sharedFunctions/sharedFunctions";
 import API from "../../utils/API";
 import moment from "moment";
 import "./style.css";
 
 import Navbar from "../../components/Navbar/Navbar";
-
-const override = css`
-  display: block;
-  margin: 0 auto;
-  color: #008000;
-`;
 
 const Home = () => {
   var [loading, setLoading] = useState(true);
@@ -53,7 +46,6 @@ const Home = () => {
           <div className="row justify-content-center min-vh-100">
             <div className="col-md-12 pt-4 mt-auto mb-auto">
               <HashLoader
-                css={override}
                 size={200}
                 color={"#008000"}
                 loading={loading}
