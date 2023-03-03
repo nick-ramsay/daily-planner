@@ -11,7 +11,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.24.0",
     "cheerio": "^1.0.0-rc.10",
-    "dd-trace": "^2.4.2",
+    "dd-trace": "^2.27.1",
     "dotenv": "^16.0.0",
     "export-to-csv": "^0.2.1",
     "express": "^4.17.3",
@@ -31,8 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build",
-    "build:dev" : "webpack --mode development ",
-    "build:prod" : "webpack --mode production"
+    "build:dev": "webpack --mode development ",
+    "build:prod": "webpack --mode production"
   },
   "eslintConfig": {
     "extends": "react-app"
