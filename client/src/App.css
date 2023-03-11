@@ -8,17 +8,17 @@ body {
 }
 
 .jumbotron {
-  background-color: navy;
+  background-color: #632ca6;
   color: white;
 }
 
 a {
-  color: navy;
+  color: #632ca6;
 }
 
 a:hover {
   text-decoration: none;
-  color: navy;
+  color: #632ca6;
   font-weight: bold;
 }
 
@@ -172,20 +172,20 @@ a:hover {
 
 .btn-custom-blue {
   color: #ffffff;
-  background-color: #000080;
-  border-color: #000080;
+  background-color: #632ca6;
+  border-color: #632ca6;
 }
 
 .btn-custom-blue:hover{
   color: #ffffff;
-  background-color: #1A1A9A;
-  border-color: #1A1A9A;
+  background-color: #592895;
+  border-color: #592895;
 }
 
 .btn-custom-blue:focus {
   color: #ffffff;
-  background-color: #1A1A9A;
-  border-color: #1A1A9A;
+  background-color: #592895;
+  border-color: #592895;
   box-shadow: none;
 }
 

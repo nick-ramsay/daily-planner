@@ -3,21 +3,21 @@
 }
 
 .custom-control-input:checked ~ .custom-control-label::before {
-    background-color: navy;
-    border-color:navy;
+    background-color: #632ca6;
+    border-color: #632ca6;
     outline:none;
 }
 
 .btn-navy-inverse {
-    color:navy;
-    border: 1px solid navy;
+    color: #632ca6;
+    border: 1px solid #632ca6;
     background-color: inherit;
 }
 
 .btn-navy-inverse:hover {
     color: white;
-    border: 1px solid navy;
-    background-color: navy;
+    border: 1px solid #632ca6;
+    background-color: #632ca6;
 }
 
 .badge-custom-peru {
