@@ -124,6 +124,46 @@ const AccountOrg = () => {
         );
     };
 
+    const createNewAutoLink = () => {
+        console.log("Create new autoLink...");
+
+        let newAutoLinkNameInput = document.getElementById("newAutoLinkName");
+        let newTriggerRegexInput = document.getElementById("newTriggerRegex");
+        let newIDExtractionRegexInput = document.getElementById("newIDExtractionRegex");
+        let newPrecedingURLInput = document.getElementById("newPrecedingURL");
+        let newLinkPrefixInput = document.getElementById("newLinkPrefix");
+
+        let newAutoTaskInfo = {
+            newAutoLinkName: newAutoLinkNameInput.value,
+            newTriggerRegex: newTriggerRegexInput.value,
+            newIDExtractionRegex: newIDExtractionRegexInput.value,
+            newPrecedingURL: newPrecedingURLInput.value,
+            newLinkPrefix: newLinkPrefixInput.value
+        };
+
+        let allInputsCompleted = false;
+
+        if (newAutoLinkNameInput.value !== ""
+            && newTriggerRegexInput.value !== ""
+            && newIDExtractionRegexInput.value !== ""
+            && newPrecedingURLInput.value !== ""
+            && newLinkPrefixInput.value !== "") {
+            allInputsCompleted = true
+        }
+
+        if (allInputsCompleted === true) {
+            newAutoLinkNameInput.value = "";
+            newTriggerRegexInput.value = "";
+            newIDExtractionRegexInput.value = "";
+            newPrecedingURLInput.value = "";
+            newLinkPrefixInput = "";
+
+        }
+
+        console.log(newAutoTaskInfo);
+        console.log("All Fields Completed: " + allInputsCompleted);
+    }
+
     useEffect(() => {
         renderAccountDetails()
     }, [])
@@ -136,7 +176,7 @@ const AccountOrg = () => {
                     <div className="row justify-content-center min-vh-100">
                         <div className="col-md-12 pt-4 mt-auto mb-auto">
                             <HashLoader
-                                
+
                                 size={200}
                                 color={"#008000"}
                                 loading={loading}
@@ -148,7 +188,159 @@ const AccountOrg = () => {
             <div className="container pt-4">
                 <div className="pb-2 my-5 mb-4 bg-white px-5">
                     <div className="col-md-12">
-                        <h2>User</h2>
+                        <h2>Settings</h2>
+                        <button type="button" className="btn btn-sm btn-danger mt-2" onClick={logout}>Logout</button>
+                        <div className="accordion mt-2 mb-2" id="new-auto-task-accordion">
+                            <div className="card">
+                                <div className="card-header card-header-accordion" id="headingOne">
+                                    <h2 className="mb-0">
+                                        <button className="btn" style={{ color: "white" }} type="button" data-toggle="collapse" data-target="#collapseNewAutoTask" aria-expanded="true" aria-controls="new-auto-task-accordion">
+                                            Auto Tasks
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseNewAutoTask" className="collapse" aria-labelledby="headingOne" data-parent="#new-auto-task-accordion">
+                                    <div className="card-body">
+                                        <div className="row">
+                                            <div className="col">
+                                                <h6><strong>New Auto Link</strong></h6>
+                                            </div>
+                                        </div>
+                                        <form>
+                                            <div className="row">
+                                                <div className="col">
+                                                    <input id="newAutoLinkName" type="text" className="form-control" placeholder="Auto Link Name" />
+                                                </div>
+                                                <div className="col">
+                                                    <input id="newTriggerRegex" type="text" className="form-control" placeholder="Trigger Regex" />
+                                                </div>
+                                                <div className="col">
+                                                    <input id="newIDExtractionRegex" type="text" className="form-control" placeholder="ID Extraction Regex" />
+                                                </div>
+                                            </div>
+                                            <div className="row mt-2">
+                                                <div className="col">
+                                                    <input id="newPrecedingURL" type="text" className="form-control" placeholder="Preceding URL" />
+                                                </div>
+                                                <div className="col">
+                                                    <input id="newLinkPrefix" type="text" className="form-control" placeholder="Link Prefix" />
+                                                </div>
+                                            </div>
+                                            <div className="row mt-2">
+                                                <div className="col">
+                                                    <button className="btn btn-sm btn-success" type="button" onClick={() => createNewAutoLink()}>Add Link</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div className="row mt-2">
+                                            <div className="col">
+                                                <h6><strong>Existing Auto Links</strong></h6>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {
+                                                autoTasks !== undefined ?
+                                                    autoTasks.map((autoTask, i) =>
+                                                        <div className="card mb-1">
+                                                            <div className="col-md-12">
+                                                                <h5 data-toggle="collapse" data-target={"#autoTaskCard" + i}><strong>"{autoTasks[i].description}"</strong></h5>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-md-4">
+                                                                    <div className="row">
+                                                                        <div className='col-md-12'>
+                                                                            <strong>On/Off</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="custom-control custom-switch">
+                                                                        <input type="checkbox" className="custom-control-input" id={"autoTaskOnOff" + i} defaultChecked={autoTasks[i].activated} onClick={() => autoTaskOnOff(i, autoTasks[i].activated)} />
+                                                                        <label className="custom-control-label" htmlFor={"autoTaskOnOff" + i}></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-4 text-center">
+                                                                    <div className="row">
+                                                                        <div className='col-md-12'>
+                                                                            <strong>Hours</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className='row'>
+                                                                        <div className='col-md-12'>
+                                                                            {autoTasks[i].hours}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-4">
+                                                                    <div className="row">
+                                                                        <div className='col-md-12'>
+                                                                            <strong>Days</strong>
+                                                                        </div>
+                                                                    </div>
+                                                                    {autoTasks[i].weekdays.map((weekday, j) =>
+                                                                        <span>{moment.weekdays(weekday)}{j + 1 !== autoTasks[i].weekdays.length ? ", " : ""}</span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <div className="collapse" id={"autoTaskCard" + i}>
+                                                                <form>
+                                                                    <div className="form-group row mt-2">
+                                                                        <label htmlFor={"autoTaskDescription" + i} className="col-md-2 col-form-label">Description</label>
+                                                                        <div className="col-md-10">
+                                                                            <input type="text" className="form-control" id={"autoTaskDescription" + i} defaultValue={autoTask.description} />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="form-group row">
+                                                                        <label htmlFor={"autoTaskHours" + i} className="col-md-2 col-form-label">Default Hours</label>
+                                                                        <div className="col-md-10">
+                                                                            <input type="number" defaultValue={autoTask.hours} step={0} min={0} className="form-control" id={"autoTaskHours" + i} />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="form-group row">
+                                                                        <label htmlFor="autoTaskWeekdays" className="col-md-2 col-form-label">Days of Week</label>
+                                                                        <div className="col-md-10">
+                                                                            <div className="form-check form-check-inline">
+                                                                                <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-monday-" + i} value="1" defaultChecked={autoTask.weekdays.indexOf(1) !== -1 ? true : false} />
+                                                                                <label className="form-check-label" htmlFor={"auto-task-monday-" + i}>Monday</label>
+                                                                            </div>
+                                                                            <div className="form-check form-check-inline">
+                                                                                <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-tuesday-" + i} value="2" defaultChecked={autoTask.weekdays.indexOf(2) !== -1 ? true : false} />
+                                                                                <label className="form-check-label" htmlFor={"auto-task-tuesday-" + i}>Tuesday</label>
+                                                                            </div>
+                                                                            <div className="form-check form-check-inline">
+                                                                                <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-wednesday-" + i} value="3" defaultChecked={autoTask.weekdays.indexOf(3) !== -1 ? true : false} />
+                                                                                <label className="form-check-label" htmlFor={"auto-task-wednesday-" + i}>Wednesday</label>
+                                                                            </div>
+                                                                            <div className="form-check form-check-inline">
+                                                                                <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-thursday-" + i} value="4" defaultChecked={autoTask.weekdays.indexOf(4) !== -1 ? true : false} />
+                                                                                <label className="form-check-label" htmlFor={"auto-task-thursday-" + i}>Thursday</label>
+                                                                            </div>
+                                                                            <div className="form-check form-check-inline">
+                                                                                <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-friday-" + i} value="5" defaultChecked={autoTask.weekdays.indexOf(5) !== -1 ? true : false} />
+                                                                                <label className="form-check-label" htmlFor={"auto-task-friday-" + i}>Friday</label>
+                                                                            </div>
+                                                                            <div className="form-check form-check-inline">
+                                                                                <input className="form-check-input autoTaskWeekdays" type="checkbox" id={"auto-task-saturday-" + i} value="6" defaultChecked={autoTask.weekdays.indexOf(6) !== -1 ? true : false} />
+                                                                                <label className="form-check-label" htmlFor={"auto-task-saturday-" + i}>Saturday</label>
+                                                                            </div>
+                                                                            <div className="form-check form-check-inline">
+                                                                                <input className="form-check-input autoTaskWeekdays" name="autoTaskWeekdays" type="checkbox" id={"auto-task-sunday-" + i} value="0" defaultChecked={autoTask.weekdays.indexOf(0) !== -1 ? true : false} />
+                                                                                <label className="form-check-label" htmlFor={"auto-task-sunday-" + i}>Sunday</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="form-group row justify-content-center">
+                                                                        <button type="button" className="btn btn-sm btn-success" onClick={() => updateAutoTask(i)} data-auto_save_tasks_index={i}>Save</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    ) : ""
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/*
                         <div className="accordion mt-2" id="new-auto-task-accordion">
                             <div className="card">
                                 <div className="card-header card-header-accordion" id="headingOne">
@@ -313,9 +505,7 @@ const AccountOrg = () => {
                                 </div>
                             </div>
                         </div>
-                        <button type="button" className="btn btn-sm btn-danger mt-2" onClick={logout}>Logout</button>
-
-                        <h2>Organisation</h2>
+                                        */}
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 const db = require("../models");
 const sha256 = require('js-sha256').sha256;
-const sgMail = require('@sendgrid/mail');
+//const sgMail = require('@sendgrid/mail');
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -14,7 +14,7 @@ const gmailClientSecret = keys.gmail_credentials.gmailClientSecret;
 const gmailRefreshToken = keys.gmail_credentials.gmailRefreshToken;
 const sendGridAPIKey = keys.gmail_credentials.sendGridAPIKey;
 
-sgMail.setApiKey(sendGridAPIKey);
+//sgMail.setApiKey(sendGridAPIKey);
 
 const oauth2Client = new OAuth2(
     gmailClientId, // ClientID
@@ -45,13 +45,14 @@ const smtpTransport = nodemailer.createTransport({
 });
 
 let useGmail = true;
-let useSendgrid = true;
+let useSendgrid = false;
 
 module.exports = {
     //START: User Account Controllers...
     sendEmail: function (req, res) {
         console.log("Called send test e-mail controller...");
         //SENDGRID LOGIC BELOW...
+        /*
 
         let messageParameters = req.body[0];
 
@@ -66,6 +67,7 @@ module.exports = {
         if (useSendgrid) {
             sgMail.send(msg);
         }
+        */
 
         //GMAIL CREDENTIALS BELOW...
 
