@@ -97,5 +97,8 @@ export default {
     },
     syncWithZendesk: (zdURL) => {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/sync-with-zendesk", data: { zdURL: zdURL } })
-    }
+    },
+    updateSettings: (accountID, settingsData) => {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/update-settings", data: { accountID, settingsData } });
+    },
 };

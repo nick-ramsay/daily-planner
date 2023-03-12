@@ -138,4 +138,8 @@ router
   .route("/sync-with-zendesk")
   .post(dpControllers.syncWithZendesk);
 
+router
+  .route("/update-settings")
+  .post(dpControllers.updateSettings);
+
 module.exports = router;

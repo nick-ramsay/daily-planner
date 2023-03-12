@@ -12,6 +12,7 @@ const AccountOrg = () => {
 
     var [loading, setLoading] = useState(true);
     var [autoTasks, setAutoTasks] = useState();
+    var [accountID, setAccountID] = useState(getCookie("account_id"));
 
     const renderAccountDetails = () => {
         console.log("API to be added...");
@@ -152,15 +153,20 @@ const AccountOrg = () => {
         }
 
         if (allInputsCompleted === true) {
-            newAutoLinkNameInput.value = "";
-            newTriggerRegexInput.value = "";
-            newIDExtractionRegexInput.value = "";
-            newPrecedingURLInput.value = "";
-            newLinkPrefixInput = "";
+            API.updateSettings(accountID, newAutoTaskInfo).then(
+                (res) => {
+                    console.log("Called Called saveAuto API");
+                    console.log(res);
+                    newAutoLinkNameInput.value = "";
+                    newTriggerRegexInput.value = "";
+                    newIDExtractionRegexInput.value = "";
+                    newPrecedingURLInput.value = "";
+                    newLinkPrefixInput.value = "";
+                }
+            );
 
         }
 
-        console.log(newAutoTaskInfo);
         console.log("All Fields Completed: " + allInputsCompleted);
     }
 

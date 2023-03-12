@@ -292,7 +292,7 @@ module.exports = {
         db.Plans
             .updateOne({ _id: req.body.planID, "tasks.description": req.body.taskDescription },
                 {
-                    $set: { "tasks.$.status": req.body.newStatus, "tasks.$.hoursLogged": req.body.newHoursLogged, "tasks.$.description": req.body.newTaskDescription, "tasks.$.links":req.body.newLinks, "tasks.$.touched": req.body.touched}
+                    $set: { "tasks.$.status": req.body.newStatus, "tasks.$.hoursLogged": req.body.newHoursLogged, "tasks.$.description": req.body.newTaskDescription, "tasks.$.links": req.body.newLinks, "tasks.$.touched": req.body.touched }
                 }
             )
             .then(dbModel => res.json(dbModel))
@@ -397,7 +397,7 @@ module.exports = {
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
     },
-    syncWithZendesk: (req,res) => {
+    syncWithZendesk: (req, res) => {
         console.log("Called syncWithZendesk controller");
         console.log(req.body);
         axios.get(req.body.zdURL).then((response) => {
@@ -405,5 +405,20 @@ module.exports = {
             console.log(response.data);
             console.log($);
         });
+    },
+    updateSettings: function (req, res) {
+        console.log("Called updateSettings controller...");
+        console.log(req.body);
+        db.Settings.
+            updateOne(
+                { accountID: req.body.accountID },
+                {
+                    autoLinks: req.body.settingsData
+                },
+                { upsert: true }
+            )
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
     }
 };
