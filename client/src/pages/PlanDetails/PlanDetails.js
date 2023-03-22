@@ -465,923 +465,932 @@ const PlanDetails = () => {
 
   //..END: SIMPLE LIST EXAMPLE FUNCITONS
 
+  let mybutton = document.getElementById("go-to-top-button");
+
+  // When the user scrolls down 20px from the top of the document, show the button
+  window.onscroll = function () {
+    scrollFunction();
+  };
+
+  function scrollFunction() {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+
+  // When the user clicks on the button, scroll to the top of the document
+  const topFunction = () => {
+    console.log("Called top function");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   useEffect(() => {
     renderPlan();
   }, []);
 
   return (
-    
-      <div>
-        <Navbar />
-        {loading === true && (
-          <div className="container pt-4 min-vh-100">
-            <div className="row justify-content-center min-vh-100">
-              <div className="col-md-12 pt-4 mt-auto mb-auto">
-                <HashLoader
-                  size={200}
-                  color={"#008000"}
-                  loading={loading}
-                />
-              </div>
+    <div>
+      <Navbar />
+      {loading === true && (
+        <div className="container pt-4 min-vh-100">
+          <div className="row justify-content-center min-vh-100">
+            <div className="col-md-12 pt-4 mt-auto mb-auto">
+                <HashLoader size={200} color={"#008000"} loading={loading} />
             </div>
           </div>
-        )}
-        {!loading && (
-          <div className="container pt-4">
-            <div className="pb-2 my-5 bg-white p-3">
-              <div>
-                <h2
-                  className="font-weight-bold"
-                  onClick={datadogRum.addError("error", {
-                    test_profile_id: getCookie("account_id"),
-                  })}
-                >
-                  {moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}
-                </h2>
-                <h5>
-                  <strong>
-                    {Number(totalHoursLogged.totalHoursLogged)} hours logged
-                  </strong>
-                </h5>
-                <div className="progress mt-2" id="hour-bar">
-                  <div
-                    className="progress-bar bg-custom"
-                    onClick={() => {
-                      document
-                        .getElementById("hour-bar")
-                        .classList.add("d-none");
-                      document
-                        .getElementById("color-coded-hour-bar")
-                        .classList.remove("d-none");
-                    }}
-                    role="progressbar"
-                    style={{
-                      width:
-                        (totalHoursLogged.totalHoursLogged / 8) * 100 + "%",
-                    }}
-                    aria-valuenow="25"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
+        </div>
+      )}
+      {!loading && (
+        <div className="container pt-4">
+          <div className="pb-2 my-5 bg-white p-3">
+            <div>
+              <h2
+                className="font-weight-bold"
+                onClick={datadogRum.addError("error", {
+                  test_profile_id: getCookie("account_id"),
+                })}
+              >
+                {moment(Plan.created_date).format("dddd,  DD MMMM YYYY")}
+              </h2>
+              <h5>
+                <strong>
+                  {Number(totalHoursLogged.totalHoursLogged)} hours logged
+                </strong>
+              </h5>
+              <div className="progress mt-2" id="hour-bar">
                 <div
-                  className="progress d-none"
-                  id="color-coded-hour-bar"
+                  className="progress-bar bg-custom"
                   onClick={() => {
+                    document.getElementById("hour-bar").classList.add("d-none");
                     document
                       .getElementById("color-coded-hour-bar")
-                      .classList.add("d-none");
-                    document
-                      .getElementById("hour-bar")
                       .classList.remove("d-none");
                   }}
+                  role="progressbar"
+                  style={{
+                    width: (totalHoursLogged.totalHoursLogged / 8) * 100 + "%",
+                  }}
+                  aria-valuenow="25"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
+              <div
+                className="progress d-none"
+                id="color-coded-hour-bar"
+                onClick={() => {
+                  document
+                    .getElementById("color-coded-hour-bar")
+                    .classList.add("d-none");
+                  document
+                    .getElementById("hour-bar")
+                    .classList.remove("d-none");
+                }}
+              >
+                <div
+                  className="progress-bar bg-success"
+                  role="progressbar"
+                  style={{
+                    width:
+                      (totalHoursLogged.totalHoursLogged <=
+                      totalHoursLogged.hoursInDay
+                        ? (totalHoursLogged.closedHours /
+                            totalHoursLogged.hoursInDay) *
+                          100
+                        : (totalHoursLogged.closedHours /
+                            totalHoursLogged.totalHoursLogged) *
+                          100) + "%",
+                  }}
+                  title={
+                    totalHoursLogged.closedHours +
+                    " hours logged toward Closed tasks"
+                  }
+                  aria-valuenow="30"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
                 >
-                  <div
-                    className="progress-bar bg-success"
-                    role="progressbar"
-                    style={{
-                      width:
-                        (totalHoursLogged.totalHoursLogged <=
-                        totalHoursLogged.hoursInDay
-                          ? (totalHoursLogged.closedHours /
-                              totalHoursLogged.hoursInDay) *
-                            100
-                          : (totalHoursLogged.closedHours /
-                              totalHoursLogged.totalHoursLogged) *
-                            100) + "%",
-                    }}
-                    title={
-                      totalHoursLogged.closedHours +
-                      " hours logged toward Closed tasks"
-                    }
-                    aria-valuenow="30"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    Closed
-                  </div>
-                  <div
-                    className="progress-bar bg-primary"
-                    role="progressbar"
-                    style={{
-                      width:
-                        (totalHoursLogged.totalHoursLogged <=
-                        totalHoursLogged.hoursInDay
-                          ? (totalHoursLogged.openHours /
-                              totalHoursLogged.hoursInDay) *
-                            100
-                          : (totalHoursLogged.openHours /
-                              totalHoursLogged.totalHoursLogged) *
-                            100) + "%",
-                    }}
-                    title={
-                      totalHoursLogged.openHours +
-                      " hours logged toward Open tasks"
-                    }
-                    aria-valuenow="30"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    Open
-                  </div>
-                  <div
-                    className="progress-bar bg-warning"
-                    role="progressbar"
-                    style={{
-                      width:
-                        (totalHoursLogged.totalHoursLogged <=
-                        totalHoursLogged.hoursInDay
-                          ? (totalHoursLogged.inProgressHours /
-                              totalHoursLogged.hoursInDay) *
-                            100
-                          : (totalHoursLogged.inProgressHours /
-                              totalHoursLogged.totalHoursLogged) *
-                            100) + "%",
-                    }}
-                    title={
-                      totalHoursLogged.inProgressHours +
-                      " hours logged toward In Progress tasks"
-                    }
-                    aria-valuenow="30"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    In Progress
-                  </div>
-                  <div
-                    className="progress-bar bg-info"
-                    role="progressbar"
-                    style={{
-                      width:
-                        (totalHoursLogged.totalHoursLogged <=
-                        totalHoursLogged.hoursInDay
-                          ? (totalHoursLogged.pendingFeedbackHours /
-                              totalHoursLogged.hoursInDay) *
-                            100
-                          : (totalHoursLogged.pendingFeedbackHours /
-                              totalHoursLogged.totalHoursLogged) *
-                            100) + "%",
-                    }}
-                    title={
-                      totalHoursLogged.pendingFeedbackHours +
-                      " hours logged toward Pending Feedback tasks"
-                    }
-                    aria-valuenow="30"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    Pending
-                  </div>
-                  <div
-                    className="progress-bar bg-dark"
-                    role="progressbar"
-                    style={{
-                      width:
-                        (totalHoursLogged.totalHoursLogged <=
-                        totalHoursLogged.hoursInDay
-                          ? (totalHoursLogged.onHoldHours /
-                              totalHoursLogged.hoursInDay) *
-                            100
-                          : (totalHoursLogged.onHoldHours /
-                              totalHoursLogged.totalHoursLogged) *
-                            100) + "%",
-                    }}
-                    title={
-                      totalHoursLogged.onHoldHours +
-                      " hours logged toward On Hold tasks"
-                    }
-                    aria-valuenow="30"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    On Hold
-                  </div>
-                  <div
-                    className="progress-bar badge-custom-purple"
-                    role="progressbar"
-                    style={{
-                      width:
-                        (totalHoursLogged.totalHoursLogged <=
-                        totalHoursLogged.hoursInDay
-                          ? (totalHoursLogged.slackThreadHours /
-                              totalHoursLogged.hoursInDay) *
-                            100
-                          : (totalHoursLogged.slackThreadHours /
-                              totalHoursLogged.totalHoursLogged) *
-                            100) + "%",
-                    }}
-                    title={
-                      totalHoursLogged.slackThreadHours +
-                      " hours logged toward Slack Thread tasks"
-                    }
-                    aria-valuenow="30"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    Slack Thread
-                  </div>
-                  <div
-                    className="progress-bar badge-custom-hotpink"
-                    role="progressbar"
-                    style={{
-                      width:
-                        (totalHoursLogged.totalHoursLogged <=
-                        totalHoursLogged.hoursInDay
-                          ? (totalHoursLogged.longTermHours /
-                              totalHoursLogged.hoursInDay) *
-                            100
-                          : (totalHoursLogged.longTermHours /
-                              totalHoursLogged.totalHoursLogged) *
-                            100) + "%",
-                    }}
-                    title={
-                      totalHoursLogged.longTermHours +
-                      " hours logged toward Long Term tasks"
-                    }
-                    aria-valuenow="30"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    Long Term
-                  </div>
-                  <div
-                    className="progress-bar bg-secondary"
-                    role="progressbar"
-                    style={{
-                      width:
-                        (totalHoursLogged.totalHoursLogged <=
-                        totalHoursLogged.hoursInDay
-                          ? (totalHoursLogged.puntedHours /
-                              totalHoursLogged.hoursInDay) *
-                            100
-                          : (totalHoursLogged.puntedHours /
-                              totalHoursLogged.totalHoursLogged) *
-                            100) + "%",
-                    }}
-                    title={
-                      totalHoursLogged.puntedHours +
-                      " hours logged toward Punted tasks"
-                    }
-                    aria-valuenow="30"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    Punted
-                  </div>
-                  <div
-                    className="progress-bar badge-custom-sunshine"
-                    role="progressbar"
-                    style={{
-                      width:
-                        (totalHoursLogged.totalHoursLogged <=
-                        totalHoursLogged.hoursInDay
-                          ? (totalHoursLogged.meetingHours /
-                              totalHoursLogged.hoursInDay) *
-                            100
-                          : (totalHoursLogged.meetingHours /
-                              totalHoursLogged.totalHoursLogged) *
-                            100) + "%",
-                    }}
-                    title={
-                      totalHoursLogged.meetingHours +
-                      " hours logged toward Meeting tasks"
-                    }
-                    aria-valuenow="30"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    Meetings
-                  </div>
-                  <div
-                    className="progress-bar bg-warning"
-                    role="progressbar"
-                    style={{
-                      width:
-                        (totalHoursLogged.totalHoursLogged <=
-                        totalHoursLogged.hoursInDay
-                          ? (totalHoursLogged.otherHours /
-                              totalHoursLogged.hoursInDay) *
-                            100
-                          : (totalHoursLogged.otherHours /
-                              totalHoursLogged.totalHoursLogged) *
-                            100) + "%",
-                    }}
-                    title={
-                      totalHoursLogged.otherHours +
-                      " hours logged toward other tasks"
-                    }
-                    aria-valuenow="30"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    Other
-                  </div>
+                  Closed
                 </div>
-                <span>
-                  You{" "}
-                  {totalHoursLogged.hoursInDay -
-                    totalHoursLogged.totalHoursLogged >
-                  0
-                    ? "have"
-                    : "are"}{" "}
-                  {Math.abs(
-                    totalHoursLogged.hoursInDay -
-                      totalHoursLogged.totalHoursLogged
-                  ).toFixed(2)}{" "}
-                  {totalHoursLogged.hoursInDay -
-                    totalHoursLogged.totalHoursLogged ===
-                  1
-                    ? "hour"
-                    : "hours"}{" "}
-                  {totalHoursLogged.hoursInDay -
-                    totalHoursLogged.totalHoursLogged >=
-                  0
-                    ? "remaining."
-                    : "overtime."}{" "}
-                  {totalHoursLogged.hoursInDay -
-                    totalHoursLogged.totalHoursLogged <
-                  0
-                    ? "Overachiever!"
-                    : totalHoursLogged.hoursInDay -
-                        totalHoursLogged.totalHoursLogged ===
-                      0
-                    ? "Congrats! You're done!"
-                    : ""}{" "}
-                </span>
+                <div
+                  className="progress-bar bg-primary"
+                  role="progressbar"
+                  style={{
+                    width:
+                      (totalHoursLogged.totalHoursLogged <=
+                      totalHoursLogged.hoursInDay
+                        ? (totalHoursLogged.openHours /
+                            totalHoursLogged.hoursInDay) *
+                          100
+                        : (totalHoursLogged.openHours /
+                            totalHoursLogged.totalHoursLogged) *
+                          100) + "%",
+                  }}
+                  title={
+                    totalHoursLogged.openHours +
+                    " hours logged toward Open tasks"
+                  }
+                  aria-valuenow="30"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  Open
+                </div>
+                <div
+                  className="progress-bar bg-warning"
+                  role="progressbar"
+                  style={{
+                    width:
+                      (totalHoursLogged.totalHoursLogged <=
+                      totalHoursLogged.hoursInDay
+                        ? (totalHoursLogged.inProgressHours /
+                            totalHoursLogged.hoursInDay) *
+                          100
+                        : (totalHoursLogged.inProgressHours /
+                            totalHoursLogged.totalHoursLogged) *
+                          100) + "%",
+                  }}
+                  title={
+                    totalHoursLogged.inProgressHours +
+                    " hours logged toward In Progress tasks"
+                  }
+                  aria-valuenow="30"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  In Progress
+                </div>
+                <div
+                  className="progress-bar bg-info"
+                  role="progressbar"
+                  style={{
+                    width:
+                      (totalHoursLogged.totalHoursLogged <=
+                      totalHoursLogged.hoursInDay
+                        ? (totalHoursLogged.pendingFeedbackHours /
+                            totalHoursLogged.hoursInDay) *
+                          100
+                        : (totalHoursLogged.pendingFeedbackHours /
+                            totalHoursLogged.totalHoursLogged) *
+                          100) + "%",
+                  }}
+                  title={
+                    totalHoursLogged.pendingFeedbackHours +
+                    " hours logged toward Pending Feedback tasks"
+                  }
+                  aria-valuenow="30"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  Pending
+                </div>
+                <div
+                  className="progress-bar bg-dark"
+                  role="progressbar"
+                  style={{
+                    width:
+                      (totalHoursLogged.totalHoursLogged <=
+                      totalHoursLogged.hoursInDay
+                        ? (totalHoursLogged.onHoldHours /
+                            totalHoursLogged.hoursInDay) *
+                          100
+                        : (totalHoursLogged.onHoldHours /
+                            totalHoursLogged.totalHoursLogged) *
+                          100) + "%",
+                  }}
+                  title={
+                    totalHoursLogged.onHoldHours +
+                    " hours logged toward On Hold tasks"
+                  }
+                  aria-valuenow="30"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  On Hold
+                </div>
+                <div
+                  className="progress-bar badge-custom-purple"
+                  role="progressbar"
+                  style={{
+                    width:
+                      (totalHoursLogged.totalHoursLogged <=
+                      totalHoursLogged.hoursInDay
+                        ? (totalHoursLogged.slackThreadHours /
+                            totalHoursLogged.hoursInDay) *
+                          100
+                        : (totalHoursLogged.slackThreadHours /
+                            totalHoursLogged.totalHoursLogged) *
+                          100) + "%",
+                  }}
+                  title={
+                    totalHoursLogged.slackThreadHours +
+                    " hours logged toward Slack Thread tasks"
+                  }
+                  aria-valuenow="30"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  Slack Thread
+                </div>
+                <div
+                  className="progress-bar badge-custom-hotpink"
+                  role="progressbar"
+                  style={{
+                    width:
+                      (totalHoursLogged.totalHoursLogged <=
+                      totalHoursLogged.hoursInDay
+                        ? (totalHoursLogged.longTermHours /
+                            totalHoursLogged.hoursInDay) *
+                          100
+                        : (totalHoursLogged.longTermHours /
+                            totalHoursLogged.totalHoursLogged) *
+                          100) + "%",
+                  }}
+                  title={
+                    totalHoursLogged.longTermHours +
+                    " hours logged toward Long Term tasks"
+                  }
+                  aria-valuenow="30"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  Long Term
+                </div>
+                <div
+                  className="progress-bar bg-secondary"
+                  role="progressbar"
+                  style={{
+                    width:
+                      (totalHoursLogged.totalHoursLogged <=
+                      totalHoursLogged.hoursInDay
+                        ? (totalHoursLogged.puntedHours /
+                            totalHoursLogged.hoursInDay) *
+                          100
+                        : (totalHoursLogged.puntedHours /
+                            totalHoursLogged.totalHoursLogged) *
+                          100) + "%",
+                  }}
+                  title={
+                    totalHoursLogged.puntedHours +
+                    " hours logged toward Punted tasks"
+                  }
+                  aria-valuenow="30"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  Punted
+                </div>
+                <div
+                  className="progress-bar badge-custom-sunshine"
+                  role="progressbar"
+                  style={{
+                    width:
+                      (totalHoursLogged.totalHoursLogged <=
+                      totalHoursLogged.hoursInDay
+                        ? (totalHoursLogged.meetingHours /
+                            totalHoursLogged.hoursInDay) *
+                          100
+                        : (totalHoursLogged.meetingHours /
+                            totalHoursLogged.totalHoursLogged) *
+                          100) + "%",
+                  }}
+                  title={
+                    totalHoursLogged.meetingHours +
+                    " hours logged toward Meeting tasks"
+                  }
+                  aria-valuenow="30"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  Meetings
+                </div>
+                <div
+                  className="progress-bar bg-warning"
+                  role="progressbar"
+                  style={{
+                    width:
+                      (totalHoursLogged.totalHoursLogged <=
+                      totalHoursLogged.hoursInDay
+                        ? (totalHoursLogged.otherHours /
+                            totalHoursLogged.hoursInDay) *
+                          100
+                        : (totalHoursLogged.otherHours /
+                            totalHoursLogged.totalHoursLogged) *
+                          100) + "%",
+                  }}
+                  title={
+                    totalHoursLogged.otherHours +
+                    " hours logged toward other tasks"
+                  }
+                  aria-valuenow="30"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  Other
+                </div>
+              </div>
+              <span>
+                You{" "}
+                {totalHoursLogged.hoursInDay -
+                  totalHoursLogged.totalHoursLogged >
+                0
+                  ? "have"
+                  : "are"}{" "}
+                {Math.abs(
+                  totalHoursLogged.hoursInDay -
+                    totalHoursLogged.totalHoursLogged
+                ).toFixed(2)}{" "}
+                {totalHoursLogged.hoursInDay -
+                  totalHoursLogged.totalHoursLogged ===
+                1
+                  ? "hour"
+                  : "hours"}{" "}
+                {totalHoursLogged.hoursInDay -
+                  totalHoursLogged.totalHoursLogged >=
+                0
+                  ? "remaining."
+                  : "overtime."}{" "}
+                {totalHoursLogged.hoursInDay -
+                  totalHoursLogged.totalHoursLogged <
+                0
+                  ? "Overachiever!"
+                  : totalHoursLogged.hoursInDay -
+                      totalHoursLogged.totalHoursLogged ===
+                    0
+                  ? "Congrats! You're done!"
+                  : ""}{" "}
+              </span>
 
-                <div className="accordion" id="planSettingsAccordion">
+              <div className="accordion" id="planSettingsAccordion">
+                <div>
                   <div>
-                    <div>
-                      <h2 className="mb-1">
-                        <button
-                          className="btn"
-                          type="button"
-                          style={{ fontWeight: "bold", fontSize: 14 }}
-                          data-toggle="collapse"
-                          data-target="#planSettingsCard"
-                          aria-expanded="true"
-                          aria-controls="planSettingsAccordion"
-                        >
-                          <span>Tools & Settings</span>
-                          <span style={{ fontSize: 20 }}> &#9881;</span>
-                        </button>
-                      </h2>
-                    </div>
+                    <h2 className="mb-1">
+                      <button
+                        className="btn"
+                        type="button"
+                        style={{ fontWeight: "bold", fontSize: 14 }}
+                        data-toggle="collapse"
+                        data-target="#planSettingsCard"
+                        aria-expanded="true"
+                        aria-controls="planSettingsAccordion"
+                      >
+                        <span>Tools & Settings</span>
+                        <span style={{ fontSize: 20 }}> &#9881;</span>
+                      </button>
+                    </h2>
+                  </div>
 
-                    <div
-                      id="planSettingsCard"
-                      className="collapse"
-                      aria-labelledby="headingOne"
-                      data-parent="#planSettingsAccordion"
-                    >
-                      <div className="card-body">
-                        <div className="row">
-                          <div className="col-md-6">
-                            <button
-                              type="button"
-                              className="btn btn-sm btn-navy-inverse"
-                              data-toggle="modal"
-                              data-target="#importPuntedModal"
-                            >
-                              Import Punted Tasks
-                            </button>
-                          </div>
-                        </div>
-                        <div className="row mt-2">
-                          <div className="col-md-6">
-                            <button
-                              className="btn btn-sm btn-navy-inverse"
-                              type="button"
-                              onClick={puntAllOpen}
-                            >
-                              Punt-It-All
-                            </button>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="custom-control custom-switch">
-                              <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                defaultChecked={autoSort}
-                                id="autoSortSwitch"
-                                onClick={() => {
-                                  autoSort === true
-                                    ? setAutoSort(false)
-                                    : setAutoSort(true);
-                                }}
-                              />
-                              <label
-                                className="custom-control-label"
-                                htmlFor="autoSortSwitch"
-                              >
-                                Auto Sort
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row mt-2">
-                          <div className="col-md-6">
-                            <button
-                              className="btn btn-sm btn-navy-inverse"
-                              type="button"
-                              onClick={() => exportDailyWork("timeLogged")}
-                            >
-                              Export Work w/ Time Logged
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-custom m-1"
-                    data-toggle="modal"
-                    data-target="#newTaskModal"
-                    onClick={datadogRum.addAction("new-task-modal-opened", {
-                      newTaskModalOpenedTimestamp: new Date(),
-                    })}
+                  <div
+                    id="planSettingsCard"
+                    className="collapse"
+                    aria-labelledby="headingOne"
+                    data-parent="#planSettingsAccordion"
                   >
-                    New Task
-                  </button>
-                </div>
-                <div
-                  className="modal fade"
-                  id="newTaskModal"
-                  tabIndex="-1"
-                  aria-labelledby="newTaskModalLabel"
-                  aria-hidden="true"
-                >
-                  <div className="modal-dialog">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h5 className="modal-title" id="newTaskModalLabel">
-                          Enter a New Task
-                        </h5>
-                        <button
-                          type="button"
-                          className="close"
-                          data-dismiss="modal"
-                          aria-label="Close"
-                        >
-                          <span aria-hidden="true">&times;</span>
-                        </button>
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-navy-inverse"
+                            data-toggle="modal"
+                            data-target="#importPuntedModal"
+                          >
+                            Import Punted Tasks
+                          </button>
+                        </div>
                       </div>
-                      <div className="modal-body">
-                        <form className="mt-3">
-                          <div className="form-row text-center">
-                            <div className="col">
-                              <input
-                                type="text"
-                                placeholder="Enter your task description here"
-                                className="dd-privacy-allow form-control"
-                                id="taskInput"
-                                name="taskInput"
-                                onChange={setNewTaskDescription}
-                                data-track="SEARCH - input box"
-                                aria-describedby="taskHelp"
-                              />
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                      <div className="modal-footer">
-                        <button
-                          type="button"
-                          className="btn btn-secondary"
-                          data-dismiss="modal"
-                        >
-                          Close
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-custom"
-                          onClick={saveTask}
-                          data-toggle="modal"
-                          data-target="#newTaskModal"
-                        >
-                          Save Task
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="modal fade"
-                  id="importPuntedModal"
-                  tabIndex="-1"
-                  aria-labelledby="importPuntedModalLabel"
-                  aria-hidden="true"
-                >
-                  <div className="modal-dialog">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h5 className="modal-title" id="importPuntedModalLabel">
-                          Import Punted Tasks
-                        </h5>
-                        <button
-                          type="button"
-                          className="close"
-                          data-dismiss="modal"
-                          aria-label="Close"
-                        >
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div className="modal-body">
-                        <form className="mt-3">
-                          <div className="form-group col-md-12 text-left">
-                            <label htmlFor="importablePlanOptions">Plans</label>
-                            <select
-                              id="importablePlanOptions"
-                              className="form-control"
-                              defaultValue="Pick a Plan to Import"
-                              onChange={selectImportPlan}
+                      <div className="row mt-2">
+                        <div className="col-md-6">
+                          <button
+                            className="btn btn-sm btn-navy-inverse"
+                            type="button"
+                            onClick={puntAllOpen}
+                          >
+                            Punt-It-All
+                          </button>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="custom-control custom-switch">
+                            <input
+                              type="checkbox"
+                              className="custom-control-input"
+                              defaultChecked={autoSort}
+                              id="autoSortSwitch"
+                              onClick={() => {
+                                autoSort === true
+                                  ? setAutoSort(false)
+                                  : setAutoSort(true);
+                              }}
+                            />
+                            <label
+                              className="custom-control-label"
+                              htmlFor="autoSortSwitch"
                             >
-                              <option data-selected_plan_id="">
-                                Pick a Plan to Import
-                              </option>
-                              {importablePlans !== []
-                                ? importablePlans.map(
-                                    (importablePlan, p) =>
-                                      importablePlan._id !== PlanID && (
-                                        <option
-                                          key={"importablePlanKey" + p}
-                                          id={"planOption" + importablePlan._id}
-                                          data-selected_plan_id={
-                                            importablePlan._id
-                                          }
-                                        >
-                                          "{importablePlan.plan_name}" (
-                                          {moment(
-                                            importablePlan.created_date
-                                          ).format("dddd,  DD MMMM YYYY")}
-                                          )
-                                        </option>
-                                      )
-                                  )
-                                : ""}
-                            </select>
+                              Auto Sort
+                            </label>
                           </div>
-                        </form>
+                        </div>
                       </div>
-                      <div className="modal-footer">
-                        <button
-                          type="button"
-                          className="btn btn-secondary"
-                          data-dismiss="modal"
-                        >
-                          Close
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-custom"
-                          onClick={importPuntedTasks}
-                          data-toggle="modal"
-                          data-target="#importPuntedModal"
-                        >
-                          Import
-                        </button>
+                      <div className="row mt-2">
+                        <div className="col-md-6">
+                          <button
+                            className="btn btn-sm btn-navy-inverse"
+                            type="button"
+                            onClick={() => exportDailyWork("timeLogged")}
+                          >
+                            Export Work w/ Time Logged
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div>
-                  <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="droppable">
-                      {(provided, snapshot) => (
-                        <div
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                          style={getListStyle(snapshot.isDraggingOver)}
-                        >
-                          {tasks !== undefined
-                            ? tasks.map((task, i) => {
-                                if (
-                                  task.deletion_date === null ||
-                                  task.deletion_date === undefined
-                                ) {
-                                  return (
-                                    <Draggable
-                                      key={"task" + i}
-                                      draggableId={"task" + i}
-                                      index={i}
-                                    >
-                                      {(provided, snapshot) => (
-                                        <div
-                                          ref={provided.innerRef}
-                                          {...provided.draggableProps}
-                                          {...provided.dragHandleProps}
-                                          style={getItemStyle(
-                                            snapshot.isDragging,
-                                            provided.draggableProps.style
-                                          )}
-                                        >
-                                          <div>
-                                            <div className="card mb-1 mt-1">
-                                              <div className="card-body pt-2 pb-2">
-                                                <div className="row">
-                                                  <div className="col-md-12">
-                                                    <div className="row">
-                                                      <div className="col-md-12 text-left">
-                                                        <h5
-                                                          id={"editTaskBtn" + i}
-                                                          data-toggle="collapse"
-                                                          data-task_array_index={
-                                                            i
-                                                          }
-                                                          data-target={
-                                                            "#taskDetails" + i
-                                                          }
-                                                          aria-expanded="false"
-                                                          aria-controls={
-                                                            "taskDetails" +
-                                                            task +
-                                                            i
-                                                          }
-                                                        >
-                                                          <strong>
-                                                            {"#" +
-                                                              (i + 1) +
-                                                              ": "}
-                                                            <span
-                                                              id={
-                                                                "taskDescription" +
-                                                                i
-                                                              }
-                                                              className="task-description-edit"
-                                                            >
-                                                              {task.description}
-                                                            </span>
-                                                          </strong>
-                                                        </h5>
-                                                      </div>
-                                                    </div>
-                                                    <div className="row mb-2">
-                                                      <div className="col-md-12 text-left">
-                                                        {task.links !==
-                                                        undefined
-                                                          ? task.links.map(
-                                                              (link, j) => (
-                                                                <div
-                                                                  key={
-                                                                    "task-" +
-                                                                    i +
-                                                                    "-link-" +
-                                                                    j
-                                                                  }
-                                                                  className="mt-1"
-                                                                >
-                                                                  <span
-                                                                    className="jiraLinkPill mr-3 float-sm-left"
-                                                                    style={{
-                                                                      fontSize: 12,
-                                                                    }}
-                                                                  >
-                                                                    <a
-                                                                      className="jiraLinks"
-                                                                      href={
-                                                                        link.url
-                                                                      }
-                                                                      title={
-                                                                        "Go to link " +
-                                                                        link.title
-                                                                      }
-                                                                      target="_blank"
-                                                                      rel="noopener noreferrer"
-                                                                    >
-                                                                      {
-                                                                        link.title
-                                                                      }
-                                                                    </a>
-                                                                  </span>
-                                                                </div>
-                                                              )
-                                                            )
-                                                          : ""}
-                                                      </div>
-                                                    </div>
-                                                    <div className="row">
-                                                      <div className="col-md-4 text-left">
-                                                        <h6>
-                                                          <span>
-                                                            Created at{" "}
-                                                            {moment(
-                                                              task.created_date
-                                                            ).format(
-                                                              "DD MMMM YYYY, h:mm A"
-                                                            )}
-                                                          </span>
-                                                        </h6>
-                                                      </div>
-                                                      <div className="col-md-4 text-left">
-                                                        <div>
-                                                          {(() => {
-                                                            switch (
-                                                              task.status
-                                                            ) {
-                                                              case "Closed":
-                                                                return (
-                                                                  <h6>
-                                                                    <span
-                                                                      id={
-                                                                        "task-status-" +
-                                                                        i
-                                                                      }
-                                                                      className="badge badge-success"
-                                                                    >
-                                                                      {
-                                                                        task.status
-                                                                      }
-                                                                    </span>
-                                                                  </h6>
-                                                                );
-                                                              case "Open":
-                                                                return (
-                                                                  <h6>
-                                                                    <span
-                                                                      id={
-                                                                        "task-status-" +
-                                                                        i
-                                                                      }
-                                                                      className="badge badge-primary"
-                                                                    >
-                                                                      {
-                                                                        task.status
-                                                                      }
-                                                                    </span>
-                                                                  </h6>
-                                                                );
-                                                              case "In Progress":
-                                                                return (
-                                                                  <h6>
-                                                                    <span
-                                                                      id={
-                                                                        "task-status-" +
-                                                                        i
-                                                                      }
-                                                                      className="badge badge-warning"
-                                                                    >
-                                                                      {
-                                                                        task.status
-                                                                      }
-                                                                    </span>
-                                                                  </h6>
-                                                                );
-                                                              case "Pending Feedback":
-                                                                return (
-                                                                  <h6>
-                                                                    <span
-                                                                      id={
-                                                                        "task-status-" +
-                                                                        i
-                                                                      }
-                                                                      className="badge badge-info"
-                                                                    >
-                                                                      {
-                                                                        task.status
-                                                                      }
-                                                                    </span>
-                                                                  </h6>
-                                                                );
-                                                              case "Punted":
-                                                                return (
-                                                                  <h6>
-                                                                    <span
-                                                                      id={
-                                                                        "task-status-" +
-                                                                        i
-                                                                      }
-                                                                      className="badge badge-secondary"
-                                                                    >
-                                                                      {
-                                                                        task.status
-                                                                      }
-                                                                    </span>
-                                                                  </h6>
-                                                                );
-                                                              case "Awaiting Backport":
-                                                                return (
-                                                                  <h6>
-                                                                    <span
-                                                                      id={
-                                                                        "task-status-" +
-                                                                        i
-                                                                      }
-                                                                      className="badge badge-custom-peru"
-                                                                    >
-                                                                      {
-                                                                        task.status
-                                                                      }
-                                                                    </span>
-                                                                  </h6>
-                                                                );
-                                                              case "Meeting":
-                                                                return (
-                                                                  <h6>
-                                                                    <span
-                                                                      id={
-                                                                        "task-status-" +
-                                                                        i
-                                                                      }
-                                                                      className="badge badge-custom-sunshine"
-                                                                    >
-                                                                      {
-                                                                        task.status
-                                                                      }
-                                                                    </span>
-                                                                  </h6>
-                                                                );
-                                                              case "Long Term":
-                                                                return (
-                                                                  <h6>
-                                                                    <span
-                                                                      id={
-                                                                        "task-status-" +
-                                                                        i
-                                                                      }
-                                                                      className="badge badge-custom-hotpink"
-                                                                    >
-                                                                      {
-                                                                        task.status
-                                                                      }
-                                                                    </span>
-                                                                  </h6>
-                                                                );
-                                                              case "Slack Thread":
-                                                                if (
-                                                                  task.touched ===
-                                                                  false
-                                                                ) {
-                                                                  return (
-                                                                    <h6>
-                                                                      <span
-                                                                        id={
-                                                                          "task-status-" +
-                                                                          i
-                                                                        }
-                                                                        className=" badge badge-custom-purple-inverted"
-                                                                      >
-                                                                        <italic>
-                                                                          <strong>
-                                                                            {"Bump " +
-                                                                              task.status}
-                                                                          </strong>
-                                                                        </italic>
-                                                                      </span>
-                                                                    </h6>
-                                                                  );
-                                                                } else {
-                                                                  return (
-                                                                    <h6>
-                                                                      <span
-                                                                        id={
-                                                                          "task-status-" +
-                                                                          i
-                                                                        }
-                                                                        className="badge badge-custom-purple"
-                                                                      >
-                                                                        {
-                                                                          task.status
-                                                                        }
-                                                                      </span>
-                                                                    </h6>
-                                                                  );
-                                                                }
-                                                              default:
-                                                                return (
-                                                                  <h6>
-                                                                    <span
-                                                                      id={
-                                                                        "task-status-" +
-                                                                        i
-                                                                      }
-                                                                      className="badge badge-dark"
-                                                                    >
-                                                                      {
-                                                                        task.status
-                                                                      }
-                                                                    </span>
-                                                                  </h6>
-                                                                );
+              </div>
+              <div>
+                <button
+                  type="button"
+                  className="btn btn-sm btn-custom m-1"
+                  data-toggle="modal"
+                  data-target="#newTaskModal"
+                  onClick={datadogRum.addAction("new-task-modal-opened", {
+                    newTaskModalOpenedTimestamp: new Date(),
+                  })}
+                >
+                  New Task
+                </button>
+              </div>
+              <div
+                className="modal fade"
+                id="newTaskModal"
+                tabIndex="-1"
+                aria-labelledby="newTaskModalLabel"
+                aria-hidden="true"
+              >
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="newTaskModalLabel">
+                        Enter a New Task
+                      </h5>
+                      <button
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div className="modal-body">
+                      <form className="mt-3">
+                        <div className="form-row text-center">
+                          <div className="col">
+                            <input
+                              type="text"
+                              placeholder="Enter your task description here"
+                              className="dd-privacy-allow form-control"
+                              id="taskInput"
+                              name="taskInput"
+                              onChange={setNewTaskDescription}
+                              data-track="SEARCH - input box"
+                              aria-describedby="taskHelp"
+                            />
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div className="modal-footer">
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        data-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-custom"
+                        onClick={saveTask}
+                        data-toggle="modal"
+                        data-target="#newTaskModal"
+                      >
+                        Save Task
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="modal fade"
+                id="importPuntedModal"
+                tabIndex="-1"
+                aria-labelledby="importPuntedModalLabel"
+                aria-hidden="true"
+              >
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="importPuntedModalLabel">
+                        Import Punted Tasks
+                      </h5>
+                      <button
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div className="modal-body">
+                      <form className="mt-3">
+                        <div className="form-group col-md-12 text-left">
+                          <label htmlFor="importablePlanOptions">Plans</label>
+                          <select
+                            id="importablePlanOptions"
+                            className="form-control"
+                            defaultValue="Pick a Plan to Import"
+                            onChange={selectImportPlan}
+                          >
+                            <option data-selected_plan_id="">
+                              Pick a Plan to Import
+                            </option>
+                            {importablePlans !== []
+                              ? importablePlans.map(
+                                  (importablePlan, p) =>
+                                    importablePlan._id !== PlanID && (
+                                      <option
+                                        key={"importablePlanKey" + p}
+                                        id={"planOption" + importablePlan._id}
+                                        data-selected_plan_id={
+                                          importablePlan._id
+                                        }
+                                      >
+                                        "{importablePlan.plan_name}" (
+                                        {moment(
+                                          importablePlan.created_date
+                                        ).format("dddd,  DD MMMM YYYY")}
+                                        )
+                                      </option>
+                                    )
+                                )
+                              : ""}
+                          </select>
+                        </div>
+                      </form>
+                    </div>
+                    <div className="modal-footer">
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        data-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-custom"
+                        onClick={importPuntedTasks}
+                        data-toggle="modal"
+                        data-target="#importPuntedModal"
+                      >
+                        Import
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <Droppable droppableId="droppable">
+                    {(provided, snapshot) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={getListStyle(snapshot.isDraggingOver)}
+                      >
+                        {tasks !== undefined
+                          ? tasks.map((task, i) => {
+                              if (
+                                task.deletion_date === null ||
+                                task.deletion_date === undefined
+                              ) {
+                                return (
+                                  <Draggable
+                                    key={"task" + i}
+                                    draggableId={"task" + i}
+                                    index={i}
+                                  >
+                                    {(provided, snapshot) => (
+                                      <div
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        style={getItemStyle(
+                                          snapshot.isDragging,
+                                          provided.draggableProps.style
+                                        )}
+                                      >
+                                        <div>
+                                          <div className="card mb-1 mt-1">
+                                            <div className="card-body pt-2 pb-2">
+                                              <div className="row">
+                                                <div className="col-md-12">
+                                                  <div className="row">
+                                                    <div className="col-md-12 text-left">
+                                                      <h5
+                                                        id={"editTaskBtn" + i}
+                                                        data-toggle="collapse"
+                                                        data-task_array_index={
+                                                          i
+                                                        }
+                                                        data-target={
+                                                          "#taskDetails" + i
+                                                        }
+                                                        aria-expanded="false"
+                                                        aria-controls={
+                                                          "taskDetails" +
+                                                          task +
+                                                          i
+                                                        }
+                                                      >
+                                                        <strong>
+                                                          {"#" + (i + 1) + ": "}
+                                                          <span
+                                                            id={
+                                                              "taskDescription" +
+                                                              i
                                                             }
-                                                          })()}
-                                                        </div>
-                                                      </div>
-                                                      <div className="col-md-4 text-left">
-                                                        <h6>
-                                                          {task.hoursLogged +
-                                                            (task.hoursLogged ===
-                                                            1
-                                                              ? " hour logged"
-                                                              : " hours logged")}
-                                                        </h6>
-                                                      </div>
+                                                            className="task-description-edit"
+                                                          >
+                                                            {task.description}
+                                                          </span>
+                                                        </strong>
+                                                      </h5>
                                                     </div>
                                                   </div>
-                                                  {/*
+                                                  <div className="row mb-2">
+                                                    <div className="col-md-12 text-left">
+                                                      {task.links !== undefined
+                                                        ? task.links.map(
+                                                            (link, j) => (
+                                                              <div
+                                                                key={
+                                                                  "task-" +
+                                                                  i +
+                                                                  "-link-" +
+                                                                  j
+                                                                }
+                                                                className="mt-1"
+                                                              >
+                                                                <span
+                                                                  className="jiraLinkPill mr-3 float-sm-left"
+                                                                  style={{
+                                                                    fontSize: 12,
+                                                                  }}
+                                                                >
+                                                                  <a
+                                                                    className="jiraLinks"
+                                                                    href={
+                                                                      link.url
+                                                                    }
+                                                                    title={
+                                                                      "Go to link " +
+                                                                      link.title
+                                                                    }
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                  >
+                                                                    {link.title}
+                                                                  </a>
+                                                                </span>
+                                                              </div>
+                                                            )
+                                                          )
+                                                        : ""}
+                                                    </div>
+                                                  </div>
+                                                  <div className="row">
+                                                    <div className="col-md-4 text-left">
+                                                      <h6>
+                                                        <span>
+                                                          Created at{" "}
+                                                          {moment(
+                                                            task.created_date
+                                                          ).format(
+                                                            "DD MMMM YYYY, h:mm A"
+                                                          )}
+                                                        </span>
+                                                      </h6>
+                                                    </div>
+                                                    <div className="col-md-4 text-left">
+                                                      <div>
+                                                        {(() => {
+                                                          switch (task.status) {
+                                                            case "Closed":
+                                                              return (
+                                                                <h6>
+                                                                  <span
+                                                                    id={
+                                                                      "task-status-" +
+                                                                      i
+                                                                    }
+                                                                    className="badge badge-success"
+                                                                  >
+                                                                    {
+                                                                      task.status
+                                                                    }
+                                                                  </span>
+                                                                </h6>
+                                                              );
+                                                            case "Open":
+                                                              return (
+                                                                <h6>
+                                                                  <span
+                                                                    id={
+                                                                      "task-status-" +
+                                                                      i
+                                                                    }
+                                                                    className="badge badge-primary"
+                                                                  >
+                                                                    {
+                                                                      task.status
+                                                                    }
+                                                                  </span>
+                                                                </h6>
+                                                              );
+                                                            case "In Progress":
+                                                              return (
+                                                                <h6>
+                                                                  <span
+                                                                    id={
+                                                                      "task-status-" +
+                                                                      i
+                                                                    }
+                                                                    className="badge badge-warning"
+                                                                  >
+                                                                    {
+                                                                      task.status
+                                                                    }
+                                                                  </span>
+                                                                </h6>
+                                                              );
+                                                            case "Pending Feedback":
+                                                              return (
+                                                                <h6>
+                                                                  <span
+                                                                    id={
+                                                                      "task-status-" +
+                                                                      i
+                                                                    }
+                                                                    className="badge badge-info"
+                                                                  >
+                                                                    {
+                                                                      task.status
+                                                                    }
+                                                                  </span>
+                                                                </h6>
+                                                              );
+                                                            case "Punted":
+                                                              return (
+                                                                <h6>
+                                                                  <span
+                                                                    id={
+                                                                      "task-status-" +
+                                                                      i
+                                                                    }
+                                                                    className="badge badge-secondary"
+                                                                  >
+                                                                    {
+                                                                      task.status
+                                                                    }
+                                                                  </span>
+                                                                </h6>
+                                                              );
+                                                            case "Awaiting Backport":
+                                                              return (
+                                                                <h6>
+                                                                  <span
+                                                                    id={
+                                                                      "task-status-" +
+                                                                      i
+                                                                    }
+                                                                    className="badge badge-custom-peru"
+                                                                  >
+                                                                    {
+                                                                      task.status
+                                                                    }
+                                                                  </span>
+                                                                </h6>
+                                                              );
+                                                            case "Meeting":
+                                                              return (
+                                                                <h6>
+                                                                  <span
+                                                                    id={
+                                                                      "task-status-" +
+                                                                      i
+                                                                    }
+                                                                    className="badge badge-custom-sunshine"
+                                                                  >
+                                                                    {
+                                                                      task.status
+                                                                    }
+                                                                  </span>
+                                                                </h6>
+                                                              );
+                                                            case "Long Term":
+                                                              return (
+                                                                <h6>
+                                                                  <span
+                                                                    id={
+                                                                      "task-status-" +
+                                                                      i
+                                                                    }
+                                                                    className="badge badge-custom-hotpink"
+                                                                  >
+                                                                    {
+                                                                      task.status
+                                                                    }
+                                                                  </span>
+                                                                </h6>
+                                                              );
+                                                            case "Slack Thread":
+                                                              if (
+                                                                task.touched ===
+                                                                false
+                                                              ) {
+                                                                return (
+                                                                  <h6>
+                                                                    <span
+                                                                      id={
+                                                                        "task-status-" +
+                                                                        i
+                                                                      }
+                                                                      className=" badge badge-custom-purple-inverted"
+                                                                    >
+                                                                      <italic>
+                                                                        <strong>
+                                                                          {"Bump " +
+                                                                            task.status}
+                                                                        </strong>
+                                                                      </italic>
+                                                                    </span>
+                                                                  </h6>
+                                                                );
+                                                              } else {
+                                                                return (
+                                                                  <h6>
+                                                                    <span
+                                                                      id={
+                                                                        "task-status-" +
+                                                                        i
+                                                                      }
+                                                                      className="badge badge-custom-purple"
+                                                                    >
+                                                                      {
+                                                                        task.status
+                                                                      }
+                                                                    </span>
+                                                                  </h6>
+                                                                );
+                                                              }
+                                                            default:
+                                                              return (
+                                                                <h6>
+                                                                  <span
+                                                                    id={
+                                                                      "task-status-" +
+                                                                      i
+                                                                    }
+                                                                    className="badge badge-dark"
+                                                                  >
+                                                                    {
+                                                                      task.status
+                                                                    }
+                                                                  </span>
+                                                                </h6>
+                                                              );
+                                                          }
+                                                        })()}
+                                                      </div>
+                                                    </div>
+                                                    <div className="col-md-4 text-left">
+                                                      <h6>
+                                                        {task.hoursLogged +
+                                                          (task.hoursLogged ===
+                                                          1
+                                                            ? " hour logged"
+                                                            : " hours logged")}
+                                                      </h6>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                {/*
                                                                                         <div className="col-md-2 mt-auto mb-auto">
                                                                                             <div className="row">
                                                                                                 <div className="col-md-12 mb-1 text-center">
@@ -1402,287 +1411,282 @@ const PlanDetails = () => {
                                                                                             </div>
                                                                                         </div>
                                                                                         */}
+                                              </div>
+                                            </div>
+                                            <div className="row">
+                                              <div className="col-md-12">
+                                                <div
+                                                  className="collapse"
+                                                  id={"taskDetails" + i}
+                                                >
+                                                  <form className="taskUpdateForm p-2">
+                                                    <div className="form-row">
+                                                      <div className="form-group col-md-12 text-left">
+                                                        <label htmlFor="taskDescription">
+                                                          Description
+                                                        </label>
+                                                        <input
+                                                          type="text"
+                                                          key={
+                                                            task.description + i
+                                                          }
+                                                          className="form-control"
+                                                          id={
+                                                            "updatedTaskDescription" +
+                                                            i
+                                                          }
+                                                          defaultValue={
+                                                            task.description
+                                                          }
+                                                          onChange={
+                                                            setTaskDescription
+                                                          }
+                                                        />
+                                                      </div>
+                                                    </div>
+                                                    <div className="form-row">
+                                                      <div className="form-group col-md-6 text-left">
+                                                        <label htmlFor="inputState">
+                                                          Status
+                                                        </label>
+                                                        <select
+                                                          id={"taskStatus" + i}
+                                                          key={
+                                                            task.description + i
+                                                          }
+                                                          className="form-control"
+                                                          defaultValue={
+                                                            task.status
+                                                          }
+                                                          onChange={
+                                                            setTaskStatus
+                                                          }
+                                                        >
+                                                          <option>
+                                                            Closed
+                                                          </option>
+                                                          <option>Open</option>
+                                                          <option>
+                                                            In Progress
+                                                          </option>
+                                                          <option>
+                                                            Pending Feedback
+                                                          </option>
+                                                          <option>
+                                                            On Hold
+                                                          </option>
+                                                          <option>
+                                                            Slack Thread
+                                                          </option>
+                                                          <option>
+                                                            Long Term
+                                                          </option>
+                                                          <option>
+                                                            Punted
+                                                          </option>
+                                                          <option>
+                                                            Meeting
+                                                          </option>
+                                                        </select>
+                                                      </div>
+                                                      <div className="form-group col-md-6 text-left">
+                                                        <label htmlFor="taskHoursLogged">
+                                                          Hours Logged
+                                                        </label>
+                                                        <input
+                                                          type="number"
+                                                          className="form-control"
+                                                          id={
+                                                            "taskHoursLogged" +
+                                                            i
+                                                          }
+                                                          key={
+                                                            task.description + i
+                                                          }
+                                                          step=".125"
+                                                          min="0"
+                                                          defaultValue={
+                                                            task.hoursLogged
+                                                          }
+                                                          onChange={
+                                                            setTaskHoursLogged
+                                                          }
+                                                        />
+                                                      </div>
+                                                    </div>
+                                                    <div className="form-row">
+                                                      <div className="col-md-6 p-2 text-left">
+                                                        <button
+                                                          type="button"
+                                                          id={
+                                                            "deleteTaskBtn" + i
+                                                          }
+                                                          className="btn btn-sm btn-custom-red"
+                                                          data-plan_id={
+                                                            Plan._id
+                                                          }
+                                                          data-task_array_position={
+                                                            i
+                                                          }
+                                                          data-toggle="modal"
+                                                          data-target={
+                                                            "#deleteTaskModal" +
+                                                            i
+                                                          }
+                                                        >
+                                                          Delete Task
+                                                        </button>
+                                                      </div>
+                                                      <div className="col-md-6 p-2 text-right">
+                                                        <button
+                                                          className="btn btn-sm btn-secondary mr-1"
+                                                          type="button"
+                                                          data-toggle="collapse"
+                                                          data-target={
+                                                            "#taskDetails" + i
+                                                          }
+                                                          data-task_array_index={
+                                                            i
+                                                          }
+                                                          aria-expanded="false"
+                                                          aria-controls={
+                                                            "taskDetails" +
+                                                            task +
+                                                            i
+                                                          }
+                                                        >
+                                                          Close
+                                                        </button>
+                                                        <button
+                                                          id={"saveTaskBtn" + i}
+                                                          type="button"
+                                                          className="btn btn-sm btn-custom"
+                                                          data-plan_id={
+                                                            Plan._id
+                                                          }
+                                                          data-task_array_position={
+                                                            i
+                                                          }
+                                                          onClick={updateTask}
+                                                          data-toggle="collapse"
+                                                          data-target={
+                                                            "#taskDetails" + i
+                                                          }
+                                                          aria-expanded="false"
+                                                          aria-controls={
+                                                            "taskDetails" +
+                                                            task +
+                                                            i
+                                                          }
+                                                        >
+                                                          Save
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                  </form>
                                                 </div>
                                               </div>
-                                              <div className="row">
-                                                <div className="col-md-12">
-                                                  <div
-                                                    className="collapse"
-                                                    id={"taskDetails" + i}
-                                                  >
-                                                    <form className="taskUpdateForm p-2">
-                                                      <div className="form-row">
-                                                        <div className="form-group col-md-12 text-left">
-                                                          <label htmlFor="taskDescription">
-                                                            Description
-                                                          </label>
+                                            </div>
+                                            <div
+                                              className="modal fade"
+                                              id={"deleteTaskModal" + i}
+                                              tabIndex="-1"
+                                              aria-labelledby="newTaskModalLabel"
+                                              aria-hidden="true"
+                                            >
+                                              <div className="modal-dialog">
+                                                <div className="modal-content">
+                                                  <div className="modal-header">
+                                                    <h5
+                                                      className="modal-title"
+                                                      id="deleteTaskLabel"
+                                                    >
+                                                      Are you sure you want to
+                                                      delete this task?
+                                                    </h5>
+                                                    <button
+                                                      type="button"
+                                                      className="close"
+                                                      data-dismiss="modal"
+                                                      aria-label="Close"
+                                                    >
+                                                      <span aria-hidden="true">
+                                                        &times;
+                                                      </span>
+                                                    </button>
+                                                  </div>
+                                                  <div className="modal-body">
+                                                    <form className="mt-3">
+                                                      <div className="form-row text-center">
+                                                        <div className="col">
                                                           <input
                                                             type="text"
-                                                            key={
-                                                              task.description +
-                                                              i
-                                                            }
+                                                            placeholder='Type "DELETE" to confirm you want to delete this task...'
                                                             className="form-control"
                                                             id={
-                                                              "updatedTaskDescription" +
+                                                              "deleteTaskConfirmationInput" +
                                                               i
                                                             }
-                                                            defaultValue={
-                                                              task.description
-                                                            }
-                                                            onChange={
-                                                              setTaskDescription
-                                                            }
+                                                            name="deleteTaskConfirmationInput"
+                                                            aria-describedby="deleteTaskConfirmationHelp"
                                                           />
-                                                        </div>
-                                                      </div>
-                                                      <div className="form-row">
-                                                        <div className="form-group col-md-6 text-left">
-                                                          <label htmlFor="inputState">
-                                                            Status
-                                                          </label>
-                                                          <select
-                                                            id={
-                                                              "taskStatus" + i
-                                                            }
-                                                            key={
-                                                              task.description +
-                                                              i
-                                                            }
-                                                            className="form-control"
-                                                            defaultValue={
-                                                              task.status
-                                                            }
-                                                            onChange={
-                                                              setTaskStatus
-                                                            }
-                                                          >
-                                                            <option>
-                                                              Closed
-                                                            </option>
-                                                            <option>
-                                                              Open
-                                                            </option>
-                                                            <option>
-                                                              In Progress
-                                                            </option>
-                                                            <option>
-                                                              Pending Feedback
-                                                            </option>
-                                                            <option>
-                                                              On Hold
-                                                            </option>
-                                                            <option>
-                                                              Slack Thread
-                                                            </option>
-                                                            <option>
-                                                              Long Term
-                                                            </option>
-                                                            <option>
-                                                              Punted
-                                                            </option>
-                                                            <option>
-                                                              Meeting
-                                                            </option>
-                                                          </select>
-                                                        </div>
-                                                        <div className="form-group col-md-6 text-left">
-                                                          <label htmlFor="taskHoursLogged">
-                                                            Hours Logged
-                                                          </label>
-                                                          <input
-                                                            type="number"
-                                                            className="form-control"
-                                                            id={
-                                                              "taskHoursLogged" +
-                                                              i
-                                                            }
-                                                            key={
-                                                              task.description +
-                                                              i
-                                                            }
-                                                            step=".125"
-                                                            min="0"
-                                                            defaultValue={
-                                                              task.hoursLogged
-                                                            }
-                                                            onChange={
-                                                              setTaskHoursLogged
-                                                            }
-                                                          />
-                                                        </div>
-                                                      </div>
-                                                      <div className="form-row">
-                                                        <div className="col-md-6 p-2 text-left">
-                                                          <button
-                                                            type="button"
-                                                            id={
-                                                              "deleteTaskBtn" +
-                                                              i
-                                                            }
-                                                            className="btn btn-sm btn-custom-red"
-                                                            data-plan_id={
-                                                              Plan._id
-                                                            }
-                                                            data-task_array_position={
-                                                              i
-                                                            }
-                                                            data-toggle="modal"
-                                                            data-target={
-                                                              "#deleteTaskModal" +
-                                                              i
-                                                            }
-                                                          >
-                                                            Delete Task
-                                                          </button>
-                                                        </div>
-                                                        <div className="col-md-6 p-2 text-right">
-                                                          <button
-                                                            className="btn btn-sm btn-secondary mr-1"
-                                                            type="button"
-                                                            data-toggle="collapse"
-                                                            data-target={
-                                                              "#taskDetails" + i
-                                                            }
-                                                            data-task_array_index={
-                                                              i
-                                                            }
-                                                            aria-expanded="false"
-                                                            aria-controls={
-                                                              "taskDetails" +
-                                                              task +
-                                                              i
-                                                            }
-                                                          >
-                                                            Close
-                                                          </button>
-                                                          <button
-                                                            id={
-                                                              "saveTaskBtn" + i
-                                                            }
-                                                            type="button"
-                                                            className="btn btn-sm btn-custom"
-                                                            data-plan_id={
-                                                              Plan._id
-                                                            }
-                                                            data-task_array_position={
-                                                              i
-                                                            }
-                                                            onClick={updateTask}
-                                                            data-toggle="collapse"
-                                                            data-target={
-                                                              "#taskDetails" + i
-                                                            }
-                                                            aria-expanded="false"
-                                                            aria-controls={
-                                                              "taskDetails" +
-                                                              task +
-                                                              i
-                                                            }
-                                                          >
-                                                            Save
-                                                          </button>
                                                         </div>
                                                       </div>
                                                     </form>
                                                   </div>
-                                                </div>
-                                              </div>
-                                              <div
-                                                className="modal fade"
-                                                id={"deleteTaskModal" + i}
-                                                tabIndex="-1"
-                                                aria-labelledby="newTaskModalLabel"
-                                                aria-hidden="true"
-                                              >
-                                                <div className="modal-dialog">
-                                                  <div className="modal-content">
-                                                    <div className="modal-header">
-                                                      <h5
-                                                        className="modal-title"
-                                                        id="deleteTaskLabel"
-                                                      >
-                                                        Are you sure you want to
-                                                        delete this task?
-                                                      </h5>
-                                                      <button
-                                                        type="button"
-                                                        className="close"
-                                                        data-dismiss="modal"
-                                                        aria-label="Close"
-                                                      >
-                                                        <span aria-hidden="true">
-                                                          &times;
-                                                        </span>
-                                                      </button>
-                                                    </div>
-                                                    <div className="modal-body">
-                                                      <form className="mt-3">
-                                                        <div className="form-row text-center">
-                                                          <div className="col">
-                                                            <input
-                                                              type="text"
-                                                              placeholder='Type "DELETE" to confirm you want to delete this task...'
-                                                              className="form-control"
-                                                              id={
-                                                                "deleteTaskConfirmationInput" +
-                                                                i
-                                                              }
-                                                              name="deleteTaskConfirmationInput"
-                                                              aria-describedby="deleteTaskConfirmationHelp"
-                                                            />
-                                                          </div>
-                                                        </div>
-                                                      </form>
-                                                    </div>
-                                                    <div className="modal-footer">
-                                                      <button
-                                                        type="button"
-                                                        className="btn btn-secondary"
-                                                        data-dismiss="modal"
-                                                      >
-                                                        Close
-                                                      </button>
-                                                      <button
-                                                        type="button"
-                                                        className="btn btn-custom"
-                                                        data-plan_id={Plan._id}
-                                                        data-task_array_index={
-                                                          i
-                                                        }
-                                                        onClick={deleteTask}
-                                                        data-toggle="modal"
-                                                        data-target={
-                                                          "#deleteTaskModal" + i
-                                                        }
-                                                      >
-                                                        Delete Task
-                                                      </button>
-                                                    </div>
+                                                  <div className="modal-footer">
+                                                    <button
+                                                      type="button"
+                                                      className="btn btn-secondary"
+                                                      data-dismiss="modal"
+                                                    >
+                                                      Close
+                                                    </button>
+                                                    <button
+                                                      type="button"
+                                                      className="btn btn-custom"
+                                                      data-plan_id={Plan._id}
+                                                      data-task_array_index={i}
+                                                      onClick={deleteTask}
+                                                      data-toggle="modal"
+                                                      data-target={
+                                                        "#deleteTaskModal" + i
+                                                      }
+                                                    >
+                                                      Delete Task
+                                                    </button>
                                                   </div>
                                                 </div>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
-                                      )}
-                                    </Draggable>
-                                  );
-                                }
-                              })
-                            : ""}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
-                </div>
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                );
+                              }
+                            })
+                          : ""}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
               </div>
             </div>
           </div>
-        )}
-      </div>
-  
+          <button
+            onClick={() => topFunction()}
+            id="go-to-top-button"
+            title="Go to top"
+            type="button"
+          >
+            Top
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
 
