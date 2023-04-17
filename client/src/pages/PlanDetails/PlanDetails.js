@@ -1128,9 +1128,8 @@ const PlanDetails = () => {
                                                             className="task-description-edit"
                                                           >
                                                             {task.description}
-                                                            {moment().format("DD-MM-YYYY") === moment(task.created_date).format("DD-MM-YYYY") ? <span class="badge ml-2 align-middle" style={{fontSize:10, backgroundColor:"white", color:"black", border:"1px solid black", padding:4}}>New</span>:""}
                                                           </span>
-                                                         
+                                                          {moment().format("DD-MM-YYYY") === moment(task.created_date).format("DD-MM-YYYY") ? <span className="badge new-task-badge ml-2 align-middle">New</span>:""}
                                                         </strong>
                                                       </h5>
                                                     </div>
