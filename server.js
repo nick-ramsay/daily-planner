@@ -1,7 +1,11 @@
 //Datadog Tracing Injections
 const tracer = require('dd-trace').init({
   debug: true,
-  logInjection: true
+  logInjection: true,
+  logger: {
+    debug: message => logger.trace(message),
+    error: err => logger.error(err)
+  }
 });
 
 const express = require("express");
