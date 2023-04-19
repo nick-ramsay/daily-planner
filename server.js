@@ -1,3 +1,9 @@
+const bunyan = require('bunyan')
+const logger = bunyan.createLogger({
+  name: 'dd-trace',
+  level: 'trace'
+})
+
 //Datadog Tracing Injections
 const tracer = require('dd-trace').init({
   debug: true,
