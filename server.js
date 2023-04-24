@@ -14,6 +14,17 @@ const tracer = require('dd-trace').init({
   }
 });
 
+tracer.use('http', {
+  server: {
+    hooks: {
+      request: (span, req, res) => {
+        // pathname should be low cardinality (i.e. not /user/:id with millions of IDs)
+        span.setTag('http.route', url.parse(req.url).pathname)
+      }
+    }
+  }
+})
+
 const express = require("express");
 const mongoose = require('mongoose');
 require("dotenv").config();
