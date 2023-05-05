@@ -22,6 +22,7 @@ import moment from "moment";
 datadogRum.init({
   applicationId: keys.datadog.app_key_rum,
   clientToken: keys.datadog.client_token_rum,
+  service: "daily-planner-client",
   site: keys.datadog.dd_site,
   env: "production",
   version: "1.0.0",
