@@ -23,7 +23,6 @@ datadogRum.init({
   applicationId: keys.datadog.app_key_rum,
   clientToken: keys.datadog.client_token_rum,
   site: keys.datadog.dd_site,
-  service: "daily-planner",
   env: "production",
   version: "1.0.0",
   sampleRate: 100,
