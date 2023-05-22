@@ -46,6 +46,7 @@ const Home = () => {
           <div className="row justify-content-center min-vh-100">
             <div className="col-md-12 pt-4 mt-auto mb-auto">
               <HashLoader
+                className="my-auto mx-auto"
                 size={200}
                 color={"#008000"}
                 loading={loading}

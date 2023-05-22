@@ -64,7 +64,7 @@ datadogRum.setUser({
 });
 
 datadogLogs.init({
-  clientToken: keys.datadog.client_token_rum,
+  clientToken: keys.datadog.client_token_logs,
   site: keys.datadog.dd_site,
   forwardErrorsToLogs: true,
   forwardConsoleLogs: "all",
