@@ -420,5 +420,17 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
+    },
+    fetchUserSettings: function (req, res) {
+        console.log("Called fetchUserSettings controller...");
+        console.log(req.body);
+        db.Settings.
+            find(
+                { accountID: req.body.accountID }
+            )
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
+            
     }
 };

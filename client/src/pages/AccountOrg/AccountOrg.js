@@ -182,14 +182,14 @@ const AccountOrg = () => {
     let newIDExtractionRegexInput = document.getElementById(
       "newIDExtractionRegex"
     );
-    let newPrecedingURLInput = document.getElementById("newPrecedingURL");
+    let newWildcardURLInput = document.getElementById("newWildcardURL");
     let newLinkPrefixInput = document.getElementById("newLinkPrefix");
 
     let newAutoTaskInfo = {
       newAutoLinkName: newAutoLinkNameInput.value,
       newTriggerRegex: newTriggerRegexInput.value,
       newIDExtractionRegex: newIDExtractionRegexInput.value,
-      newPrecedingURL: newPrecedingURLInput.value,
+      newWildcardURL: newWildcardURLInput.value,
       newLinkPrefix: newLinkPrefixInput.value,
     };
 
@@ -199,7 +199,7 @@ const AccountOrg = () => {
       newAutoLinkNameInput.value !== "" &&
       newTriggerRegexInput.value !== "" &&
       newIDExtractionRegexInput.value !== "" &&
-      newPrecedingURLInput.value !== "" &&
+      newWildcardURLInput.value !== "" &&
       newLinkPrefixInput.value !== ""
     ) {
       allInputsCompleted = true;
@@ -212,7 +212,7 @@ const AccountOrg = () => {
         newAutoLinkNameInput.value = "";
         newTriggerRegexInput.value = "";
         newIDExtractionRegexInput.value = "";
-        newPrecedingURLInput.value = "";
+        newWildcardURLInput.value = "";
         newLinkPrefixInput.value = "";
       });
     }
@@ -318,10 +318,10 @@ const AccountOrg = () => {
                       <div className="row mt-2">
                         <div className="col">
                           <input
-                            id="newPrecedingURL"
+                            id="newWildcardURL"
                             type="text"
                             className="form-control"
-                            placeholder="Preceding URL"
+                            placeholder="Wildcard URL"
                           />
                         </div>
                         <div className="col">

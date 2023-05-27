@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const SettingsSchema = new Schema({
     accountID: { type: String },
-    autoLinks: { type: Number},
+    autoLinks: { type: Array},
 })
 
 const Settings = mongoose.model("Settings", SettingsSchema);

@@ -27,6 +27,7 @@ const PlanDetails = () => {
   var [taskDescription, setTaskDescription] = useInput();
   var [taskHoursLogged, setTaskHoursLogged] = useInput();
   var [taskStatus, setTaskStatus] = useInput();
+  var [userSettings, setUserSettings] = useState([]);
 
   const calculateTotalHoursLogged = (PlanData) => {
     let totalHours = 0;
@@ -79,7 +80,6 @@ const PlanDetails = () => {
       meetingHours: meetingHours,
       otherHours: otherHours,
     };
-    console.log(tempTotalHoursLogged);
     setTotalHoursLogged((totalHoursLogged) => tempTotalHoursLogged);
   };
 
@@ -222,6 +222,8 @@ const PlanDetails = () => {
     API.checkExistingTasks(PlanID, newTaskDescription).then((res) => {
       renderPlan();
     });
+
+    console.log(userSettings)
 
     API.updateTask(
       PlanID,
@@ -489,7 +491,14 @@ const PlanDetails = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const fetchUserSettings = (account_id) => {
+    API.fetchUserSettings(account_id).then((res) => {
+      setUserSettings(userSettings => res.data);
+    });
+  }
+
   useEffect(() => {
+    fetchUserSettings(getCookie("account_id"));
     renderPlan();
   }, []);
 
