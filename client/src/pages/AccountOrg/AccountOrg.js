@@ -255,9 +255,9 @@ const AccountOrg = () => {
               </div>
             </div>
             <div className="accordion mt-2 mb-2" id="new-auto-task-accordion">
-              <div className="card">
+              <div className="card d-none">
                 <div
-                  className="card-header card-header-accordion"
+                  className="card-header card-header-accordion d-none"
                   id="headingOne"
                 >
                   <h2 className="mb-0">
@@ -280,7 +280,7 @@ const AccountOrg = () => {
                   aria-labelledby="headingOne"
                   data-parent="#new-auto-task-accordion"
                 >
-                  <div className="card-body">
+                  <div className="card-body d-none">
                     <div className="row">
                       <div className="col">
                         <h6>
@@ -345,7 +345,7 @@ const AccountOrg = () => {
                         </div>
                       </div>
                     </form>
-                    <div className="row mt-2">
+                    <div className="row mt-2 d-none">
                       <div className="col">
                         <h6>
                           <strong>Existing Auto Links</strong>
