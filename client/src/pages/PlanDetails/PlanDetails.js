@@ -88,6 +88,9 @@ const PlanDetails = () => {
     API.findImportableTasks(getCookie("account_id")).then((res) => {
       setImportablePlans((importablePlans) => res.data);
     });
+    API.fetchUserSettings(getCookie("account_id")).then((res) => {
+      setUserSettings((userSettings) => res.data);
+    });
     API.findPlan(selectedPlan).then((res) => {
       setLoading((loading) => false);
       setPlan((Plan) => res.data);
@@ -149,6 +152,11 @@ const PlanDetails = () => {
         //document.getElementById("moveTaskBtns" + taskArrayIndex).classList.add("d-none");
     }
     */
+
+  const generateAutoLinks = (taskDescription) => {
+    console.log(taskDescription);
+    console.log(userSettings[0].autoLinks);
+  }
 
   const generateLinks = (taskDescription) => {
     let zendeskRegex = /ZD\s{1}\d{6,7}/g;
@@ -218,12 +226,11 @@ const PlanDetails = () => {
     ).value;
 
     let newLinks = generateLinks(newTaskDescription);
+    let newAutoLinks = generateAutoLinks(newTaskDescription);
 
     API.checkExistingTasks(PlanID, newTaskDescription).then((res) => {
       renderPlan();
     });
-
-    console.log(userSettings)
 
     API.updateTask(
       PlanID,
@@ -491,15 +498,8 @@ const PlanDetails = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const fetchUserSettings = (account_id) => {
-    API.fetchUserSettings(account_id).then((res) => {
-      setUserSettings(userSettings => res.data);
-    });
-  }
-
   useEffect(() => {
-    fetchUserSettings(getCookie("account_id"));
-    renderPlan();
+   renderPlan();
   }, []);
 
   return (
@@ -509,7 +509,12 @@ const PlanDetails = () => {
         <div className="container pt-4 min-vh-100">
           <div className="row justify-content-center min-vh-100">
             <div className="col-md-12 pt-4 mt-auto mb-auto">
-                <HashLoader className="my-auto mx-auto" size={200} color={"#008000"} loading={loading} />
+              <HashLoader
+                className="my-auto mx-auto"
+                size={200}
+                color={"#008000"}
+                loading={loading}
+              />
             </div>
           </div>
         </div>
@@ -1138,7 +1143,20 @@ const PlanDetails = () => {
                                                           >
                                                             {task.description}
                                                           </span>
-                                                          {moment().format("DD-MM-YYYY") === moment(task.created_date).format("DD-MM-YYYY") ? <span className="badge new-task-badge ml-2 align-middle">New</span>:""}
+                                                          {moment().format(
+                                                            "DD-MM-YYYY"
+                                                          ) ===
+                                                          moment(
+                                                            task.created_date
+                                                          ).format(
+                                                            "DD-MM-YYYY"
+                                                          ) ? (
+                                                            <span className="badge new-task-badge ml-2 align-middle">
+                                                              New
+                                                            </span>
+                                                          ) : (
+                                                            ""
+                                                          )}
                                                         </strong>
                                                       </h5>
                                                     </div>
@@ -1343,12 +1361,10 @@ const PlanDetails = () => {
                                                                       }
                                                                       className=" badge badge-custom-purple-inverted"
                                                                     >
-                                                                      <italic>
-                                                                        <strong>
-                                                                          {"Bump " +
-                                                                            task.status}
-                                                                        </strong>
-                                                                      </italic>
+                                                                      <strong>
+                                                                        {"Bump " +
+                                                                          task.status}
+                                                                      </strong>
                                                                     </span>
                                                                   </h6>
                                                                 );
