@@ -154,8 +154,8 @@ const PlanDetails = () => {
     */
 
   const generateAutoLinks = (taskDescription) => {
-    console.log(taskDescription);
-    console.log(userSettings[0].autoLinks);
+    //console.log(taskDescription);
+    //console.log(userSettings[0].autoLinks);
   }
 
   const generateLinks = (taskDescription) => {
