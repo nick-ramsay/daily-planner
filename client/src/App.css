@@ -31,6 +31,14 @@ a:hover {
   border: none;
 }
 
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
 .custom-hyperlink {
   font-weight: bold;
   color: #632ca6;
