@@ -167,7 +167,7 @@ const PlanDetails = () => {
         urlTemplate: "https://datadog.zendesk.com/agent/tickets/~~LINK_ID~~"
       },
       {
-        matchingStringRegex: /[Jj]ira\s[A-Za-z]{1,10}-\d{1,10}/g,
+        matchingStringRegex: /[jiraJIRAJira]\s[A-Za-z]{1,10}-\d{1,10}/g,
         idExtractionRegex: /[A-Za-z]{1,10}-\d{1,10}/g,
         urlTemplate: "https://datadoghq.atlassian.net/browse/~~LINK_ID~~"
       }
