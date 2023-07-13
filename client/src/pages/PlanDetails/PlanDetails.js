@@ -156,21 +156,36 @@ const PlanDetails = () => {
   const generateAutoLinks = (taskDescription) => {
     //console.log(taskDescription);
     //console.log(userSettings[0].autoLinks);
-  }
+  };
+
 
   const generateLinks = (taskDescription) => {
-    let zendeskRegex = /ZD\s{1}\d{6,7}/g;
-    let zendeskStrings =
-      taskDescription.match(zendeskRegex) != null
-        ? taskDescription.match(zendeskRegex)
-        : [];
+    let linkConfig = [
+      {
+        matchingStringRegex: /ZD\s{1}\d{6,7}/g,
+        idExtractionRegex: /\d{6,7}/g,
+        urlTemplate: "https://datadog.zendesk.com/agent/tickets/~~LINK_ID~~"
+      },
+      {
+        matchingStringRegex: /[Jj]ira\s[A-Za-z]{1,10}-\d{1,10}/g,
+        idExtractionRegex: /[A-Za-z]{1,10}-\d{1,10}/g,
+        urlTemplate: "https://datadoghq.atlassian.net/browse/~~LINK_ID~~"
+      }
+    ];
 
     let newLinks = [];
+    let linkStrings = [];
 
-    for (let l = 0; l < zendeskStrings.length; l += 1) {
-      let currentTitle = zendeskStrings[l];
-      let currentID = Number(zendeskStrings[l].match(/\s{1}\d{6,7}/g)[0]);
-      let currentURL = "https://datadog.zendesk.com/agent/tickets/" + currentID;
+    for (let i = 0; linkConfig.length > i; i++) {
+      taskDescription.match(linkConfig[i].matchingStringRegex) != null
+        ? taskDescription.match(linkConfig[i].matchingStringRegex).forEach(element => linkStrings.push({linkString: element, parameters: linkConfig[i]}))
+        : linkStrings = [];
+    }
+
+    for (let l = 0; l < linkStrings.length; l += 1) {
+      let currentTitle = linkStrings[l].linkString;
+      let currentID = linkStrings[l].linkString.match(linkStrings[l].parameters.idExtractionRegex)[0];
+      let currentURL = linkStrings[l].parameters.urlTemplate.replace("~~LINK_ID~~", currentID)
 
       let currentLink = {
         title: currentTitle,
@@ -180,6 +195,7 @@ const PlanDetails = () => {
 
       newLinks.push(currentLink);
     }
+
     return newLinks;
   };
 
@@ -477,7 +493,7 @@ const PlanDetails = () => {
   let mybutton = document.getElementById("go-to-top-button");
 
   // When the user scrolls down 20px from the top of the document, show the button
-  window.onscroll = function () {
+  /*window.onscroll = function () {
     scrollFunction();
   };
 
@@ -490,7 +506,7 @@ const PlanDetails = () => {
     } else {
       mybutton.style.display = "none";
     }
-  }
+  }*/
 
   // When the user clicks on the button, scroll to the top of the document
   const topFunction = () => {
@@ -499,7 +515,7 @@ const PlanDetails = () => {
   };
 
   useEffect(() => {
-   renderPlan();
+    renderPlan();
   }, []);
 
   return (
