@@ -153,34 +153,30 @@ const PlanDetails = () => {
     }
     */
 
-  const generateAutoLinks = (taskDescription) => {
-    //console.log(taskDescription);
-    //console.log(userSettings[0].autoLinks);
-  };
-
-
   const generateLinks = (taskDescription) => {
     let linkConfig = [
-      {
-        matchingStringRegex: /ZD\s{1}\d{6,7}/g,
-        idExtractionRegex: /\s{1}\d{6,7}/g,
-        urlTemplate: "https://datadog.zendesk.com/agent/tickets/~~LINK_ID~~"
-      },
       {
         matchingStringRegex: /[Jj][Ii][Rr][Aa]\s[A-Za-z]{1,10}-\d{1,10}/g,
         idExtractionRegex: /[A-Za-z]{1,10}-\d{1,10}/g,
         urlTemplate: "https://datadoghq.atlassian.net/browse/~~LINK_ID~~"
+      },
+      {
+        matchingStringRegex: /ZD\s{1}\d{6,7}/g,
+        idExtractionRegex: /\s{1}\d{6,7}/g,
+        urlTemplate: "https://datadog.zendesk.com/agent/tickets/~~LINK_ID~~"
       }
     ];
 
     let newLinks = [];
     let linkStrings = [];
 
-    for (let i = 0; linkConfig.length > i; i++) {
+    for (let i = 0; linkConfig.length > i; i += 1) {
       taskDescription.match(linkConfig[i].matchingStringRegex) != null
-        ? taskDescription.match(linkConfig[i].matchingStringRegex).forEach(element => linkStrings.push({linkString: element, parameters: linkConfig[i]}))
-        : linkStrings = [];
+        ? taskDescription.match(linkConfig[i].matchingStringRegex).forEach(element => {linkStrings.push({linkString: element, parameters: linkConfig[i]})})
+        : linkStrings = linkStrings
     }
+
+    console.log(linkStrings);
 
     for (let l = 0; l < linkStrings.length; l += 1) {
       let currentTitle = linkStrings[l].linkString;
@@ -242,7 +238,6 @@ const PlanDetails = () => {
     ).value;
 
     let newLinks = generateLinks(newTaskDescription);
-    let newAutoLinks = generateAutoLinks(newTaskDescription);
 
     API.checkExistingTasks(PlanID, newTaskDescription).then((res) => {
       renderPlan();
