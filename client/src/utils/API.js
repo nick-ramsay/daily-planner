@@ -101,7 +101,7 @@ export default {
     updateSettings: (accountID, settingsData) => {
         return axios({ method: "post", url: apiURL + "/api/daily-planner/update-settings", data: { accountID, settingsData } });
     },
-    fetchUserSettings: (accountID) => {
-        return axios({ method: "post", url: apiURL + "/api/daily-planner/fetch-user-settings", data: { accountID } });
+    findSettings: (accountID) => {
+        return axios({ method: "post", url: apiURL + "/api/daily-planner/find-settings", data: { accountID } });
     },
 };

@@ -143,7 +143,7 @@ router
   .post(dpControllers.updateSettings);
 
 router
-  .route("/fetch-user-settings")
-  .post(dpControllers.fetchUserSettings);
+  .route("/find-settings")
+  .post(dpControllers.findSettings);
 
 module.exports = router;

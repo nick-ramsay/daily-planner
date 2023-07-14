@@ -27,7 +27,7 @@ const PlanDetails = () => {
   var [taskDescription, setTaskDescription] = useInput();
   var [taskHoursLogged, setTaskHoursLogged] = useInput();
   var [taskStatus, setTaskStatus] = useInput();
-  var [userSettings, setUserSettings] = useState([]);
+  var [settings, setSettings] = useState([]);
 
   const calculateTotalHoursLogged = (PlanData) => {
     let totalHours = 0;
@@ -88,8 +88,8 @@ const PlanDetails = () => {
     API.findImportableTasks(getCookie("account_id")).then((res) => {
       setImportablePlans((importablePlans) => res.data);
     });
-    API.fetchUserSettings(getCookie("account_id")).then((res) => {
-      setUserSettings((userSettings) => res.data);
+    API.findSettings(getCookie("account_id")).then((res) => {
+      setSettings((settings) => res.data);
     });
     API.findPlan(selectedPlan).then((res) => {
       setLoading((loading) => false);
@@ -163,7 +163,7 @@ const PlanDetails = () => {
     let linkConfig = [
       {
         matchingStringRegex: /ZD\s{1}\d{6,7}/g,
-        idExtractionRegex: /\d{6,7}/g,
+        idExtractionRegex: /\s{1}\d{6,7}/g,
         urlTemplate: "https://datadog.zendesk.com/agent/tickets/~~LINK_ID~~"
       },
       {

@@ -11,12 +11,14 @@ import Navbar from "../../components/Navbar/Navbar";
 const AccountOrg = () => {
   var [loading, setLoading] = useState(true);
   var [autoTasks, setAutoTasks] = useState();
+  var [settings, setSettings] = useState([]);
   var [accountID, setAccountID] = useState(getCookie("account_id"));
 
   const renderAccountDetails = () => {
     console.log("API to be added...");
     setLoading((loading) => false);
-    renderAutoTasks();
+    //renderAutoTasks();
+    renderSettings();
   };
 
   const saveNewScheduledTask = () => {
@@ -174,8 +176,18 @@ const AccountOrg = () => {
     });
   };
 
+  const renderSettings = () => {
+    API.findSettings(getCookie("account_id")).then((res) => {
+      setSettings((settings) => (res.data[0] != undefined ? res.data[0] : []));
+    });
+  };
+
   const createNewAutoLink = () => {
     console.log("Create new autoLink...");
+
+    let currentAutoLinks =
+      settings.autoLinks !== undefined ? settings.autoLinks : [];
+    console.log(currentAutoLinks);
 
     let newAutoLinkNameInput = document.getElementById("newAutoLinkName");
     let newTriggerRegexInput = document.getElementById("newTriggerRegex");
@@ -185,12 +197,12 @@ const AccountOrg = () => {
     let newWildcardURLInput = document.getElementById("newWildcardURL");
     let newLinkPrefixInput = document.getElementById("newLinkPrefix");
 
-    let newAutoTaskInfo = {
-      newAutoLinkName: newAutoLinkNameInput.value,
-      newTriggerRegex: newTriggerRegexInput.value,
-      newIDExtractionRegex: newIDExtractionRegexInput.value,
-      newWildcardURL: newWildcardURLInput.value,
-      newLinkPrefix: newLinkPrefixInput.value,
+    let newAutoLinkInfo = {
+      autoLinkName: newAutoLinkNameInput.value,
+      triggerRegex: newTriggerRegexInput.value,
+      idExtractionRegex: newIDExtractionRegexInput.value,
+      wildcardURL: newWildcardURLInput.value,
+      linkPrefix: newLinkPrefixInput.value,
     };
 
     let allInputsCompleted = false;
@@ -206,18 +218,17 @@ const AccountOrg = () => {
     }
 
     if (allInputsCompleted === true) {
-      API.updateSettings(accountID, newAutoTaskInfo).then((res) => {
+      currentAutoLinks.push(newAutoLinkInfo);
+      API.updateSettings(accountID, currentAutoLinks).then((res) => {
         console.log("Called Called saveAuto API");
-        console.log(res);
         newAutoLinkNameInput.value = "";
         newTriggerRegexInput.value = "";
         newIDExtractionRegexInput.value = "";
         newWildcardURLInput.value = "";
         newLinkPrefixInput.value = "";
+        renderSettings();
       });
     }
-
-    console.log("All Fields Completed: " + allInputsCompleted);
   };
 
   useEffect(() => {
@@ -241,23 +252,28 @@ const AccountOrg = () => {
           <div className="col-md-12">
             <h2>Settings</h2>
             <div className="row">
-                <div className="col-md-6">
-                <button className="btn btn-sm btn-outline-dark mt-2 pr-2 pl-2" onClick={()=> window.history.back()}>⬅</button>
-                </div>
-                <div className="col-md-6">
-              <button
-                type="button"
-                className="btn btn-sm btn-danger mt-2"
-                onClick={logout}
-              >
-                Logout
-              </button>
+              <div className="col-md-6">
+                <button
+                  className="btn btn-sm btn-outline-dark mt-2 pr-2 pl-2"
+                  onClick={() => window.history.back()}
+                >
+                  ⬅
+                </button>
+              </div>
+              <div className="col-md-6">
+                <button
+                  type="button"
+                  className="btn btn-sm btn-danger mt-2"
+                  onClick={logout}
+                >
+                  Logout
+                </button>
               </div>
             </div>
             <div className="accordion mt-2 mb-2" id="new-auto-task-accordion">
-              <div className="card d-none">
+              <div className="card">
                 <div
-                  className="card-header card-header-accordion d-none"
+                  className="card-header card-header-accordion"
                   id="headingOne"
                 >
                   <h2 className="mb-0">
@@ -270,7 +286,7 @@ const AccountOrg = () => {
                       aria-expanded="true"
                       aria-controls="new-auto-task-accordion"
                     >
-                      Auto Tasks
+                      Auto Links
                     </button>
                   </h2>
                 </div>
@@ -280,7 +296,7 @@ const AccountOrg = () => {
                   aria-labelledby="headingOne"
                   data-parent="#new-auto-task-accordion"
                 >
-                  <div className="card-body d-none">
+                  <div className="card-body">
                     <div className="row">
                       <div className="col">
                         <h6>
@@ -345,14 +361,27 @@ const AccountOrg = () => {
                         </div>
                       </div>
                     </form>
-                    <div className="row mt-2 d-none">
+                    <div className="row mt-2">
                       <div className="col">
                         <h6>
                           <strong>Existing Auto Links</strong>
                         </h6>
-                      </div>
-                    </div>
-                    <div>
+                     
+                      {settings.autoLinks !== undefined
+                        ? settings.autoLinks.map((autoLink, i) => (
+                            <div className="card mb-1">
+                              <div className="col-md-12">
+                                <h6
+                                  data-toggle="collapse"
+                                  data-target={"#autoLinkCard" + i}
+                                >
+                                  <strong>{autoLink.autoLinkName}</strong>
+                                </h6>
+                              </div>
+                            </div>
+                          ))
+                        : ""}
+ </div>
                       {/*
                                                 autoTasks !== undefined ?
                                                     autoTasks.map((autoTask, i) =>
