@@ -199,11 +199,11 @@ const AccountOrg = () => {
 
     let newAutoLinkInfo = {
       autoLinkName: newAutoLinkNameInput.value,
-      triggerRegex: newTriggerRegexInput.value,
-      idExtractionRegex: newIDExtractionRegexInput.value,
+      triggerRegex: "/" + newTriggerRegexInput.value + "/g",
+      idExtractionRegex: "/" + newIDExtractionRegexInput.value + "/g",
       wildcardURL: newWildcardURLInput.value,
       linkPrefix: newLinkPrefixInput.value,
-    };
+    }
 
     let allInputsCompleted = false;
 

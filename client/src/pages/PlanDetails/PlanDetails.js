@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { datadogRum } from "@datadog/browser-rum";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+//import {RegexParser} from "regex-parser";
+
 import HashLoader from "react-spinners/HashLoader";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import { useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
@@ -10,6 +12,7 @@ import moment from "moment";
 import "./style.css";
 
 import Navbar from "../../components/Navbar/Navbar";
+var RegexParser = require("regex-parser");
 
 const PlanDetails = () => {
   var PlanID = useParams().id;
@@ -154,6 +157,8 @@ const PlanDetails = () => {
     */
 
   const generateLinks = (taskDescription) => {
+    console.log(settings[0].autoLinks);
+    /*
     let linkConfig = [
       {
         matchingStringRegex: /[Jj][Ii][Rr][Aa]\s[A-Za-z]{1,10}-\d{1,10}/g,
@@ -166,13 +171,22 @@ const PlanDetails = () => {
         urlTemplate: "https://datadog.zendesk.com/agent/tickets/~~LINK_ID~~"
       }
     ];
+    */
+
+  let linkConfig = settings[0].autoLinks;
+  //linkConfig.forEach(element => element.triggerRegex = RegExp(element.triggerRegex.replace("\/","/"))); 
+  //linkConfig.forEach(element => element.idExtractionRegex = RegExp(element.idExtractionRegex.replace("\/","/"))); 
 
     let newLinks = [];
     let linkStrings = [];
+    //console.log(linkConfig);
+    //linkConfig.forEach(element => element.idExtractionRegex = element.idExtractionRegex);
+    //console.log(linkConfig);
 
     for (let i = 0; linkConfig.length > i; i += 1) {
-      taskDescription.match(linkConfig[i].matchingStringRegex) != null
-        ? taskDescription.match(linkConfig[i].matchingStringRegex).forEach(element => {linkStrings.push({linkString: element, parameters: linkConfig[i]})})
+      console.log(taskDescription.match(RegExp(linkConfig[i].triggerRegex)));
+      taskDescription.match(RegexParser(linkConfig[i].triggerRegex)) != null
+        ? taskDescription.match(RegexParser(linkConfig[i].triggerRegex)).forEach(element => {linkStrings.push({linkString: element, parameters: linkConfig[i]})})
         : linkStrings = linkStrings
     }
 
@@ -180,8 +194,8 @@ const PlanDetails = () => {
 
     for (let l = 0; l < linkStrings.length; l += 1) {
       let currentTitle = linkStrings[l].linkString;
-      let currentID = linkStrings[l].linkString.match(linkStrings[l].parameters.idExtractionRegex)[0];
-      let currentURL = linkStrings[l].parameters.urlTemplate.replace("~~LINK_ID~~", currentID)
+      let currentID = linkStrings[l].linkString.match(RegexParser(linkStrings[l].parameters.idExtractionRegex));
+      let currentURL = linkStrings[l].parameters.wildcardURL.replace("~~LINK_ID~~", currentID)
 
       let currentLink = {
         title: currentTitle,

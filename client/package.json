@@ -23,7 +23,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
-    "react-spinners": "^0.13.4"
+    "react-spinners": "^0.13.4",
+    "regex-parser": "^2.2.11"
   },
   "scripts": {
     "start": "react-scripts start",
