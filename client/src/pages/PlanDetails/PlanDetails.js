@@ -157,7 +157,6 @@ const PlanDetails = () => {
     */
 
   const generateLinks = (taskDescription) => {
-    console.log(settings[0].autoLinks);
     /*
     let linkConfig = [
       {
@@ -174,23 +173,15 @@ const PlanDetails = () => {
     */
 
   let linkConfig = settings[0].autoLinks;
-  //linkConfig.forEach(element => element.triggerRegex = RegExp(element.triggerRegex.replace("\/","/"))); 
-  //linkConfig.forEach(element => element.idExtractionRegex = RegExp(element.idExtractionRegex.replace("\/","/"))); 
 
     let newLinks = [];
     let linkStrings = [];
-    //console.log(linkConfig);
-    //linkConfig.forEach(element => element.idExtractionRegex = element.idExtractionRegex);
-    //console.log(linkConfig);
 
     for (let i = 0; linkConfig.length > i; i += 1) {
-      console.log(taskDescription.match(RegExp(linkConfig[i].triggerRegex)));
       taskDescription.match(RegexParser(linkConfig[i].triggerRegex)) != null
         ? taskDescription.match(RegexParser(linkConfig[i].triggerRegex)).forEach(element => {linkStrings.push({linkString: element, parameters: linkConfig[i]})})
         : linkStrings = linkStrings
     }
-
-    console.log(linkStrings);
 
     for (let l = 0; l < linkStrings.length; l += 1) {
       let currentTitle = linkStrings[l].linkString;
