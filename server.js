@@ -53,7 +53,7 @@ if (process.env.NODE_ENV === "production") {
 
 //Setting headers for CORS Policies
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://daily-plans.herokuapp.com");
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Credentials");
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
   res.header("Access-Control-Allow-Credentials", "true");
